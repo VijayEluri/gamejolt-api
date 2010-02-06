@@ -13,29 +13,30 @@
 
 package com.gamejolt.net;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
 
-public class HttpResponse {
-    public final int code;
-    public final byte[] content;
 
-    HttpResponse(int code, byte[] content) {
-        this.code = code;
-        this.content = content;
+public class Properties {
+    private Map<String, String> values = new LinkedHashMap<String, String>();
+
+    public Properties(String value) {
+        String[] lines = value.split("\r\n|\n");
+        for (String line : lines) {
+            String[] pieces = line.split(":");
+            values.put(pieces[0], pieces[1].replace("\"", ""));
+        }
     }
 
-    public byte[] getContent() {
-        return content;
+    public boolean getBoolean(String key) {
+        return Boolean.parseBoolean(get(key));
     }
 
-    public String getContentAsString() {
-        return new String(content);
+    public String get(String key) {
+        return values.get(key);
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public boolean isSuccessful() {
-        return code == 200;
+    public Map<String, String> asMap() {
+        return values;
     }
 }

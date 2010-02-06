@@ -13,29 +13,16 @@
 
 package com.gamejolt.net;
 
+import org.junit.Test;
 
-public class HttpResponse {
-    public final int code;
-    public final byte[] content;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-    HttpResponse(int code, byte[] content) {
-        this.code = code;
-        this.content = content;
-    }
 
-    public byte[] getContent() {
-        return content;
-    }
-
-    public String getContentAsString() {
-        return new String(content);
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public boolean isSuccessful() {
-        return code == 200;
+public class HttpResponseTest {
+    @Test
+    public void test() {
+        assertTrue(new HttpResponse(200, new byte[0]).isSuccessful());
+        assertFalse(new HttpResponse(404, new byte[0]).isSuccessful());
     }
 }
