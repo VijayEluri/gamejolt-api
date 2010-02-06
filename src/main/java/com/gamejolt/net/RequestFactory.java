@@ -18,18 +18,20 @@ public class RequestFactory {
     private static final String BASE_URL = "http://gamejolt.com/api/game/";
     private static final String DEFAULT_VERSION = "1";
 
+    private int gameId;
     private SignatureFactory signatureFactory;
     private String version = DEFAULT_VERSION;
 
-    public RequestFactory(String privateKey) {
-        this(new SignatureFactory(privateKey));
+    public RequestFactory(int gameId, String privateKey) {
+        this(gameId, new SignatureFactory(privateKey));
     }
 
-    protected RequestFactory(SignatureFactory signatureFactory) {
+    protected RequestFactory(int gameId, SignatureFactory signatureFactory) {
+        this.gameId = gameId;
         this.signatureFactory = signatureFactory;
     }
 
-    public HttpRequest buildVerifyUserRequest(int gameId, String username, String userToken) {
+    public HttpRequest buildVerifyUserRequest(String username, String userToken) {
         String baseUrl = createUrl("users/auth/");
         HttpRequest request = new HttpRequest(baseUrl);
         request.addParameter("game_id", gameId);

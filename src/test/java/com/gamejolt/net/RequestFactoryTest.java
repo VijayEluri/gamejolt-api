@@ -32,7 +32,7 @@ public class RequestFactoryTest {
     public void setUp() throws Exception {
         signatureFactory = mock(SignatureFactory.class);
 
-        factory = new RequestFactory(signatureFactory);
+        factory = new RequestFactory(GAME_ID, signatureFactory);
     }
 
     @Test
@@ -40,7 +40,7 @@ public class RequestFactoryTest {
         factory.setVersion("2.0");
         when(signatureFactory.build("http://gamejolt.com/api/game/v2.0/users/auth/", GAME_ID, PLAYER, USER_TOKEN)).thenReturn("sign-hash");
 
-        HttpRequest request = factory.buildVerifyUserRequest(GAME_ID, PLAYER, USER_TOKEN);
+        HttpRequest request = factory.buildVerifyUserRequest(PLAYER, USER_TOKEN);
 
         assertEquals("http://gamejolt.com/api/game/v2.0/users/auth/?game_id=1111&username=player&signature=sign-hash&user_token=userToken", request.getUrl());
     }
@@ -49,7 +49,7 @@ public class RequestFactoryTest {
     public void test_buildVerifyUserRequest() {
         when(signatureFactory.build("http://gamejolt.com/api/game/v1/users/auth/", GAME_ID, PLAYER, USER_TOKEN)).thenReturn("sign-hash");
 
-        HttpRequest request = factory.buildVerifyUserRequest(GAME_ID, PLAYER, USER_TOKEN);
+        HttpRequest request = factory.buildVerifyUserRequest(PLAYER, USER_TOKEN);
 
         assertEquals("http://gamejolt.com/api/game/v1/users/auth/?game_id=1111&username=player&signature=sign-hash&user_token=userToken", request.getUrl());
     }
