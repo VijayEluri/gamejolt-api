@@ -36,6 +36,8 @@ public class HttpRequestTest {
     public void test_NoParameter() {
         HttpRequest request = new HttpRequest("http://www.google.com");
 
+        assertEquals("http://www.google.com", request.getUrl());
+
         HttpResponse response = request.doGet();
 
         assertNotNull(response);

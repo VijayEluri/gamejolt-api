@@ -44,6 +44,10 @@ public class HttpRequest {
         return this;
     }
 
+    public HttpRequest addParameter(String name, int value) {
+        return addParameter(name, String.valueOf(value));
+    }
+
     public HttpResponse doGet() throws GameJoltException {
         HttpURLConnection connection = null;
         InputStream input = null;
@@ -67,12 +71,14 @@ public class HttpRequest {
 
     private String buildUrlWithParameters() throws UnsupportedEncodingException {
         StringBuilder builder = new StringBuilder(url);
-        builder.append("?");
-        List<String> params = new ArrayList<String>();
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            params.add(entry.getKey() + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
+        if (parameters.size() > 0) {
+            builder.append("?");
+            List<String> params = new ArrayList<String>();
+            for (Map.Entry<String, String> entry : parameters.entrySet()) {
+                params.add(entry.getKey() + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
+            }
+            builder.append(join(params));
         }
-        builder.append(join(params));
         return builder.toString();
     }
 
@@ -111,11 +117,15 @@ public class HttpRequest {
         connection.disconnect();
     }
 
-    public String toString() {
+    public String getUrl() {
         try {
             return buildUrlWithParameters();
         } catch (UnsupportedEncodingException e) {
             throw new GameJoltException(e);
         }
+    }
+
+    public String toString() {
+        return getUrl();
     }
 }
