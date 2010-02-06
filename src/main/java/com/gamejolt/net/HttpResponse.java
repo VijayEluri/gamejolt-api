@@ -14,11 +14,11 @@
 package com.gamejolt.net;
 
 
-public class Response {
+public class HttpResponse {
     public final int code;
     public final byte[] content;
 
-    Response(int code, byte[] content) {
+    HttpResponse(int code, byte[] content) {
         this.code = code;
         this.content = content;
     }

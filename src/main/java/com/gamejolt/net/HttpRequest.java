@@ -28,23 +28,23 @@ import java.util.List;
 import java.util.Map;
 
 
-public class Request {
+public class HttpRequest {
     private static final UrlFactory urlFactory = new UrlFactory();
     private static final int SUCCESS_RESPONSE_CODE = 200;
     private String url;
     private Map<String, String> parameters = new LinkedHashMap<String, String>();
 
-    public Request(String url) {
+    public HttpRequest(String url) {
         this.url = url;
     }
 
 
-    public Request addParameter(String name, String value) {
+    public HttpRequest addParameter(String name, String value) {
         parameters.put(name, value);
         return this;
     }
 
-    public Response doGet() throws GameJoltException {
+    public HttpResponse doGet() throws GameJoltException {
         HttpURLConnection connection = null;
         InputStream input = null;
         try {
@@ -53,10 +53,10 @@ public class Request {
             connection.connect();
             int responseCode = connection.getResponseCode();
             if (responseCode != SUCCESS_RESPONSE_CODE) {
-                return new Response(responseCode, new byte[0]);
+                return new HttpResponse(responseCode, new byte[0]);
             }
             input = connection.getInputStream();
-            return new Response(responseCode, readAll(input));
+            return new HttpResponse(responseCode, readAll(input));
         } catch (IOException e) {
             throw new GameJoltException(e);
         } finally {
@@ -109,5 +109,13 @@ public class Request {
     private void close(HttpURLConnection connection) {
         if (connection == null) return;
         connection.disconnect();
+    }
+
+    public String toString() {
+        try {
+            return buildUrlWithParameters();
+        } catch (UnsupportedEncodingException e) {
+            throw new GameJoltException(e);
+        }
     }
 }

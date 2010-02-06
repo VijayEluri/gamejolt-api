@@ -19,10 +19,10 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 
-public class RequestTest {
+public class HttpRequestTest {
     @Test
     public void test_InValidUrl() {
-        Request request = new Request("http://www.doesNotExistShouldThrowAHorribleError.com");
+        HttpRequest request = new HttpRequest("http://www.doesNotExistShouldThrowAHorribleError.com");
 
         try {
             request.doGet();
@@ -34,9 +34,9 @@ public class RequestTest {
 
     @Test
     public void test_NoParameter() {
-        Request request = new Request("http://www.google.com");
+        HttpRequest request = new HttpRequest("http://www.google.com");
 
-        Response response = request.doGet();
+        HttpResponse response = request.doGet();
 
         assertNotNull(response);
         assertNotNull(response.getContent());
@@ -45,10 +45,10 @@ public class RequestTest {
 
     @Test
     public void test_WithParameters() {
-        Request request = new Request("http://www.bing.com/search");
+        HttpRequest request = new HttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        Response response = request.doGet();
+        HttpResponse response = request.doGet();
 
         assertNotNull(response.getContent());
         assertEquals(200, response.code);
@@ -56,10 +56,10 @@ public class RequestTest {
 
     @Test
     public void test_WithParameters_EnsureParametersAreEncoded() {
-        Request request = new Request("http://www.bing.com/search");
+        HttpRequest request = new HttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java rest api").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        Response response = request.doGet();
+        HttpResponse response = request.doGet();
 
         assertNotNull(response.getContent());
         assertEquals(200, response.code);
@@ -67,14 +67,13 @@ public class RequestTest {
 
     @Test
     public void test_BadUrl() {
-        Request request = new Request("http://www.google.com");
+        HttpRequest request = new HttpRequest("http://www.google.com");
         request.addParameter("q", "java");
 
-        Response response = request.doGet();
+        HttpResponse response = request.doGet();
 
         assertEquals(0, response.getContent().length);
         assertEquals(404, response.code);
     }
-
 
 }
