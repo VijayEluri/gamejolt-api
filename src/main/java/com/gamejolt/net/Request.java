@@ -18,8 +18,10 @@ import com.gamejolt.GameJoltException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -43,10 +45,10 @@ public class Request {
     }
 
     public Response doGet() throws GameJoltException {
-        URL request = urlFactory.build(buildUrlWithParameters());
         HttpURLConnection connection = null;
         InputStream input = null;
         try {
+            URL request = urlFactory.build(buildUrlWithParameters());
             connection = (HttpURLConnection) request.openConnection();
             connection.connect();
             int responseCode = connection.getResponseCode();
@@ -63,12 +65,12 @@ public class Request {
         }
     }
 
-    private String buildUrlWithParameters() {
+    private String buildUrlWithParameters() throws UnsupportedEncodingException {
         StringBuilder builder = new StringBuilder(url);
         builder.append("?");
         List<String> params = new ArrayList<String>();
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            params.add(entry.getKey() + "=" + entry.getValue());
+            params.add(entry.getKey() + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
         }
         builder.append(join(params));
         return builder.toString();
