@@ -212,13 +212,23 @@ public class GameJoltTest {
     }
 
     @Test
-    public void test_verifyUser_DifferentUserAndFails() {
+    public void test_verifyUser_DifferentUsernameAndFails() {
         hasAVerifiedUser("username", "userToken");
 
-        when(requestFactory.buildVerifyUserRequest("different", "differentUserToken")).thenReturn(request);
+        when(requestFactory.buildVerifyUserRequest("different", "userToken")).thenReturn(request);
         receivesSuccessfulResponse(response, false);
 
-        assertFalse(gameJolt.verifyUser("different", "differentUserToken"));
+        assertFalse(gameJolt.verifyUser("different", "userToken"));
+    }
+
+    @Test
+    public void test_verifyUser_DifferentUserTokenAndFails() {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildVerifyUserRequest("username", "differentUserToken")).thenReturn(request);
+        receivesSuccessfulResponse(response, false);
+
+        assertFalse(gameJolt.verifyUser("username", "differentUserToken"));
     }
 
     private void hasAVerifiedUser(String username, String userToken) {
