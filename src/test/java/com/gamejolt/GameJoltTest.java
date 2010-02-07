@@ -143,7 +143,7 @@ public class GameJoltTest {
 
     @Test
     public void test_getTrophy() throws MalformedURLException {
-        Trophy trophy = new Trophy(0, null, null, null, null, null);
+        Trophy trophy = new Trophy();
 
         hasAVerifiedUser("username", "userToken");
 

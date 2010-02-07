@@ -17,20 +17,69 @@ import java.net.URL;
 
 
 public class Trophy {
-    public final int id;
-    public final String title;
-    public final Difficulty difficulty;
-    public final String description;
-    public final URL imageUrl;
-    public final String timeOfAchievement;
+    private int id;
+    private String title;
+    private Difficulty difficulty;
+    private String description;
+    private URL imageUrl;
+    private String timeOfAchievement;
+    private boolean achieved;
 
-    public Trophy(int id, String title, Difficulty difficulty, String description, URL imageUrl, String timeOfAchievement) {
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Difficulty getDifficulty() {
+        return difficulty;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public URL getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getTimeOfAchievement() {
+        return timeOfAchievement;
+    }
+
+
+    public void setId(int id) {
         this.id = id;
+    }
+
+    public void setTitle(String title) {
         this.title = title;
+    }
+
+    public void setDifficulty(Difficulty difficulty) {
         this.difficulty = difficulty;
+    }
+
+    public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setImageUrl(URL imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public void setTimeOfAchievement(String timeOfAchievement) {
         this.timeOfAchievement = timeOfAchievement;
+    }
+
+    public boolean isAchieved() {
+        return achieved;
+    }
+
+    public void setAchieved(boolean achieved) {
+        this.achieved = achieved;
     }
 
     public enum Difficulty {

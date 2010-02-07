@@ -44,7 +44,23 @@ public class TrophyResponseParser {
             String description = properties.get("description");
             URL imageUrl = properties.getUrl("image_url");
             String achieved = properties.get("achieved");
-            trophies.add(new Trophy(id, title, difficulty, description, imageUrl, achieved));
+
+            Trophy trophy = new Trophy();
+            trophy.setId(id);
+            trophy.setTitle(title);
+            trophy.setDifficulty(difficulty);
+            trophy.setDescription(description);
+            trophy.setImageUrl(imageUrl);
+
+            if ("false".equals(achieved)) {
+                trophy.setAchieved(false);
+                trophy.setTimeOfAchievement("");
+            } else {
+                trophy.setAchieved(true);
+                trophy.setTimeOfAchievement(achieved);
+            }
+
+            trophies.add(trophy);
         }
 
         return trophies;
