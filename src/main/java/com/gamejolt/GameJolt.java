@@ -13,12 +13,9 @@
 
 package com.gamejolt;
 
-import com.gamejolt.net.HttpRequest;
-import com.gamejolt.net.HttpResponse;
-import com.gamejolt.net.Properties;
-import com.gamejolt.net.RequestFactory;
+import com.gamejolt.net.*;
 
-import java.net.URL;
+import java.util.List;
 
 
 public class GameJolt {
@@ -29,16 +26,18 @@ public class GameJolt {
     private boolean verified;
     private String username;
     private String userToken;
+    private TrophyResponseParser trophyParser;
 
     public GameJolt(int gameId, String privateKey) {
         this.gameId = gameId;
         this.privateKey = privateKey;
         this.requestFactory = new RequestFactory(gameId, this.privateKey);
+        this.trophyParser = new TrophyResponseParser();
     }
 
     public boolean verifyUser(String username, String userToken) {
         HttpRequest request = requestFactory.buildVerifyUserRequest(username, userToken);
-        Properties properties = processRequest(request);
+        Properties properties = new Properties(processRequest(request));
         verified = properties.getBoolean("success");
         if (verified) {
             this.username = username;
@@ -52,42 +51,67 @@ public class GameJolt {
             throw new UnverifiedUserException();
         }
         HttpRequest request = requestFactory.buildAchievedTrophyRequest(username, userToken, String.valueOf(trophyId));
-        Properties properties = processRequest(request);
+        Properties properties = new Properties(processRequest(request));
         return properties.getBoolean("success");
     }
 
-    public Trophy getTrophy(int trophyId) {
+    public Trophy getTrophy(int trophyId) throws UnverifiedUserException {
         if (!verified) {
             throw new UnverifiedUserException();
         }
         HttpRequest request = requestFactory.buildTrophyRequest(username, userToken, String.valueOf(trophyId));
-        Properties properties = processRequest(request);
-        int id = properties.getInt("id");
-        if (id == 0) {
-            return null;
-        }
-        Trophy.Difficulty difficulty = Trophy.Difficulty.valueOf(properties.get("difficulty").toUpperCase());
-        String title = properties.get("title");
-        String description = properties.get("description");
-        URL imageUrl = properties.getUrl("image_url");
-        String timeOfAchievement = properties.get("achieved");
-        return new Trophy(id, title, difficulty, description, imageUrl, timeOfAchievement);
+
+        List<Trophy> trophies = trophyParser.parse(processRequest(request));
+        if (trophies.size() == 0) return null;
+        return trophies.get(0);
     }
 
-    private Properties processRequest(HttpRequest request) {
-        if (verbose) System.out.println("REQUEST: " + request.getUrl());
+    public List<Trophy> getAllTrophies() throws UnverifiedUserException {
+        return getTrophies("empty");
+    }
+
+    public List<Trophy> getAchievedTrophies() throws UnverifiedUserException {
+        return getTrophies("true");
+    }
+
+    public List<Trophy> getUnachievedTrophies() throws UnverifiedUserException {
+        return getTrophies("false");
+    }
+
+    private String processRequest(HttpRequest request) {
+        if (verbose) {
+            System.out.println("-----------------------");
+            System.out.println("REQUEST");
+            System.out.println("-----------------------");
+            System.out.println(request.getUrl());
+            System.out.println("-----------------------");
+        }
         HttpResponse response = request.doGet();
         String value = response.getContentAsString();
-        if (verbose) System.out.println("RESPONSE: " + value);
-        return new Properties(value);
+        if (verbose) {
+            System.out.println("-----------------------");
+            System.out.println("RESPONSE");
+            System.out.println("-----------------------");
+            System.out.println(value);
+            System.out.println("-----------------------");
+        }
+        return value;
     }
 
     protected void setRequestFactory(RequestFactory requestFactory) {
         this.requestFactory = requestFactory;
     }
 
+    protected void setTrophyParser(TrophyResponseParser trophyParser) {
+        this.trophyParser = trophyParser;
+    }
+
     public void setVerbose(boolean verbose) {
         this.verbose = verbose;
     }
 
+    private List<Trophy> getTrophies(String achieved) {
+        if (!verified) throw new UnverifiedUserException();
+        return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
+    }
 }

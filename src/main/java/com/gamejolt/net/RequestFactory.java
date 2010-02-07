@@ -78,6 +78,21 @@ public class RequestFactory {
         return request;
     }
 
+    public HttpRequest buildTrophiesRequest(String username, String userToken, String achieved) {
+        String baseUrl = createUrl("trophies/");
+        HttpRequest request = new HttpRequest(baseUrl);
+
+        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        parameters.put("game_id", String.valueOf(gameId));
+        parameters.put("username", username);
+        parameters.put("achieved", achieved);
+
+        request.addParameters(parameters);
+        request.addParameter("signature", signatureFactory.build(baseUrl, userToken, parameters));
+        request.addParameter("user_token", userToken);
+        return request;
+    }
+
     public void setVersion(String version) {
         this.version = version;
     }

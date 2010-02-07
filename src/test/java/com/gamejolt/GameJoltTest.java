@@ -16,11 +16,14 @@ package com.gamejolt;
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
+import com.gamejolt.net.TrophyResponseParser;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
@@ -32,22 +35,94 @@ public class GameJoltTest {
     private HttpRequest request;
     private HttpResponse response;
     private GameJolt gameJolt;
+    private TrophyResponseParser trophyResponseParser;
 
     @Before
     public void setUp() throws Exception {
         requestFactory = mock(RequestFactory.class);
         request = mock(HttpRequest.class);
         response = mock(HttpResponse.class);
+        trophyResponseParser = mock(TrophyResponseParser.class);
 
         gameJolt = new GameJolt(1111, "private-key");
         gameJolt.setRequestFactory(requestFactory);
+        gameJolt.setTrophyParser(trophyResponseParser);
 
         when(request.doGet()).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
     }
 
     @Test
-    public void test_getTrophy_Unverified() throws MalformedURLException {
+    public void test_getUnachievedTrophies_UnverifiedUser() {
+        try {
+            gameJolt.getUnachievedTrophies();
+            fail();
+        } catch (UnverifiedUserException e) {
+
+        }
+    }
+
+    @Test
+    public void test_getUnachievedTrophies() {
+        List trophies = new ArrayList();
+
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildTrophiesRequest("username", "userToken", "false")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(trophyResponseParser.parse("content")).thenReturn(trophies);
+
+        assertSame(trophies, gameJolt.getUnachievedTrophies());
+    }
+
+    @Test
+    public void test_getAchievedTrophies_UnverifiedUser() {
+        try {
+            gameJolt.getAchievedTrophies();
+            fail();
+        } catch (UnverifiedUserException e) {
+
+        }
+    }
+
+    @Test
+    public void test_getAchievedTrophies() {
+        List trophies = new ArrayList();
+
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildTrophiesRequest("username", "userToken", "true")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(trophyResponseParser.parse("content")).thenReturn(trophies);
+
+        assertSame(trophies, gameJolt.getAchievedTrophies());
+    }
+
+    @Test
+    public void test_getAllTrophies() {
+        List trophies = new ArrayList();
+
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildTrophiesRequest("username", "userToken", "empty")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(trophyResponseParser.parse("content")).thenReturn(trophies);
+
+        assertSame(trophies, gameJolt.getAllTrophies());
+    }
+
+    @Test
+    public void test_getAllTrophies_UnverifiedUser() {
+        try {
+            gameJolt.getAllTrophies();
+            fail();
+        } catch (UnverifiedUserException e) {
+
+        }
+    }
+
+    @Test
+    public void test_getTrophy_Unverified() {
         try {
             gameJolt.getTrophy(12);
             fail();
@@ -57,43 +132,27 @@ public class GameJoltTest {
     }
 
     @Test
-    public void test_getTrophy_NoMatchingTrophy() throws MalformedURLException {
+    public void test_getTrophy_NoMatchingTrophy() {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildTrophyRequest("username", "userToken", "12")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("success:\"true\"\n" +
-                "id:\"0\"\n" +
-                "title:\"\"\n" +
-                "description:\"\"\n" +
-                "difficulty:\"\"\n" +
-                "image_url:\"http://gamejolt.com/home/gjolt/public_html/data/games/2/trophies/0_.jpg\"\n" +
-                "achieved:\"false\"");
+        when(response.getContentAsString()).thenReturn("content");
+        when(trophyResponseParser.parse("content")).thenReturn(new ArrayList());
 
         assertNull(gameJolt.getTrophy(12));
     }
 
     @Test
     public void test_getTrophy() throws MalformedURLException {
+        Trophy trophy = new Trophy(0, null, null, null, null, null);
+
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildTrophyRequest("username", "userToken", "12")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("success:\"true\"\n" +
-                "id:\"187\"\n" +
-                "title:\"test\"\n" +
-                "description:\"test\"\n" +
-                "difficulty:\"Bronze\"\n" +
-                "image_url:\"http://gamejolt.com/img/trophy-bronze-1.jpg\"\n" +
-                "achieved:\"1 hour ago\"");
+        when(response.getContentAsString()).thenReturn("content");
+        when(trophyResponseParser.parse("content")).thenReturn(Arrays.asList(trophy));
 
-        Trophy trophy = gameJolt.getTrophy(12);
-
-        assertNotNull(trophy);
-        assertEquals(187, trophy.id);
-        assertEquals(Trophy.Difficulty.BRONZE, trophy.difficulty);
-        assertEquals("test", trophy.title);
-        assertEquals("test", trophy.description);
-        assertEquals(new URL("http://gamejolt.com/img/trophy-bronze-1.jpg"), trophy.imageUrl);
-        assertEquals("1 hour ago", trophy.timeOfAchievement);
+        assertSame(trophy, gameJolt.getTrophy(12));
     }
 
     @Test

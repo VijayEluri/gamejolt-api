@@ -27,7 +27,7 @@ public class Properties {
     public Properties(String value) {
         String[] lines = value.split("\r\n|\n");
         for (String line : lines) {
-            String[] pieces = line.replaceAll("(.+?):(.+)", "$1,$2").split(",");
+            String[] pieces = line.replaceAll("(.+?):(.+)", "$1###$2").split("###");
             values.put(pieces[0], pieces[1].replace("\"", ""));
         }
     }

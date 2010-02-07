@@ -84,5 +84,14 @@ public class RequestFactoryTest {
         assertEquals("http://gamejolt.com/api/game/v1/trophies/?game_id=1111&username=player&trophy_id=trophy1&signature=sign-hash&user_token=userToken", request.getUrl());
     }
 
+    @Test
+    public void test_buildTrophiesRequest() {
+        parameters.put("achieved", "empty");
 
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/trophies/", USER_TOKEN, parameters)).thenReturn("sign-hash");
+
+        HttpRequest request = factory.buildTrophiesRequest(PLAYER, USER_TOKEN, "empty");
+
+        assertEquals("http://gamejolt.com/api/game/v1/trophies/?game_id=1111&username=player&achieved=empty&signature=sign-hash&user_token=userToken", request.getUrl());
+    }
 }

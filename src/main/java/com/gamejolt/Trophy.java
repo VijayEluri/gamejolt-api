@@ -34,6 +34,6 @@ public class Trophy {
     }
 
     public enum Difficulty {
-        GOLD, SILVER, BRONZE
+        GOLD, SILVER, BRONZE, PLATINUM
     }
 }
