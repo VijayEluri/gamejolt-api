@@ -5,7 +5,7 @@
     <groupId>com.gamejolt</groupId>
     <artifactId>gamejolt</artifactId>
     <packaging>jar</packaging>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.1-SNAPSHOT</version>
     <name>Game Jolt API</name>
     <url>http://www.gamejolt.com</url>
 
