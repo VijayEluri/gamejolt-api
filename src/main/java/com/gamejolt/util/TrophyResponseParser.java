@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.gamejolt.net;
+package com.gamejolt.util;
 
 import com.gamejolt.Trophy;
 
@@ -54,10 +54,10 @@ public class TrophyResponseParser {
 
             if ("false".equals(achieved)) {
                 trophy.setAchieved(false);
-                trophy.setTimeOfAchievement("");
+                trophy.setTime("");
             } else {
                 trophy.setAchieved(true);
-                trophy.setTimeOfAchievement(achieved);
+                trophy.setTime(achieved);
             }
 
             trophies.add(trophy);

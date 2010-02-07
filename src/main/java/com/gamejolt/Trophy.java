@@ -22,7 +22,7 @@ public class Trophy {
     private Difficulty difficulty;
     private String description;
     private URL imageUrl;
-    private String timeOfAchievement;
+    private String time;
     private boolean achieved;
 
     public int getId() {
@@ -45,8 +45,8 @@ public class Trophy {
         return imageUrl;
     }
 
-    public String getTimeOfAchievement() {
-        return timeOfAchievement;
+    public String getTime() {
+        return time;
     }
 
 
@@ -70,8 +70,8 @@ public class Trophy {
         this.imageUrl = imageUrl;
     }
 
-    public void setTimeOfAchievement(String timeOfAchievement) {
-        this.timeOfAchievement = timeOfAchievement;
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public boolean isAchieved() {

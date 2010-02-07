@@ -13,7 +13,12 @@
 
 package com.gamejolt;
 
-import com.gamejolt.net.*;
+import com.gamejolt.net.HttpRequest;
+import com.gamejolt.net.HttpResponse;
+import com.gamejolt.net.RequestFactory;
+import com.gamejolt.util.Properties;
+import com.gamejolt.util.PropertiesParser;
+import com.gamejolt.util.TrophyResponseParser;
 import org.junit.Before;
 import org.junit.Test;
 

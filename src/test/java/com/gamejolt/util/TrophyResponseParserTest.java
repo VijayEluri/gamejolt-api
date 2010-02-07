@@ -11,7 +11,7 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.gamejolt.net;
+package com.gamejolt.util;
 
 import com.gamejolt.Trophy;
 import org.junit.Before;
@@ -107,7 +107,7 @@ public class TrophyResponseParserTest {
 
         Trophy trophy = parser.parse(CONTENT).get(0);
         assertTrue(trophy.isAchieved());
-        assertEquals("3 hours ago", trophy.getTimeOfAchievement());
+        assertEquals("3 hours ago", trophy.getTime());
     }
 
     @Test
@@ -122,7 +122,7 @@ public class TrophyResponseParserTest {
 
         Trophy trophy = parser.parse(CONTENT).get(0);
         assertFalse(trophy.isAchieved());
-        assertEquals("", trophy.getTimeOfAchievement());
+        assertEquals("", trophy.getTime());
     }
 
     @Test
@@ -143,7 +143,7 @@ public class TrophyResponseParserTest {
         assertEquals(description, actualTrophy.getDescription());
         assertEquals(difficulty, actualTrophy.getDifficulty());
         assertEquals(image, actualTrophy.getImageUrl());
-        assertEquals(achieved, actualTrophy.getTimeOfAchievement());
+        assertEquals(achieved, actualTrophy.getTime());
     }
 
 }
