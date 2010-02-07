@@ -29,6 +29,16 @@ public class GameJolt {
     private TrophyResponseParser trophyParser;
     private PropertiesParser propertiesParser = new PropertiesParser();
 
+    /**
+     * Let the Game Jolt experience begin! :)
+     * <p/>
+     * The information needed here can all be acquired as follows:
+     * <p/>
+     * Your Dashboard -> Pick your game -> Manage Achievements -> Game Info
+     *
+     * @param gameId     - the id of your Game
+     * @param privateKey - your personal privatekey
+     */
     public GameJolt(int gameId, String privateKey) {
         this.gameId = gameId;
         this.privateKey = privateKey;
@@ -36,6 +46,14 @@ public class GameJolt {
         this.trophyParser = new TrophyResponseParser();
     }
 
+    /**
+     * Verifies your current game player is a verified user of Game Jolt
+     *
+     * @param username  - player's username
+     * @param userToken - player's usertoken
+     * @return <p>true - player is a valid user</p>
+     *         <p>false - player is not a valid user</p>
+     */
     public boolean verifyUser(String username, String userToken) {
         HttpRequest request = requestFactory.buildVerifyUserRequest(username, userToken);
         Properties properties = propertiesParser.parseProperties(processRequest(request));
@@ -47,6 +65,14 @@ public class GameJolt {
         return verified;
     }
 
+    /**
+     * The current player has achieved a trophy with the given id
+     *
+     * @param trophyId - the id of the trophy that has been achieved
+     * @return <p>true - player's profile has been updated with the achievement<p>
+     *         <p>false - player has already achieved this trophy</p>
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
     public boolean achievedTrophy(int trophyId) throws UnverifiedUserException {
         if (!verified) {
             throw new UnverifiedUserException();
@@ -56,6 +82,13 @@ public class GameJolt {
         return properties.getBoolean("success");
     }
 
+    /**
+     * Retrieve state of the given trophy achievement for the current player
+     *
+     * @param trophyId - the id of the trophy
+     * @return null if the given trophyId did not match a trophy, otherwise return the trophy
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
     public Trophy getTrophy(int trophyId) throws UnverifiedUserException {
         if (!verified) {
             throw new UnverifiedUserException();
@@ -67,16 +100,43 @@ public class GameJolt {
         return trophies.get(0);
     }
 
+    /**
+     * Retreives all trophies available for your game
+     *
+     * @return a list of trophies available
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
     public List<Trophy> getAllTrophies() throws UnverifiedUserException {
         return getTrophies("empty");
     }
 
+    /**
+     * Retreives all trophies achieved by the current player
+     *
+     * @return a list of achieved trophies
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
     public List<Trophy> getAchievedTrophies() throws UnverifiedUserException {
         return getTrophies("true");
     }
 
+    /**
+     * Retreives all trophies that have not be achieved yet by the current player
+     *
+     * @return a list of unachieved trophies
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
     public List<Trophy> getUnachievedTrophies() throws UnverifiedUserException {
         return getTrophies("false");
+    }
+
+    /**
+     * Toggle on/off to see or not see the HttpRequests and HttpResponses
+     *
+     * @param verbose
+     */
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
     }
 
     private String processRequest(HttpRequest request) {
@@ -109,10 +169,6 @@ public class GameJolt {
 
     protected void setPropertiesParser(PropertiesParser propertiesParser) {
         this.propertiesParser = propertiesParser;
-    }
-
-    public void setVerbose(boolean verbose) {
-        this.verbose = verbose;
     }
 
     private List<Trophy> getTrophies(String achieved) {
