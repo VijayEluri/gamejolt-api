@@ -21,7 +21,9 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
 import java.util.Map;
+import java.util.zip.GZIPInputStream;
 
 
 public class HttpRequest {
@@ -56,12 +58,17 @@ public class HttpRequest {
         try {
             URL request = urlFactory.build(buildUrlWithParameters());
             connection = (HttpURLConnection) request.openConnection();
+            connection.setRequestProperty("Accept-Encoding", "gzip");
             connection.connect();
             int responseCode = connection.getResponseCode();
             if (responseCode != SUCCESS_RESPONSE_CODE) {
                 return new HttpResponse(responseCode, new byte[0]);
             }
+
             input = connection.getInputStream();
+            if (isResponseGzipped(connection)) {
+                input = new GZIPInputStream(input);
+            }
             return new HttpResponse(responseCode, readAll(input));
         } catch (IOException e) {
             throw new GameJoltException(e);
@@ -69,6 +76,16 @@ public class HttpRequest {
             close(connection);
             close(input);
         }
+    }
+
+    private boolean isResponseGzipped(HttpURLConnection connection) {
+        List<String> types = connection.getHeaderFields().get("Content-Type");
+        for (String type : types) {
+            if (type.toLowerCase().contains("gzip")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private String buildUrlWithParameters() throws UnsupportedEncodingException {
