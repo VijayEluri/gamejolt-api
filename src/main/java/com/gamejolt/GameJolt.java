@@ -20,9 +20,13 @@ import com.gamejolt.net.RequestFactory;
 
 
 public class GameJolt {
+    private boolean verbose;
     private int gameId;
     private String privateKey;
     private RequestFactory requestFactory;
+    private boolean verified;
+    private String username;
+    private String userToken;
 
     public GameJolt(int gameId, String privateKey) {
         this.gameId = gameId;
@@ -32,12 +36,38 @@ public class GameJolt {
 
     public boolean verifyUser(String username, String userToken) {
         HttpRequest request = requestFactory.buildVerifyUserRequest(username, userToken);
-        HttpResponse response = request.doGet();
-        Properties properties = new Properties(response.getContentAsString());
+        Properties properties = new Properties(processRequest(request));
+        verified = properties.getBoolean("success");
+        if (verified) {
+            this.username = username;
+            this.userToken = userToken;
+        }
+        return verified;
+    }
+
+    public boolean achievedTrophy(int trophyId) throws UnverifiedUserException {
+        if (!verified) {
+            throw new UnverifiedUserException();
+        }
+        HttpRequest request = requestFactory.buildAchievedTrophyRequest(username, userToken, String.valueOf(trophyId));
+        Properties properties = new Properties(processRequest(request));
         return properties.getBoolean("success");
+    }
+
+    private String processRequest(HttpRequest request) {
+        if (verbose) System.out.println("REQUEST: " + request.getUrl());
+        HttpResponse response = request.doGet();
+        String value = response.getContentAsString();
+        if (verbose) System.out.println("RESPONSE: " + value);
+        return value;
     }
 
     protected void setRequestFactory(RequestFactory requestFactory) {
         this.requestFactory = requestFactory;
     }
+
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
+
 }

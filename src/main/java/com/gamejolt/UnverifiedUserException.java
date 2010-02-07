@@ -13,13 +13,8 @@
 
 package com.gamejolt;
 
-
-public class GameJoltException extends RuntimeException {
-    public GameJoltException(Throwable cause) {
-        super(cause);
-    }
-
-    public GameJoltException(String message) {
-        super(message);
+public class UnverifiedUserException extends GameJoltException {
+    public UnverifiedUserException() {
+        super("You must verify this user first");
     }
 }

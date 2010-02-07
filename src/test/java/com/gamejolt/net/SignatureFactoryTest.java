@@ -14,7 +14,11 @@
 package com.gamejolt.net;
 
 import com.gamejolt.util.Checksum;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
@@ -22,15 +26,26 @@ import static org.mockito.Mockito.when;
 
 
 public class SignatureFactoryTest {
+    private Checksum checksum;
+    private SignatureFactory factory;
+
+    @Before
+    public void setUp() throws Exception {
+        checksum = mock(Checksum.class);
+
+        factory = new SignatureFactory("private-key");
+        factory.setChecksum(checksum);
+    }
+
     @Test
     public void test() {
-        Checksum checksum = mock(Checksum.class);
-
-        SignatureFactory factory = new SignatureFactory("private-key");
-        factory.setChecksum(checksum);
-
         when(checksum.md5("http://gamejolt.com/api/game/v1/users/auth/?game_id=1111&username=player&user_token=player-tokenprivate-key")).thenReturn("signature-hash");
 
-        assertEquals("signature-hash", factory.build("http://gamejolt.com/api/game/v1/users/auth/", 1111, "player", "player-token"));
+        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        parameters.put("game_id", "1111");
+        parameters.put("username", "player");
+
+        assertEquals("signature-hash", factory.build("http://gamejolt.com/api/game/v1/users/auth/", "player-token", parameters));
     }
+
 }

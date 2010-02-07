@@ -16,6 +16,9 @@ package com.gamejolt.net;
 import com.gamejolt.GameJoltException;
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import static org.junit.Assert.*;
 
 
@@ -76,6 +79,20 @@ public class HttpRequestTest {
 
         assertEquals(0, response.getContent().length);
         assertEquals(404, response.code);
+    }
+
+    @Test
+    public void test_addParameters() {
+        HttpRequest request = new HttpRequest("http://www.google.com");
+
+        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        parameters.put("key1", "value1");
+        parameters.put("key2", "value2");
+
+        request.addParameters(parameters);
+
+        assertEquals("http://www.google.com?key1=value1&key2=value2", request.getUrl());
+
     }
 
 }

@@ -21,10 +21,6 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 
@@ -32,7 +28,7 @@ public class HttpRequest {
     private static final UrlFactory urlFactory = new UrlFactory();
     private static final int SUCCESS_RESPONSE_CODE = 200;
     private String url;
-    private Map<String, String> parameters = new LinkedHashMap<String, String>();
+    private QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
 
     public HttpRequest(String url) {
         this.url = url;
@@ -40,12 +36,18 @@ public class HttpRequest {
 
 
     public HttpRequest addParameter(String name, String value) {
-        parameters.put(name, value);
+        queryStringBuilder.parameter(name, value);
         return this;
     }
 
     public HttpRequest addParameter(String name, int value) {
         return addParameter(name, String.valueOf(value));
+    }
+
+    public void addParameters(Map<String, String> parameters) {
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            addParameter(entry.getKey(), entry.getValue());
+        }
     }
 
     public HttpResponse doGet() throws GameJoltException {
@@ -71,24 +73,9 @@ public class HttpRequest {
 
     private String buildUrlWithParameters() throws UnsupportedEncodingException {
         StringBuilder builder = new StringBuilder(url);
-        if (parameters.size() > 0) {
-            builder.append("?");
-            List<String> params = new ArrayList<String>();
-            for (Map.Entry<String, String> entry : parameters.entrySet()) {
-                params.add(entry.getKey() + "=" + URLEncoder.encode(entry.getValue(), "UTF-8"));
-            }
-            builder.append(join(params));
-        }
-        return builder.toString();
-    }
-
-    private String join(List<String> items) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < items.size(); i++) {
-            builder.append(items.get(i));
-            if (i < items.size() - 1) {
-                builder.append("&");
-            }
+        String queryString = queryStringBuilder.toString();
+        if (queryString.length() > 0) {
+            builder.append(queryString);
         }
         return builder.toString();
     }
@@ -128,4 +115,5 @@ public class HttpRequest {
     public String toString() {
         return getUrl();
     }
+
 }

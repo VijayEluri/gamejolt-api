@@ -13,6 +13,9 @@
 
 package com.gamejolt.net;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 
 public class RequestFactory {
     private static final String BASE_URL = "http://gamejolt.com/api/game/";
@@ -34,9 +37,28 @@ public class RequestFactory {
     public HttpRequest buildVerifyUserRequest(String username, String userToken) {
         String baseUrl = createUrl("users/auth/");
         HttpRequest request = new HttpRequest(baseUrl);
-        request.addParameter("game_id", gameId);
-        request.addParameter("username", username);
-        request.addParameter("signature", signatureFactory.build(baseUrl, gameId, username, userToken));
+
+        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        parameters.put("game_id", String.valueOf(gameId));
+        parameters.put("username", username);
+
+        request.addParameters(parameters);
+        request.addParameter("signature", signatureFactory.build(baseUrl, userToken, parameters));
+        request.addParameter("user_token", userToken);
+        return request;
+    }
+
+    public HttpRequest buildAchievedTrophyRequest(String username, String userToken, String trophyId) {
+        String baseUrl = createUrl("trophies/add-achieved");
+        HttpRequest request = new HttpRequest(baseUrl);
+
+        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        parameters.put("game_id", String.valueOf(gameId));
+        parameters.put("username", username);
+        parameters.put("trophy_id", trophyId);
+
+        request.addParameters(parameters);
+        request.addParameter("signature", signatureFactory.build(baseUrl, userToken, parameters));
         request.addParameter("user_token", userToken);
         return request;
     }
@@ -51,4 +73,5 @@ public class RequestFactory {
         builder.append(method);
         return builder.toString();
     }
+
 }

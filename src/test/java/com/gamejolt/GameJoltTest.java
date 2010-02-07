@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -39,13 +40,33 @@ public class GameJoltTest {
         gameJolt = new GameJolt(1111, "private-key");
         gameJolt.setRequestFactory(requestFactory);
 
+        when(request.doGet()).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
+    }
+
+    @Test
+    public void test_achievedTrophy_UnverifiedUser() {
+        try {
+            gameJolt.achievedTrophy(1234);
+            fail();
+        } catch (UnverifiedUserException e) {
+
+        }
+    }
+
+    @Test
+    public void test_achievedTrophy_VerifiedUser() {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildAchievedTrophyRequest("username", "userToken", "1234")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("success:\"true\"");
+
+        assertTrue(gameJolt.achievedTrophy(1234));
     }
 
     @Test
     public void test_verifyUser_NotVerified() {
         when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
-        when(request.doGet()).thenReturn(response);
         when(response.getContentAsString()).thenReturn("success:\"true\"");
 
         assertTrue(gameJolt.verifyUser("username", "userToken"));
@@ -54,10 +75,19 @@ public class GameJoltTest {
     @Test
     public void test_verifyUser_Verified() {
         when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
-        when(request.doGet()).thenReturn(response);
         when(response.getContentAsString()).thenReturn("success:\"true\"");
 
         assertTrue(gameJolt.verifyUser("username", "userToken"));
     }
 
+    private void hasAVerifiedUser(String username, String userToken) {
+        HttpRequest httpRequest = mock(HttpRequest.class);
+        HttpResponse httpResponse = mock(HttpResponse.class);
+        when(requestFactory.buildVerifyUserRequest(username, userToken)).thenReturn(httpRequest);
+        when(httpRequest.doGet()).thenReturn(httpResponse);
+        when(httpResponse.isSuccessful()).thenReturn(true);
+        when(httpResponse.getContentAsString()).thenReturn("success:\"true\"");
+
+        assertTrue(gameJolt.verifyUser(username, userToken));
+    }
 }

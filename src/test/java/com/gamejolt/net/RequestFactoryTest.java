@@ -16,6 +16,9 @@ package com.gamejolt.net;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -27,18 +30,23 @@ public class RequestFactoryTest {
     private static final int GAME_ID = 1111;
     private static final String PLAYER = "player";
     private static final String USER_TOKEN = "userToken";
+    private Map<String, String> parameters;
 
     @Before
     public void setUp() throws Exception {
         signatureFactory = mock(SignatureFactory.class);
 
         factory = new RequestFactory(GAME_ID, signatureFactory);
+
+        parameters = new LinkedHashMap<String, String>();
+        parameters.put("game_id", String.valueOf(GAME_ID));
+        parameters.put("username", PLAYER);
     }
 
     @Test
     public void test_buildVerifyUserRequest_DifferentVersion() {
         factory.setVersion("2.0");
-        when(signatureFactory.build("http://gamejolt.com/api/game/v2.0/users/auth/", GAME_ID, PLAYER, USER_TOKEN)).thenReturn("sign-hash");
+        when(signatureFactory.build("http://gamejolt.com/api/game/v2.0/users/auth/", USER_TOKEN, parameters)).thenReturn("sign-hash");
 
         HttpRequest request = factory.buildVerifyUserRequest(PLAYER, USER_TOKEN);
 
@@ -47,11 +55,22 @@ public class RequestFactoryTest {
 
     @Test
     public void test_buildVerifyUserRequest() {
-        when(signatureFactory.build("http://gamejolt.com/api/game/v1/users/auth/", GAME_ID, PLAYER, USER_TOKEN)).thenReturn("sign-hash");
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/users/auth/", USER_TOKEN, parameters)).thenReturn("sign-hash");
 
         HttpRequest request = factory.buildVerifyUserRequest(PLAYER, USER_TOKEN);
 
         assertEquals("http://gamejolt.com/api/game/v1/users/auth/?game_id=1111&username=player&signature=sign-hash&user_token=userToken", request.getUrl());
+    }
+
+    @Test
+    public void test_buildAchievedTrophyRequest() {
+        parameters.put("trophy_id", "trophy1");
+
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/trophies/add-achieved", USER_TOKEN, parameters)).thenReturn("sign-hash");
+
+        HttpRequest request = factory.buildAchievedTrophyRequest(PLAYER, USER_TOKEN, "trophy1");
+
+        assertEquals("http://gamejolt.com/api/game/v1/trophies/add-achieved?game_id=1111&username=player&trophy_id=trophy1&signature=sign-hash&user_token=userToken", request.getUrl());
     }
 
 

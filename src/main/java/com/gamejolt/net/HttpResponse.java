@@ -38,4 +38,8 @@ public class HttpResponse {
     public boolean isSuccessful() {
         return code == 200;
     }
+
+    public String toString() {
+        return "code=" + code + "\n" + "content=\n" + getContentAsString();
+    }
 }

@@ -15,6 +15,8 @@ package com.gamejolt.net;
 
 import com.gamejolt.util.Checksum;
 
+import java.util.Map;
+
 
 public class SignatureFactory {
     private Checksum checksum = new Checksum();
@@ -24,12 +26,13 @@ public class SignatureFactory {
         this.privateKey = privateKey;
     }
 
-    public String build(String baseUrl, int gameId, String username, String userToken) {
-        HttpRequest request = new HttpRequest(baseUrl);
-        request.addParameter("game_id", gameId);
-        request.addParameter("username", username);
-        request.addParameter("user_token", userToken + privateKey);
-        return checksum.md5(request.getUrl());
+    public String build(String baseUrl, String userToken, Map<String, String> parameters) {
+        QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
+        for (Map.Entry<String, String> entry : parameters.entrySet()) {
+            queryStringBuilder.parameter(entry.getKey(), entry.getValue());
+        }
+        queryStringBuilder.parameter("user_token", userToken + privateKey);
+        return checksum.md5(baseUrl + queryStringBuilder.toString());
     }
 
     protected void setChecksum(Checksum checksum) {
