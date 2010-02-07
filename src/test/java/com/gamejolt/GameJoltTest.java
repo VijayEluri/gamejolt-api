@@ -13,10 +13,7 @@
 
 package com.gamejolt;
 
-import com.gamejolt.net.HttpRequest;
-import com.gamejolt.net.HttpResponse;
-import com.gamejolt.net.RequestFactory;
-import com.gamejolt.net.TrophyResponseParser;
+import com.gamejolt.net.*;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -36,6 +33,7 @@ public class GameJoltTest {
     private HttpResponse response;
     private GameJolt gameJolt;
     private TrophyResponseParser trophyResponseParser;
+    private PropertiesParser propertiesParser;
 
     @Before
     public void setUp() throws Exception {
@@ -43,10 +41,12 @@ public class GameJoltTest {
         request = mock(HttpRequest.class);
         response = mock(HttpResponse.class);
         trophyResponseParser = mock(TrophyResponseParser.class);
+        propertiesParser = mock(PropertiesParser.class);
 
         gameJolt = new GameJolt(1111, "private-key");
         gameJolt.setRequestFactory(requestFactory);
         gameJolt.setTrophyParser(trophyResponseParser);
+        gameJolt.setPropertiesParser(propertiesParser);
 
         when(request.doGet()).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
@@ -170,23 +170,33 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildAchievedTrophyRequest("username", "userToken", "1234")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("success:\"true\"");
+        receivesSuccessfulResponse(response, true);
 
         assertTrue(gameJolt.achievedTrophy(1234));
     }
 
     @Test
+    public void test_achievedTrophy_AlreadyAchieved() {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildAchievedTrophyRequest("username", "userToken", "1234")).thenReturn(request);
+        receivesSuccessfulResponse(response, false);
+
+        assertFalse(gameJolt.achievedTrophy(1234));
+    }
+
+    @Test
     public void test_verifyUser_NotVerified() {
         when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("success:\"true\"");
+        receivesSuccessfulResponse(response, false);
 
-        assertTrue(gameJolt.verifyUser("username", "userToken"));
+        assertFalse(gameJolt.verifyUser("username", "userToken"));
     }
 
     @Test
     public void test_verifyUser_Verified() {
         when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("success:\"true\"");
+        receivesSuccessfulResponse(response, true);
 
         assertTrue(gameJolt.verifyUser("username", "userToken"));
     }
@@ -197,8 +207,15 @@ public class GameJoltTest {
         when(requestFactory.buildVerifyUserRequest(username, userToken)).thenReturn(httpRequest);
         when(httpRequest.doGet()).thenReturn(httpResponse);
         when(httpResponse.isSuccessful()).thenReturn(true);
-        when(httpResponse.getContentAsString()).thenReturn("success:\"true\"");
+        receivesSuccessfulResponse(httpResponse, true);
 
         assertTrue(gameJolt.verifyUser(username, userToken));
+    }
+
+    private void receivesSuccessfulResponse(HttpResponse httpResponse, boolean successful) {
+        when(httpResponse.getContentAsString()).thenReturn("content");
+        Properties properties = new Properties();
+        properties.put("success", String.valueOf(successful));
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
     }
 }

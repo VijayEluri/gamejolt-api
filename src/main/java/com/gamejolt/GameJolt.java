@@ -107,6 +107,10 @@ public class GameJolt {
         this.trophyParser = trophyParser;
     }
 
+    protected void setPropertiesParser(PropertiesParser propertiesParser) {
+        this.propertiesParser = propertiesParser;
+    }
+
     public void setVerbose(boolean verbose) {
         this.verbose = verbose;
     }
@@ -115,4 +119,5 @@ public class GameJolt {
         if (!verified) throw new UnverifiedUserException();
         return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
     }
+
 }

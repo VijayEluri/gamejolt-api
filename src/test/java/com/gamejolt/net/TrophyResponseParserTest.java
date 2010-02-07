@@ -14,41 +14,62 @@
 package com.gamejolt.net;
 
 import com.gamejolt.Trophy;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 
 import static com.gamejolt.Trophy.Difficulty.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 public class TrophyResponseParserTest {
+    private TrophyResponseParser parser;
+    private PropertiesParser propertiesParser;
+    private static final String CONTENT = "content";
+
+    @Before
+    public void setUp() throws Exception {
+        propertiesParser = mock(PropertiesParser.class);
+
+        parser = new TrophyResponseParser(propertiesParser);
+    }
+
     @Test
     public void test_multipleTrophies() throws MalformedURLException {
-        TrophyResponseParser parser = new TrophyResponseParser();
+        Properties trophy1 = new Properties();
+        trophy1.put("id", "187");
+        trophy1.put("title", "test");
+        trophy1.put("description", "test");
+        trophy1.put("difficulty", "Bronze");
+        trophy1.put("image_url", "http://gamejolt.com/img/trophy-bronze-1.jpg");
+        trophy1.put("achieved", "14 hours ago");
 
-        List<Trophy> trophies = parser.parse("success:\"true\"\n" +
-                "id:\"187\"\n" +
-                "title:\"test\"\n" +
-                "description:\"test\"\n" +
-                "difficulty:\"Bronze\"\n" +
-                "image_url:\"http://gamejolt.com/img/trophy-bronze-1.jpg\"\n" +
-                "achieved:\"14 hours ago\"\n" +
-                "id:\"188\"\n" +
-                "title:\"test silver\"\n" +
-                "description:\"ta da, da da\"\n" +
-                "difficulty:\"Silver\"\n" +
-                "image_url:\"http://gamejolt.com/img/trophy-silver-1.jpg\"\n" +
-                "achieved:\"false\"\n" +
-                "id:\"189\"\n" +
-                "title:\"test platinum\"\n" +
-                "description:\"ta da, da da\"\n" +
-                "difficulty:\"Platinum\"\n" +
-                "image_url:\"http://gamejolt.com/img/trophy-platinum-1.jpg\"\n" +
-                "achieved:\"false\"");
+        Properties trophy2 = new Properties();
+        trophy2.put("id", "188");
+        trophy2.put("title", "test silver");
+        trophy2.put("description", "ta da, da da");
+        trophy2.put("difficulty", "Silver");
+        trophy2.put("image_url", "http://gamejolt.com/img/trophy-silver-1.jpg");
+        trophy2.put("achieved", "false");
+
+        Properties trophy3 = new Properties();
+        trophy3.put("id", "189");
+        trophy3.put("title", "test platinum");
+        trophy3.put("description", "ta da, da da");
+        trophy3.put("difficulty", "Platinum");
+        trophy3.put("image_url", "http://gamejolt.com/img/trophy-platinum-1.jpg");
+        trophy3.put("achieved", "false");
+
+        when(propertiesParser.parse(CONTENT)).thenReturn(Arrays.asList(trophy1, trophy2, trophy3));
+
+        List<Trophy> trophies = parser.parse(CONTENT);
 
         assertEquals(3, trophies.size());
         assertTrophy(187, "test", "test", BRONZE, new URL("http://gamejolt.com/img/trophy-bronze-1.jpg"), "14 hours ago", trophies.get(0));
@@ -58,15 +79,17 @@ public class TrophyResponseParserTest {
 
     @Test
     public void test_singleTrophy() throws MalformedURLException {
-        TrophyResponseParser parser = new TrophyResponseParser();
+        Properties properties = new Properties();
+        properties.put("id", "187");
+        properties.put("title", "test");
+        properties.put("description", "test");
+        properties.put("difficulty", "Bronze");
+        properties.put("image_url", "http://gamejolt.com/img/trophy-bronze-1.jpg");
+        properties.put("achieved", "3 hours ago");
 
-        List<Trophy> trophies = parser.parse("success:\"true\"\n" +
-                "id:\"187\"\n" +
-                "title:\"test\"\n" +
-                "description:\"test\"\n" +
-                "difficulty:\"Bronze\"\n" +
-                "image_url:\"http://gamejolt.com/img/trophy-bronze-1.jpg\"\n" +
-                "achieved:\"3 hours ago\"");
+        when(propertiesParser.parse(CONTENT)).thenReturn(Arrays.asList(properties));
+
+        List<Trophy> trophies = parser.parse(CONTENT);
 
         assertNotNull(trophies);
         assertEquals(1, trophies.size());
@@ -75,15 +98,12 @@ public class TrophyResponseParserTest {
 
     @Test
     public void test_noMatchingTrophy() throws MalformedURLException {
-        TrophyResponseParser parser = new TrophyResponseParser();
+        Properties properties = new Properties();
+        properties.put("id", "0");
 
-        List<Trophy> trophies = parser.parse("success:\"true\"\n" +
-                "id:\"0\"\n" +
-                "title:\"\"\n" +
-                "description:\"\"\n" +
-                "difficulty:\"\"\n" +
-                "image_url:\"\"\n" +
-                "achieved:\"\"");
+        when(propertiesParser.parse(CONTENT)).thenReturn(Arrays.asList(properties));
+
+        List<Trophy> trophies = parser.parse(CONTENT);
 
         assertEquals(0, trophies.size());
     }
@@ -96,4 +116,5 @@ public class TrophyResponseParserTest {
         assertEquals(image, actualTrophy.imageUrl);
         assertEquals(achieved, actualTrophy.timeOfAchievement);
     }
+
 }

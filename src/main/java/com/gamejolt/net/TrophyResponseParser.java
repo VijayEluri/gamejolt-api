@@ -21,7 +21,15 @@ import java.util.List;
 
 
 public class TrophyResponseParser {
-    private PropertiesParser parser = new PropertiesParser();
+    private PropertiesParser parser;
+
+    public TrophyResponseParser() {
+        this(new PropertiesParser());
+    }
+
+    protected TrophyResponseParser(PropertiesParser parser) {
+        this.parser = parser;
+    }
 
     public List<Trophy> parse(String content) {
         List trophies = new ArrayList();
