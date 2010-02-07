@@ -14,29 +14,43 @@
 package com.gamejolt.net;
 
 import com.gamejolt.GameJoltException;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Map;
 
 import static org.junit.Assert.*;
 
 
 public class PropertiesTest {
-    @Test
-    public void test_StringValue() {
-        Properties properties = new Properties("message:\"The signature you entered for the request is invalid.\"");
+    private Properties properties;
 
-        assertEquals("The signature you entered for the request is invalid.", properties.get("message"));
+    @Before
+    public void setUp() throws Exception {
+        properties = new Properties();
+        properties.put("key", "value");
+    }
+
+    @Test
+    public void ensureMapIsReadOnly() {
+        try {
+            properties.asMap().put("key", "value");
+            fail();
+        } catch (UnsupportedOperationException err) {
+        }
+    }
+
+    @Test
+    public void test_contains() {
+        assertTrue(properties.contains("key"));
+        assertFalse(properties.contains("doesNotExist"));
     }
 
     @Test
     public void test_BadUrlValue() throws MalformedURLException {
-        Properties properties = new Properties("value:\"x\"");
-
         try {
-            properties.getUrl("value");
+            properties.getUrl("key");
             fail();
         } catch (GameJoltException e) {
             assertNotNull(e.getCause());
@@ -45,51 +59,30 @@ public class PropertiesTest {
 
     @Test
     public void test_UrlValue() throws MalformedURLException {
-        Properties properties = new Properties("value:\"http://www.google.com\"");
+        properties.put("value", "http://www.google.com");
 
         assertEquals(new URL("http://www.google.com"), properties.getUrl("value"));
     }
 
     @Test
     public void test_IntValue() {
-        Properties properties = new Properties("value:\"1\"");
+        properties.put("value", "1");
 
         assertEquals(1, properties.getInt("value"));
     }
 
     @Test
     public void test_BooleanValue_False() {
-        Properties properties = new Properties("success:\"false\"");
+        properties.put("success", "false");
 
         assertFalse(properties.getBoolean("success"));
     }
 
     @Test
     public void test_BooleanValue_True() {
-        Properties properties = new Properties("success:\"true\"");
+        properties.put("success", "true");
 
         assertTrue(properties.getBoolean("success"));
     }
 
-    @Test
-    public void test_MultipleValues_UnixLineEndings() {
-        Properties properties = new Properties("success:\"true\"\nkey:\"value\"");
-
-        Map<String, String> map = properties.asMap();
-
-        assertEquals(2, map.size());
-        assertEquals("true", map.get("success"));
-        assertEquals("value", map.get("key"));
-    }
-
-    @Test
-    public void test_MultipleValues_WindowsLineEndings() {
-        Properties properties = new Properties("success:\"true\"\r\nkey:\"value\"");
-
-        Map<String, String> map = properties.asMap();
-
-        assertEquals(2, map.size());
-        assertEquals("true", map.get("success"));
-        assertEquals("value", map.get("key"));
-    }
 }

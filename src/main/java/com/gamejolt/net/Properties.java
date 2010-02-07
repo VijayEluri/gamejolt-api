@@ -17,20 +17,13 @@ import com.gamejolt.GameJoltException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 
 public class Properties {
     private Map<String, String> values = new LinkedHashMap<String, String>();
-
-    public Properties(String value) {
-        String[] lines = value.split("\r\n|\n");
-        for (String line : lines) {
-            String[] pieces = line.replaceAll("(.+?):(.+)", "$1###$2").split("###");
-            values.put(pieces[0], pieces[1].replace("\"", ""));
-        }
-    }
 
     public boolean getBoolean(String key) {
         return Boolean.parseBoolean(get(key));
@@ -45,7 +38,7 @@ public class Properties {
     }
 
     public Map<String, String> asMap() {
-        return values;
+        return Collections.unmodifiableMap(values);
     }
 
     public URL getUrl(String key) {
@@ -54,5 +47,13 @@ public class Properties {
         } catch (MalformedURLException e) {
             throw new GameJoltException(e);
         }
+    }
+
+    public void put(String key, String value) {
+        values.put(key, value);
+    }
+
+    public boolean contains(String key) {
+        return values.containsKey(key);
     }
 }

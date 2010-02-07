@@ -27,6 +27,7 @@ public class GameJolt {
     private String username;
     private String userToken;
     private TrophyResponseParser trophyParser;
+    private PropertiesParser propertiesParser = new PropertiesParser();
 
     public GameJolt(int gameId, String privateKey) {
         this.gameId = gameId;
@@ -37,7 +38,7 @@ public class GameJolt {
 
     public boolean verifyUser(String username, String userToken) {
         HttpRequest request = requestFactory.buildVerifyUserRequest(username, userToken);
-        Properties properties = new Properties(processRequest(request));
+        Properties properties = propertiesParser.parseProperties(processRequest(request));
         verified = properties.getBoolean("success");
         if (verified) {
             this.username = username;
@@ -51,7 +52,7 @@ public class GameJolt {
             throw new UnverifiedUserException();
         }
         HttpRequest request = requestFactory.buildAchievedTrophyRequest(username, userToken, String.valueOf(trophyId));
-        Properties properties = new Properties(processRequest(request));
+        Properties properties = propertiesParser.parseProperties(processRequest(request));
         return properties.getBoolean("success");
     }
 

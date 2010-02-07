@@ -21,13 +21,14 @@ import java.util.List;
 
 
 public class TrophyResponseParser {
+    private PropertiesParser parser = new PropertiesParser();
 
     public List<Trophy> parse(String content) {
         List trophies = new ArrayList();
 
-        String[] lines = content.split("\n");
-        for (int i = 1; i < lines.length; i += 6) {
-            Properties properties = creatProperties(lines, i, 6);
+        List<Properties> propertiesList = parser.parse(content);
+
+        for (Properties properties : propertiesList) {
             int id = properties.getInt("id");
             if (id == 0) break;
             String title = properties.get("title");
@@ -39,13 +40,5 @@ public class TrophyResponseParser {
         }
 
         return trophies;
-    }
-
-    private Properties creatProperties(String[] lines, int offset, int count) {
-        String content = "";
-        for (int i = offset; i < offset + count; i++) {
-            content += lines[i] + "\n";
-        }
-        return new Properties(content);
     }
 }
