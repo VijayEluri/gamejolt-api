@@ -19,7 +19,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
 
-public class QueryStringBuilder {
+class QueryStringBuilder {
     private StringBuilder builder = new StringBuilder();
     private boolean firstParameter = true;
 

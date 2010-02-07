@@ -13,8 +13,11 @@
 
 package com.gamejolt.net;
 
+import com.gamejolt.GameJoltException;
 import org.junit.Test;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Map;
 
 import static org.junit.Assert.*;
@@ -26,6 +29,32 @@ public class PropertiesTest {
         Properties properties = new Properties("message:\"The signature you entered for the request is invalid.\"");
 
         assertEquals("The signature you entered for the request is invalid.", properties.get("message"));
+    }
+
+    @Test
+    public void test_BadUrlValue() throws MalformedURLException {
+        Properties properties = new Properties("value:\"x\"");
+
+        try {
+            properties.getUrl("value");
+            fail();
+        } catch (GameJoltException e) {
+            assertNotNull(e.getCause());
+        }
+    }
+
+    @Test
+    public void test_UrlValue() throws MalformedURLException {
+        Properties properties = new Properties("value:\"http://www.google.com\"");
+
+        assertEquals(new URL("http://www.google.com"), properties.getUrl("value"));
+    }
+
+    @Test
+    public void test_IntValue() {
+        Properties properties = new Properties("value:\"1\"");
+
+        assertEquals(1, properties.getInt("value"));
     }
 
     @Test

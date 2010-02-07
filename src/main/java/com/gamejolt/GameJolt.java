@@ -18,6 +18,8 @@ import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.Properties;
 import com.gamejolt.net.RequestFactory;
 
+import java.net.URL;
+
 
 public class GameJolt {
     private boolean verbose;
@@ -36,7 +38,7 @@ public class GameJolt {
 
     public boolean verifyUser(String username, String userToken) {
         HttpRequest request = requestFactory.buildVerifyUserRequest(username, userToken);
-        Properties properties = new Properties(processRequest(request));
+        Properties properties = processRequest(request);
         verified = properties.getBoolean("success");
         if (verified) {
             this.username = username;
@@ -50,16 +52,34 @@ public class GameJolt {
             throw new UnverifiedUserException();
         }
         HttpRequest request = requestFactory.buildAchievedTrophyRequest(username, userToken, String.valueOf(trophyId));
-        Properties properties = new Properties(processRequest(request));
+        Properties properties = processRequest(request);
         return properties.getBoolean("success");
     }
 
-    private String processRequest(HttpRequest request) {
+    public Trophy getTrophy(int trophyId) {
+        if (!verified) {
+            throw new UnverifiedUserException();
+        }
+        HttpRequest request = requestFactory.buildTrophyRequest(username, userToken, String.valueOf(trophyId));
+        Properties properties = processRequest(request);
+        int id = properties.getInt("id");
+        if (id == 0) {
+            return null;
+        }
+        Trophy.Difficulty difficulty = Trophy.Difficulty.valueOf(properties.get("difficulty").toUpperCase());
+        String title = properties.get("title");
+        String description = properties.get("description");
+        URL imageUrl = properties.getUrl("image_url");
+        String timeOfAchievement = properties.get("achieved");
+        return new Trophy(id, title, difficulty, description, imageUrl, timeOfAchievement);
+    }
+
+    private Properties processRequest(HttpRequest request) {
         if (verbose) System.out.println("REQUEST: " + request.getUrl());
         HttpResponse response = request.doGet();
         String value = response.getContentAsString();
         if (verbose) System.out.println("RESPONSE: " + value);
-        return value;
+        return new Properties(value);
     }
 
     protected void setRequestFactory(RequestFactory requestFactory) {

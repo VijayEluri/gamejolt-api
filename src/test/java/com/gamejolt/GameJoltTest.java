@@ -19,8 +19,10 @@ import com.gamejolt.net.RequestFactory;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import java.net.MalformedURLException;
+import java.net.URL;
+
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -42,6 +44,56 @@ public class GameJoltTest {
 
         when(request.doGet()).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
+    }
+
+    @Test
+    public void test_getTrophy_Unverified() throws MalformedURLException {
+        try {
+            gameJolt.getTrophy(12);
+            fail();
+        } catch (UnverifiedUserException er) {
+
+        }
+    }
+
+    @Test
+    public void test_getTrophy_NoMatchingTrophy() throws MalformedURLException {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildTrophyRequest("username", "userToken", "12")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("success:\"true\"\n" +
+                "id:\"0\"\n" +
+                "title:\"\"\n" +
+                "description:\"\"\n" +
+                "difficulty:\"\"\n" +
+                "image_url:\"http://gamejolt.com/home/gjolt/public_html/data/games/2/trophies/0_.jpg\"\n" +
+                "achieved:\"false\"");
+
+        assertNull(gameJolt.getTrophy(12));
+    }
+
+    @Test
+    public void test_getTrophy() throws MalformedURLException {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildTrophyRequest("username", "userToken", "12")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("success:\"true\"\n" +
+                "id:\"187\"\n" +
+                "title:\"test\"\n" +
+                "description:\"test\"\n" +
+                "difficulty:\"Bronze\"\n" +
+                "image_url:\"http://gamejolt.com/img/trophy-bronze-1.jpg\"\n" +
+                "achieved:\"1 hour ago\"");
+
+        Trophy trophy = gameJolt.getTrophy(12);
+
+        assertNotNull(trophy);
+        assertEquals(187, trophy.id);
+        assertEquals(Trophy.Difficulty.BRONZE, trophy.difficulty);
+        assertEquals("test", trophy.title);
+        assertEquals("test", trophy.description);
+        assertEquals(new URL("http://gamejolt.com/img/trophy-bronze-1.jpg"), trophy.imageUrl);
+        assertEquals("1 hour ago", trophy.timeOfAchievement);
     }
 
     @Test

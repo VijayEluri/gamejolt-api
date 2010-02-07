@@ -13,6 +13,10 @@
 
 package com.gamejolt.net;
 
+import com.gamejolt.GameJoltException;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -23,7 +27,7 @@ public class Properties {
     public Properties(String value) {
         String[] lines = value.split("\r\n|\n");
         for (String line : lines) {
-            String[] pieces = line.split(":");
+            String[] pieces = line.replaceAll("(.+?):(.+)", "$1,$2").split(",");
             values.put(pieces[0], pieces[1].replace("\"", ""));
         }
     }
@@ -32,11 +36,23 @@ public class Properties {
         return Boolean.parseBoolean(get(key));
     }
 
+    public int getInt(String key) {
+        return Integer.parseInt(get(key));
+    }
+
     public String get(String key) {
         return values.get(key);
     }
 
     public Map<String, String> asMap() {
         return values;
+    }
+
+    public URL getUrl(String key) {
+        try {
+            return new URL(get(key));
+        } catch (MalformedURLException e) {
+            throw new GameJoltException(e);
+        }
     }
 }
