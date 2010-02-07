@@ -13,27 +13,16 @@
 
 package com.gamejolt.net;
 
-import com.gamejolt.GameJoltException;
 import org.junit.Test;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 
 public class HttpRequestTest {
-    @Test
-    public void test_InValidUrl() {
-        HttpRequest request = new HttpRequest("http://www.doesNotExistShouldThrowAHorribleError.com");
-
-        try {
-            request.doGet();
-            fail();
-        } catch (GameJoltException err) {
-
-        }
-    }
 
     @Test
     public void test_NoParameter() {

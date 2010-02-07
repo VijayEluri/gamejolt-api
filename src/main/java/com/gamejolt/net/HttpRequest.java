@@ -23,12 +23,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.DeflaterInputStream;
 import java.util.zip.GZIPInputStream;
 
 
 public class HttpRequest {
     private static final UrlFactory urlFactory = new UrlFactory();
-    private static final int SUCCESS_RESPONSE_CODE = 200;
     private String url;
     private QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
 
@@ -58,16 +58,20 @@ public class HttpRequest {
         try {
             URL request = urlFactory.build(buildUrlWithParameters());
             connection = (HttpURLConnection) request.openConnection();
-            connection.setRequestProperty("Accept-Encoding", "gzip");
+            connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7");
             connection.connect();
             int responseCode = connection.getResponseCode();
-            if (responseCode != SUCCESS_RESPONSE_CODE) {
+            if (responseCode != HttpURLConnection.HTTP_OK) {
                 return new HttpResponse(responseCode, new byte[0]);
             }
 
             input = connection.getInputStream();
-            if (isResponseGzipped(connection)) {
+            List<String> contentType = connection.getHeaderFields().get("Content-Encoding");
+            if (isResponseCompressed(contentType, "gzip")) {
                 input = new GZIPInputStream(input);
+            } else if (isResponseCompressed(contentType, "deflate")) {
+                input = new DeflaterInputStream(input);
             }
             return new HttpResponse(responseCode, readAll(input));
         } catch (IOException e) {
@@ -78,10 +82,10 @@ public class HttpRequest {
         }
     }
 
-    private boolean isResponseGzipped(HttpURLConnection connection) {
-        List<String> types = connection.getHeaderFields().get("Content-Type");
-        for (String type : types) {
-            if (type.toLowerCase().contains("gzip")) {
+    private boolean isResponseCompressed(List<String> contentType, String algorithm) {
+        if (contentType == null) return false;
+        for (String type : contentType) {
+            if (type.toLowerCase().contains(algorithm)) {
                 return true;
             }
         }
