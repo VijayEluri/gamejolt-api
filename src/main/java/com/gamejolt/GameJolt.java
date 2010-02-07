@@ -55,6 +55,9 @@ public class GameJolt {
      *         <p>false - player is not a valid user</p>
      */
     public boolean verifyUser(String username, String userToken) {
+        if (doesNotNeedToVerify(username)) {
+            return true;
+        }
         HttpRequest request = requestFactory.buildVerifyUserRequest(username, userToken);
         Properties properties = propertiesParser.parseProperties(processRequest(request));
         verified = properties.getBoolean("success");
@@ -157,6 +160,10 @@ public class GameJolt {
             System.out.println("-----------------------");
         }
         return value;
+    }
+
+    private boolean doesNotNeedToVerify(String username) {
+        return verified && username.equals(this.username);
     }
 
     protected void setRequestFactory(RequestFactory requestFactory) {

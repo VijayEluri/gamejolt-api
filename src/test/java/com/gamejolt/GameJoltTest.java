@@ -23,8 +23,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 
 public class GameJoltTest {
@@ -199,6 +198,27 @@ public class GameJoltTest {
         receivesSuccessfulResponse(response, true);
 
         assertTrue(gameJolt.verifyUser("username", "userToken"));
+    }
+
+    @Test
+    public void test_verifyUser_AlreadyVerified() {
+        when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
+        receivesSuccessfulResponse(response, true);
+
+        assertTrue(gameJolt.verifyUser("username", "userToken"));
+        assertTrue(gameJolt.verifyUser("username", "userToken"));
+
+        verify(requestFactory, times(1)).buildVerifyUserRequest("username", "userToken");
+    }
+
+    @Test
+    public void test_verifyUser_DifferentUserAndFails() {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildVerifyUserRequest("different", "differentUserToken")).thenReturn(request);
+        receivesSuccessfulResponse(response, false);
+
+        assertFalse(gameJolt.verifyUser("different", "differentUserToken"));
     }
 
     private void hasAVerifiedUser(String username, String userToken) {
