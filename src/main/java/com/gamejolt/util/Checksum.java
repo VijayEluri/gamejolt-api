@@ -13,10 +13,7 @@
 
 package com.gamejolt.util;
 
-import com.gamejolt.GameJoltException;
-
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
+import org.apache.commons.codec.digest.DigestUtils;
 
 
 public class Checksum {
@@ -25,21 +22,6 @@ public class Checksum {
     }
 
     public String md5(byte[] data) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("MD5");
-            digest.update(data);
-            byte[] messageDigest = digest.digest();
-            StringBuffer hexString = new StringBuffer();
-            for (int i = 0; i < messageDigest.length; i++) {
-                String hex = Integer.toHexString(0xFF & messageDigest[i]);
-                if (hex.length() == 1)
-                    hexString.append('0');
-
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new GameJoltException(e);
-        }
+        return DigestUtils.md5Hex(data);
     }
 }

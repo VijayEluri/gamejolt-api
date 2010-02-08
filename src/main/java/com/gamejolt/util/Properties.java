@@ -17,9 +17,7 @@ import com.gamejolt.GameJoltException;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 
 public class Properties {
@@ -55,5 +53,18 @@ public class Properties {
 
     public boolean contains(String key) {
         return values.containsKey(key);
+    }
+
+    public List<String> getDelimited(String key, String delimiter) {
+        List<String> parts = new ArrayList<String>();
+        if (contains(key)) {
+            String[] pieces = get(key).split(delimiter);
+            for (String piece : pieces) {
+                if (piece.trim().length() > 0) {
+                    parts.add(piece.trim());
+                }
+            }
+        }
+        return parts;
     }
 }

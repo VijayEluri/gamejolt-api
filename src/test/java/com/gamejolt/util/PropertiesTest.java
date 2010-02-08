@@ -19,6 +19,8 @@ import org.junit.Test;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 import static org.junit.Assert.*;
 
@@ -30,6 +32,31 @@ public class PropertiesTest {
     public void setUp() throws Exception {
         properties = new Properties();
         properties.put("key", "value");
+    }
+
+    @Test
+    public void test_delimitedValue_ValueExistsButEmpty() {
+        properties.put("key", "");
+        assertEquals(new ArrayList(), properties.getDelimited("key", ","));
+    }
+
+    @Test
+    public void test_delimitedValue_ValueDoesNotExist() {
+        assertEquals(new ArrayList(), properties.getDelimited("doesNotExist", ","));
+    }
+
+    @Test
+    public void test_delimitedValue_WithExtraSpace() {
+        properties.put("key", "value1, value2");
+
+        assertEquals(Arrays.asList("value1", "value2"), properties.getDelimited("key", ","));
+    }
+
+    @Test
+    public void test_delimitedValue() {
+        properties.put("key", "value1,value2");
+
+        assertEquals(Arrays.asList("value1", "value2"), properties.getDelimited("key", ","));
     }
 
     @Test
@@ -61,7 +88,7 @@ public class PropertiesTest {
     public void test_UrlValue() throws MalformedURLException {
         properties.put("value", "http://www.google.com");
 
-        assertEquals(new URL("http://www.google.com"), properties.getUrl("value"));
+        assertEquals(new URL("http://www.google.com").toString(), properties.getUrl("value").toString());
     }
 
     @Test

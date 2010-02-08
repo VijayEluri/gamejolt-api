@@ -22,15 +22,17 @@ public class RequestFactory {
     private static final String DEFAULT_VERSION = "1";
 
     private int gameId;
+    private String privateKey;
     private SignatureFactory signatureFactory;
     private String version = DEFAULT_VERSION;
 
     public RequestFactory(int gameId, String privateKey) {
-        this(gameId, new SignatureFactory(privateKey));
+        this(gameId, privateKey, new SignatureFactory(privateKey));
     }
 
-    protected RequestFactory(int gameId, SignatureFactory signatureFactory) {
+    protected RequestFactory(int gameId, String privateKey, SignatureFactory signatureFactory) {
         this.gameId = gameId;
+        this.privateKey = privateKey;
         this.signatureFactory = signatureFactory;
     }
 
@@ -43,7 +45,7 @@ public class RequestFactory {
         parameters.put("username", username);
 
         request.addParameters(parameters);
-        request.addParameter("signature", signatureFactory.build(baseUrl, userToken, parameters));
+        request.addParameter("signature", signatureFactory.build(baseUrl, parameters, userToken));
         request.addParameter("user_token", userToken);
         return request;
     }
@@ -58,7 +60,7 @@ public class RequestFactory {
         parameters.put("trophy_id", trophyId);
 
         request.addParameters(parameters);
-        request.addParameter("signature", signatureFactory.build(baseUrl, userToken, parameters));
+        request.addParameter("signature", signatureFactory.build(baseUrl, parameters, userToken));
         request.addParameter("user_token", userToken);
         return request;
     }
@@ -73,7 +75,7 @@ public class RequestFactory {
         parameters.put("trophy_id", trophyId);
 
         request.addParameters(parameters);
-        request.addParameter("signature", signatureFactory.build(baseUrl, userToken, parameters));
+        request.addParameter("signature", signatureFactory.build(baseUrl, parameters, userToken));
         request.addParameter("user_token", userToken);
         return request;
     }
@@ -88,7 +90,7 @@ public class RequestFactory {
         parameters.put("achieved", achieved);
 
         request.addParameters(parameters);
-        request.addParameter("signature", signatureFactory.build(baseUrl, userToken, parameters));
+        request.addParameter("signature", signatureFactory.build(baseUrl, parameters, userToken));
         request.addParameter("user_token", userToken);
         return request;
     }

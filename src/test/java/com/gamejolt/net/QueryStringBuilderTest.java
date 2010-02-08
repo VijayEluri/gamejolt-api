@@ -16,6 +16,9 @@ package com.gamejolt.net;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import static org.junit.Assert.assertEquals;
 
 
@@ -25,6 +28,17 @@ public class QueryStringBuilderTest {
     @Before
     public void setUp() throws Exception {
         builder = new QueryStringBuilder();
+    }
+
+    @Test
+    public void test_multipleParameters_asMap() {
+        Map<String, String> params = new LinkedHashMap<String, String>();
+        params.put("key1", "value1");
+        params.put("key2", "value2");
+
+        builder.parameters(params);
+
+        assertEquals("?key1=value1&key2=value2", builder.toString());
     }
 
     @Test

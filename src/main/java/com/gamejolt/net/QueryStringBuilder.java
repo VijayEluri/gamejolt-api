@@ -14,12 +14,14 @@
 package com.gamejolt.net;
 
 import com.gamejolt.GameJoltException;
+import org.apache.commons.codec.EncoderException;
+import org.apache.commons.codec.net.URLCodec;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
+import java.util.Map;
 
 
 class QueryStringBuilder {
+    private static final URLCodec URL_CODEC = new URLCodec();
     private StringBuilder builder = new StringBuilder();
     private boolean firstParameter = true;
 
@@ -45,10 +47,15 @@ class QueryStringBuilder {
 
     private String encode(String value) {
         try {
-            return URLEncoder.encode(value, "UTF-8");
-        } catch (UnsupportedEncodingException e) {
+            return URL_CODEC.encode(value);
+        } catch (EncoderException e) {
             throw new GameJoltException(e);
         }
     }
 
+    public void parameters(Map<String, String> params) {
+        for (Map.Entry<String, String> entry : params.entrySet()) {
+            parameter(entry.getKey(), entry.getValue());
+        }
+    }
 }

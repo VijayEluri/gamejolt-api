@@ -31,12 +31,13 @@ public class RequestFactoryTest {
     private static final String PLAYER = "player";
     private static final String USER_TOKEN = "userToken";
     private Map<String, String> parameters;
+    private static final String PRIVATE_KEY = "private-key";
 
     @Before
     public void setUp() throws Exception {
         signatureFactory = mock(SignatureFactory.class);
 
-        factory = new RequestFactory(GAME_ID, signatureFactory);
+        factory = new RequestFactory(GAME_ID, PRIVATE_KEY, signatureFactory);
 
         parameters = new LinkedHashMap<String, String>();
         parameters.put("game_id", String.valueOf(GAME_ID));
@@ -46,7 +47,7 @@ public class RequestFactoryTest {
     @Test
     public void test_buildVerifyUserRequest_DifferentVersion() {
         factory.setVersion("2.0");
-        when(signatureFactory.build("http://gamejolt.com/api/game/v2.0/users/auth/", USER_TOKEN, parameters)).thenReturn("sign-hash");
+        when(signatureFactory.build("http://gamejolt.com/api/game/v2.0/users/auth/", parameters, USER_TOKEN)).thenReturn("sign-hash");
 
         HttpRequest request = factory.buildVerifyUserRequest(PLAYER, USER_TOKEN);
 
@@ -55,7 +56,7 @@ public class RequestFactoryTest {
 
     @Test
     public void test_buildVerifyUserRequest() {
-        when(signatureFactory.build("http://gamejolt.com/api/game/v1/users/auth/", USER_TOKEN, parameters)).thenReturn("sign-hash");
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/users/auth/", parameters, USER_TOKEN)).thenReturn("sign-hash");
 
         HttpRequest request = factory.buildVerifyUserRequest(PLAYER, USER_TOKEN);
 
@@ -66,7 +67,7 @@ public class RequestFactoryTest {
     public void test_buildAchievedTrophyRequest() {
         parameters.put("trophy_id", "trophy1");
 
-        when(signatureFactory.build("http://gamejolt.com/api/game/v1/trophies/add-achieved", USER_TOKEN, parameters)).thenReturn("sign-hash");
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/trophies/add-achieved", parameters, USER_TOKEN)).thenReturn("sign-hash");
 
         HttpRequest request = factory.buildAchievedTrophyRequest(PLAYER, USER_TOKEN, "trophy1");
 
@@ -77,7 +78,7 @@ public class RequestFactoryTest {
     public void test_buildTrophyRequest() {
         parameters.put("trophy_id", "trophy1");
 
-        when(signatureFactory.build("http://gamejolt.com/api/game/v1/trophies/", USER_TOKEN, parameters)).thenReturn("sign-hash");
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/trophies/", parameters, USER_TOKEN)).thenReturn("sign-hash");
 
         HttpRequest request = factory.buildTrophyRequest(PLAYER, USER_TOKEN, "trophy1");
 
@@ -88,7 +89,7 @@ public class RequestFactoryTest {
     public void test_buildTrophiesRequest() {
         parameters.put("achieved", "empty");
 
-        when(signatureFactory.build("http://gamejolt.com/api/game/v1/trophies/", USER_TOKEN, parameters)).thenReturn("sign-hash");
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/trophies/", parameters, USER_TOKEN)).thenReturn("sign-hash");
 
         HttpRequest request = factory.buildTrophiesRequest(PLAYER, USER_TOKEN, "empty");
 

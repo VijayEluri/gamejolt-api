@@ -26,12 +26,16 @@ public class SignatureFactory {
         this.privateKey = privateKey;
     }
 
-    public String build(String baseUrl, String userToken, Map<String, String> parameters) {
+    public String build(String baseUrl, Map<String, String> parameters, String userToken) {
         QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
-        for (Map.Entry<String, String> entry : parameters.entrySet()) {
-            queryStringBuilder.parameter(entry.getKey(), entry.getValue());
-        }
+        queryStringBuilder.parameters(parameters);
         queryStringBuilder.parameter("user_token", userToken + privateKey);
+        return checksum.md5(baseUrl + queryStringBuilder.toString());
+    }
+
+    public String build(String baseUrl, Map<String, String> parameters) {
+        QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
+        queryStringBuilder.parameters(parameters);
         return checksum.md5(baseUrl + queryStringBuilder.toString());
     }
 

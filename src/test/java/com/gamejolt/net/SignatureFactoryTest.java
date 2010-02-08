@@ -45,7 +45,7 @@ public class SignatureFactoryTest {
         parameters.put("game_id", "1111");
         parameters.put("username", "player");
 
-        assertEquals("signature-hash", factory.build("http://gamejolt.com/api/game/v1/users/auth/", "player-token", parameters));
+        assertEquals("signature-hash", factory.build("http://gamejolt.com/api/game/v1/users/auth/", parameters, "player-token"));
     }
 
 }
