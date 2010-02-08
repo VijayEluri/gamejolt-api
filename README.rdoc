@@ -1,16 +1,16 @@
-= Current Features
-    - access to available trophies (earned/unearned)
-    - access to achieve a trophy
-    - supports gzip & deflate compression
+== Current Features
+- access to available trophies (earned/unearned)
+- access to achieve a trophy
+- supports gzip & deflate compression
 
-= Example Usage
+== Example Usage
 
-        int gameId = 1111;
-        String privateKey = "your personal privatekey given to you by game jolt";
-        String playerUsername = "player";
-        String playerHash = "playerHash";
+    int gameId = 1111;
+    String privateKey = "your personal privatekey given to you by game jolt";
+    String playerUsername = "player";
+    String playerHash = "playerHash";
 
-        GameJolt gj = new GameJolt(gameId, privateKey);
-        if (gj.verifyUser(playerUsername, playerHash))) {
-            List<Trophy> trophies = gj.getAllTrophies();
-        }
+    GameJolt gj = new GameJolt(gameId, privateKey);
+    if (gj.verifyUser(playerUsername, playerHash))) {
+        List<Trophy> trophies = gj.getAllTrophies();
+    }
