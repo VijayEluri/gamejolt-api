@@ -160,29 +160,8 @@ public class GameJolt {
         this.verbose = verbose;
     }
 
-    private String processRequest(HttpRequest request) {
-        if (verbose) {
-            System.out.println("-----------------------");
-            System.out.println("REQUEST");
-            System.out.println("-----------------------");
-            System.out.println(request.getUrl());
-            System.out.println("-----------------------");
-            System.out.flush();
-        }
-        HttpResponse response = request.doGet();
-        String value = response.getContentAsString();
-        if (verbose) {
-            System.out.println("-----------------------");
-            System.out.println("RESPONSE");
-            System.out.println("-----------------------");
-            System.out.println(value);
-            System.out.println("-----------------------");
-            System.out.flush();
-        }
-        return value;
-    }
-
     public boolean storeGameData(String name, String data) {
+        if (data == null) throw new NullPointerException(format(STORE_NULL_OBJECT, "removeGameData"));
         HttpRequest request = requestFactory.buildStoreGameDataRequest(name, data);
         Properties properties = propertiesParser.parseProperties(processRequest(request));
         return properties.getBoolean("success");
@@ -209,12 +188,43 @@ public class GameJolt {
         return storeUserData(name, binarySanitizer.sanitize(bytes));
     }
 
+    public boolean storeGameData(String name, Object data) {
+        if (data == null) throw new NullPointerException(format(STORE_NULL_OBJECT, "removeGameData"));
+        byte[] bytes = objectSerializer.serialize(data);
+        if (bytes == null) {
+            throw new NullPointerException(format(NULL_BYTES, data.getClass()));
+        }
+        return storeGameData(name, binarySanitizer.sanitize(bytes));
+    }
+
     public void setObjectSerializer(com.gamejolt.io.ObjectSerializer objectSerializer) {
         this.objectSerializer = objectSerializer;
     }
 
     protected void setBinarySanitizer(BinarySanitizer binarySanitizer) {
         this.binarySanitizer = binarySanitizer;
+    }
+
+    private String processRequest(HttpRequest request) {
+        if (verbose) {
+            System.out.println("-----------------------");
+            System.out.println("REQUEST");
+            System.out.println("-----------------------");
+            System.out.println(request.getUrl());
+            System.out.println("-----------------------");
+            System.out.flush();
+        }
+        HttpResponse response = request.doGet();
+        String value = response.getContentAsString();
+        if (verbose) {
+            System.out.println("-----------------------");
+            System.out.println("RESPONSE");
+            System.out.println("-----------------------");
+            System.out.println(value);
+            System.out.println("-----------------------");
+            System.out.flush();
+        }
+        return value;
     }
 
     private boolean doesNotNeedToVerify(String username, String userToken) {
@@ -237,4 +247,5 @@ public class GameJolt {
         if (!verified) throw new UnverifiedUserException();
         return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
     }
+
 }

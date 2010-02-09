@@ -105,6 +105,16 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_storeGameData_NullObjectGiven() {
+        try {
+            gameJolt.storeGameData("name", (Object) null);
+            fail();
+        } catch (NullPointerException err) {
+            assertEquals("You supplied a null object for storing. This is invalid, if you would like to remove data, please use the removeGameData method", err.getMessage());
+        }
+    }
+
+    @Test
     public void test_storeUserData_NullObjectGiven() {
         hasAVerifiedUser("username", "userToken");
 
@@ -125,6 +135,16 @@ public class GameJoltTest {
             fail();
         } catch (NullPointerException err) {
             assertEquals("You supplied a null object for storing. This is invalid, if you would like to remove data, please use the removeUserData method", err.getMessage());
+        }
+    }
+
+    @Test
+    public void test_storeGameData_NullStringGiven() {
+        try {
+            gameJolt.storeGameData("name", (String) null);
+            fail();
+        } catch (NullPointerException err) {
+            assertEquals("You supplied a null object for storing. This is invalid, if you would like to remove data, please use the removeGameData method", err.getMessage());
         }
     }
 
@@ -151,6 +171,26 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_storeGameData_ObjectSerializerReturnsANullByteArray() {
+        DummyObject obj = new DummyObject();
+
+        Properties properties = new Properties();
+        properties.put("success", "true");
+
+        when(requestFactory.buildStoreGameDataRequest("name", "sanitized-data")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(objectSerializer.serialize(obj)).thenReturn(null);
+
+        try {
+            gameJolt.storeGameData("name", obj);
+            fail();
+        } catch (NullPointerException err) {
+            assertEquals("ObjectSerializer serialized " + DummyObject.class + " to a null byte array, please give at least an empty byte array", err.getMessage());
+        }
+    }
+
+    @Test
     public void test_storeUserData_Object() {
         DummyObject obj = new DummyObject();
         byte[] data = new byte[0];
@@ -167,6 +207,23 @@ public class GameJoltTest {
         when(binarySanitizer.sanitize(data)).thenReturn("sanitized-data");
 
         assertTrue(gameJolt.storeUserData("name", obj));
+    }
+
+    @Test
+    public void test_storeGameData_Object() {
+        DummyObject obj = new DummyObject();
+        byte[] data = new byte[0];
+
+        Properties properties = new Properties();
+        properties.put("success", "true");
+
+        when(requestFactory.buildStoreGameDataRequest("name", "sanitized-data")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(objectSerializer.serialize(obj)).thenReturn(data);
+        when(binarySanitizer.sanitize(data)).thenReturn("sanitized-data");
+
+        assertTrue(gameJolt.storeGameData("name", obj));
     }
 
     @Test
