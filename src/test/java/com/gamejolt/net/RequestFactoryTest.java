@@ -95,4 +95,17 @@ public class RequestFactoryTest {
 
         assertEquals("http://gamejolt.com/api/game/v1/trophies/?game_id=1111&username=player&achieved=empty&signature=sign-hash&user_token=userToken", request.getUrl());
     }
+
+    @Test
+    public void test_buildStoreGameDataRequest() {
+        parameters.remove("username");
+        parameters.put("data", "data");
+        parameters.put("key", "name" + PRIVATE_KEY);
+
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/data-store/set", parameters)).thenReturn("sign-hash");
+
+        HttpRequest request = factory.buildStoreGameDataRequest("name", "data");
+
+        assertEquals("http://gamejolt.com/api/game/v1/data-store/set?game_id=1111&data=data&key=name&signature=sign-hash", request.getUrl());
+    }
 }

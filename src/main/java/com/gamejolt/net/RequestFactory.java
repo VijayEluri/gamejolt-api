@@ -106,4 +106,20 @@ public class RequestFactory {
         return builder.toString();
     }
 
+    public HttpRequest buildStoreGameDataRequest(String name, String data) {
+        String baseUrl = createUrl("data-store/set");
+        HttpRequest request = new HttpRequest(baseUrl);
+
+        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        parameters.put("game_id", String.valueOf(gameId));
+        parameters.put("data", data);
+        parameters.put("key", name);
+
+        Map<String, String> signatureParameters = new LinkedHashMap<String, String>(parameters);
+        signatureParameters.put("key", name + privateKey);
+
+        request.addParameters(parameters);
+        request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
+        return request;
+    }
 }

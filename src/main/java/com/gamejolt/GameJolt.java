@@ -190,4 +190,9 @@ public class GameJolt {
         return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
     }
 
+    public boolean storeData(DatastoreType type, String name, String data) {
+        HttpRequest request = requestFactory.buildStoreGameDataRequest(name, data);
+        Properties properties = propertiesParser.parseProperties(processRequest(request));
+        return properties.getBoolean("success");
+    }
 }

@@ -57,6 +57,34 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_storeData_GAME_String() {
+        Properties properties = new Properties();
+        properties.put("success", "true");
+
+        when(requestFactory.buildStoreGameDataRequest("name", "data")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+
+        assertTrue(gameJolt.storeData(DatastoreType.GAME, "name", "data"));
+
+        verify(requestFactory).buildStoreGameDataRequest("name", "data");
+    }
+
+    @Test
+    public void test_storeData_GAME_Failed() {
+        Properties properties = new Properties();
+        properties.put("success", "false");
+        properties.put("message", "Server error message");
+
+        when(requestFactory.buildStoreGameDataRequest("name", "data")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+
+        assertFalse(gameJolt.storeData(DatastoreType.GAME, "name", "data"));
+
+    }
+
+    @Test
     public void test_getUnachievedTrophies_UnverifiedUser() {
         try {
             gameJolt.getUnachievedTrophies();
