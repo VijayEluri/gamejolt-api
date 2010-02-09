@@ -13,6 +13,8 @@
 
 package com.gamejolt;
 
+import com.gamejolt.io.BinarySanitizer;
+import com.gamejolt.io.ObjectSerializer;
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
@@ -38,6 +40,8 @@ public class GameJoltTest {
     private GameJolt gameJolt;
     private TrophyResponseParser trophyResponseParser;
     private PropertiesParser propertiesParser;
+    private ObjectSerializer objectSerializer;
+    private BinarySanitizer binarySanitizer;
 
     @Before
     public void setUp() throws Exception {
@@ -46,11 +50,15 @@ public class GameJoltTest {
         response = mock(HttpResponse.class);
         trophyResponseParser = mock(TrophyResponseParser.class);
         propertiesParser = mock(PropertiesParser.class);
+        objectSerializer = mock(ObjectSerializer.class);
+        binarySanitizer = mock(BinarySanitizer.class);
 
         gameJolt = new GameJolt(1111, "private-key");
         gameJolt.setRequestFactory(requestFactory);
         gameJolt.setTrophyParser(trophyResponseParser);
         gameJolt.setPropertiesParser(propertiesParser);
+        gameJolt.setObjectSerializer(objectSerializer);
+        gameJolt.setBinarySanitizer(binarySanitizer);
 
         when(request.doGet()).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
@@ -94,6 +102,71 @@ public class GameJoltTest {
         assertTrue(gameJolt.storeUserData("name", "data"));
 
         verify(requestFactory).buildStoreUserDataRequest("username", "userToken", "name", "data");
+    }
+
+    @Test
+    public void test_storeUserData_NullObjectGiven() {
+        hasAVerifiedUser("username", "userToken");
+
+        try {
+            gameJolt.storeUserData("name", (Object) null);
+            fail();
+        } catch (NullPointerException err) {
+            assertEquals("You supplied a null object for storing. This is invalid, if you would like to remove data, please use the removeUserData method", err.getMessage());
+        }
+    }
+
+    @Test
+    public void test_storeUserData_NullStringGiven() {
+        hasAVerifiedUser("username", "userToken");
+
+        try {
+            gameJolt.storeUserData("name", (String) null);
+            fail();
+        } catch (NullPointerException err) {
+            assertEquals("You supplied a null object for storing. This is invalid, if you would like to remove data, please use the removeUserData method", err.getMessage());
+        }
+    }
+
+    @Test
+    public void test_storeUserData_ObjectSerializerReturnsANullByteArray() {
+        DummyObject obj = new DummyObject();
+
+        hasAVerifiedUser("username", "userToken");
+
+        Properties properties = new Properties();
+        properties.put("success", "true");
+
+        when(requestFactory.buildStoreUserDataRequest("username", "userToken", "name", "sanitized-data")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(objectSerializer.serialize(obj)).thenReturn(null);
+
+        try {
+            gameJolt.storeUserData("name", obj);
+            fail();
+        } catch (NullPointerException err) {
+            assertEquals("ObjectSerializer serialized " + DummyObject.class + " to a null byte array, please give at least an empty byte array", err.getMessage());
+        }
+    }
+
+    @Test
+    public void test_storeUserData_Object() {
+        DummyObject obj = new DummyObject();
+        byte[] data = new byte[0];
+
+        hasAVerifiedUser("username", "userToken");
+
+        Properties properties = new Properties();
+        properties.put("success", "true");
+
+        when(requestFactory.buildStoreUserDataRequest("username", "userToken", "name", "sanitized-data")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(objectSerializer.serialize(obj)).thenReturn(data);
+        when(binarySanitizer.sanitize(data)).thenReturn("sanitized-data");
+
+        assertTrue(gameJolt.storeUserData("name", obj));
     }
 
     @Test

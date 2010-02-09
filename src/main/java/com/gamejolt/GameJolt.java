@@ -13,6 +13,8 @@
 
 package com.gamejolt;
 
+import com.gamejolt.io.BinarySanitizer;
+import com.gamejolt.io.ObjectSerializer;
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
@@ -22,8 +24,13 @@ import com.gamejolt.util.TrophyResponseParser;
 
 import java.util.List;
 
+import static java.text.MessageFormat.format;
+
 
 public class GameJolt {
+    private static final String NULL_BYTES = "ObjectSerializer serialized {0} to a null byte array, please give at least an empty byte array";
+    private static final String STORE_NULL_OBJECT = "You supplied a null object for storing. This is invalid, if you would like to remove data, please use the {0} method";
+
     private boolean verbose;
     private int gameId;
     private String privateKey;
@@ -33,6 +40,8 @@ public class GameJolt {
     private String userToken;
     private TrophyResponseParser trophyParser;
     private PropertiesParser propertiesParser = new PropertiesParser();
+    private ObjectSerializer objectSerializer;
+    private BinarySanitizer binarySanitizer;
 
     /**
      * Let the Game Jolt experience begin! :)
@@ -169,6 +178,41 @@ public class GameJolt {
         return value;
     }
 
+    public boolean storeGameData(String name, String data) {
+        HttpRequest request = requestFactory.buildStoreGameDataRequest(name, data);
+        Properties properties = propertiesParser.parseProperties(processRequest(request));
+        return properties.getBoolean("success");
+    }
+
+    public boolean storeUserData(String name, String data) throws UnverifiedUserException {
+        if (!verified) throw new UnverifiedUserException();
+        if (data == null) {
+            throw new NullPointerException(format(STORE_NULL_OBJECT, "removeUserData"));
+        }
+        HttpRequest request = requestFactory.buildStoreUserDataRequest(username, userToken, name, data);
+        Properties properties = propertiesParser.parseProperties(processRequest(request));
+        return properties.getBoolean("success");
+    }
+
+    public boolean storeUserData(String name, Object data) throws UnverifiedUserException {
+        if (data == null) {
+            throw new NullPointerException(format(STORE_NULL_OBJECT, "removeUserData"));
+        }
+        byte[] bytes = objectSerializer.serialize(data);
+        if (bytes == null) {
+            throw new NullPointerException(format(NULL_BYTES, data.getClass()));
+        }
+        return storeUserData(name, binarySanitizer.sanitize(bytes));
+    }
+
+    public void setObjectSerializer(com.gamejolt.io.ObjectSerializer objectSerializer) {
+        this.objectSerializer = objectSerializer;
+    }
+
+    protected void setBinarySanitizer(BinarySanitizer binarySanitizer) {
+        this.binarySanitizer = binarySanitizer;
+    }
+
     private boolean doesNotNeedToVerify(String username, String userToken) {
         return verified && username.equals(this.username) && userToken.equals(this.userToken);
     }
@@ -188,18 +232,5 @@ public class GameJolt {
     private List<Trophy> getTrophies(String achieved) {
         if (!verified) throw new UnverifiedUserException();
         return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
-    }
-
-    public boolean storeGameData(String name, String data) {
-        HttpRequest request = requestFactory.buildStoreGameDataRequest(name, data);
-        Properties properties = propertiesParser.parseProperties(processRequest(request));
-        return properties.getBoolean("success");
-    }
-
-    public boolean storeUserData(String name, String data) throws UnverifiedUserException {
-        if (!verified) throw new UnverifiedUserException();
-        HttpRequest request = requestFactory.buildStoreUserDataRequest(username, userToken, name, data);
-        Properties properties = propertiesParser.parseProperties(processRequest(request));
-        return properties.getBoolean("success");
     }
 }
