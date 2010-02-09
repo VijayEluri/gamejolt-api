@@ -254,7 +254,12 @@ public class GameJolt {
      */
     public List<String> getGameDataKeys() {
         List<Properties> propertiesList = propertiesParser.parse(processRequest(requestFactory.buildGameDataKeysRequest()));
-        if (!propertiesList.get(0).getBoolean("success")) return new ArrayList<String>();
+        if (propertiesList.size() == 1) {
+            Properties properties = propertiesList.get(0);
+            if (!properties.getBoolean("success") || "".equals(properties.get("key")) || properties.get("key") == null) {
+                return new ArrayList<String>();
+            }
+        }
         List<String> keys = new ArrayList<String>();
         for (Properties properties : propertiesList) {
             keys.add(properties.get("key"));

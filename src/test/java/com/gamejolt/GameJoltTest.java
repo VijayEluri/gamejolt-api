@@ -64,6 +64,7 @@ public class GameJoltTest {
         when(response.isSuccessful()).thenReturn(true);
     }
 
+
     @Test
     public void test_getGameDataKeys_MultipleKeys() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
@@ -95,6 +96,19 @@ public class GameJoltTest {
 
     @Test
     public void test_getGameDataKeys_NoKeys() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+
+        when(response.getContentAsString()).thenReturn("content");
+        Properties properties = new Properties();
+        properties.put("success", "true");
+        properties.put("key", "");
+        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+
+        assertEquals(Arrays.asList(), gameJolt.getGameDataKeys());
+    }
+
+    @Test
+    public void test_getGameDataKeys_Failed() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
 
         when(response.getContentAsString()).thenReturn("content");
