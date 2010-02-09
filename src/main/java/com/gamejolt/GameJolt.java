@@ -23,6 +23,7 @@ import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
 import com.gamejolt.util.TrophyResponseParser;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static java.text.MessageFormat.format;
@@ -244,6 +245,21 @@ public class GameJolt {
      */
     public boolean removeGameData(String name) {
         return wasSuccessful(requestFactory.buildRemoveGameDataRequest(name));
+    }
+
+    /**
+     * Look up all the keys referencing game data
+     *
+     * @return a list containing all the keys to game data
+     */
+    public List<String> getGameDataKeys() {
+        List<Properties> propertiesList = propertiesParser.parse(processRequest(requestFactory.buildGameDataKeysRequest()));
+        if (!propertiesList.get(0).getBoolean("success")) return new ArrayList<String>();
+        List<String> keys = new ArrayList<String>();
+        for (Properties properties : propertiesList) {
+            keys.add(properties.get("key"));
+        }
+        return keys;
     }
 
     private boolean wasSuccessful(HttpRequest request) {

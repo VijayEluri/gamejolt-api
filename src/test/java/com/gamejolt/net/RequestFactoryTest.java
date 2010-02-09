@@ -40,6 +40,18 @@ public class RequestFactoryTest {
     }
 
     @Test
+    public void test_buildGameDataKeysRequest() {
+        Map<String, String> signatureParameters = new LinkedHashMap<String, String>();
+        signatureParameters.put("game_id", String.valueOf(GAME_ID) + PRIVATE_KEY);
+
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/data-store/get-keys", signatureParameters)).thenReturn("sign-hash");
+
+        HttpRequest request = factory.buildGameDataKeysRequest();
+
+        assertEquals("http://gamejolt.com/api/game/v1/data-store/get-keys?game_id=1111&signature=sign-hash", request.getUrl());
+    }
+
+    @Test
     public void test_buildRemoveGameDataRequest() {
         Map<String, String> signatureParameters = new LinkedHashMap<String, String>();
         signatureParameters.put("game_id", String.valueOf(GAME_ID));

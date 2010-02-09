@@ -159,6 +159,21 @@ public class RequestFactory {
         return request;
     }
 
+    public HttpRequest buildGameDataKeysRequest() {
+        String baseUrl = createUrl("data-store/get-keys");
+        HttpRequest request = new HttpRequest(baseUrl);
+
+        Map<String, String> parameters = createParameterMap();
+        parameters.put("game_id", String.valueOf(gameId));
+
+        Map<String, String> signatureParameters = new LinkedHashMap<String, String>(parameters);
+        signatureParameters.put("game_id", String.valueOf(gameId) + privateKey);
+
+        request.addParameters(parameters);
+        request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
+        return request;
+    }
+
     private Map<String, String> createUserSignatureParameterMap(String userToken, Map<String, String> existingParameters) {
         Map<String, String> signatureParameters = new LinkedHashMap<String, String>(existingParameters);
         signatureParameters.put("user_token", userToken + privateKey);

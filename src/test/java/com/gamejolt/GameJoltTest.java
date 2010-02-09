@@ -65,6 +65,47 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_getGameDataKeys_MultipleKeys() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+
+        when(response.getContentAsString()).thenReturn("content");
+        Properties properties = new Properties();
+        properties.put("success", "true");
+        properties.put("key", "key-value");
+
+        Properties properties2 = new Properties();
+        properties2.put("key", "key-value2");
+        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties, properties2));
+
+        assertEquals(Arrays.asList("key-value", "key-value2"), gameJolt.getGameDataKeys());
+    }
+
+    @Test
+    public void test_getGameDataKeys_SingleKey() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+
+        when(response.getContentAsString()).thenReturn("content");
+        Properties properties = new Properties();
+        properties.put("success", "true");
+        properties.put("key", "key-value");
+        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+
+        assertEquals(Arrays.asList("key-value"), gameJolt.getGameDataKeys());
+    }
+
+    @Test
+    public void test_getGameDataKeys_NoKeys() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+
+        when(response.getContentAsString()).thenReturn("content");
+        Properties properties = new Properties();
+        properties.put("success", "false");
+        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+
+        assertEquals(Arrays.asList(), gameJolt.getGameDataKeys());
+    }
+
+    @Test
     public void test_removeGameData() {
         when(requestFactory.buildRemoveGameDataRequest("name")).thenReturn(request);
         receivesResponse(response, true);
