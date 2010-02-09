@@ -108,4 +108,20 @@ public class RequestFactoryTest {
 
         assertEquals("http://gamejolt.com/api/game/v1/data-store/set?game_id=1111&data=data&key=name&signature=sign-hash", request.getUrl());
     }
+
+    @Test
+    public void test_buildStoreUserDataRequest() {
+        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        parameters.put("game_id", String.valueOf(GAME_ID));
+        parameters.put("username", "username");
+        parameters.put("data", "data");
+        parameters.put("key", "name");
+        parameters.put("user_token", "userToken" + PRIVATE_KEY);
+
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/data-store/set", parameters)).thenReturn("sign-hash");
+
+        HttpRequest request = factory.buildStoreUserDataRequest("username", "userToken", "name", "data");
+
+        assertEquals("http://gamejolt.com/api/game/v1/data-store/set?game_id=1111&username=username&data=data&key=name&user_token=userToken&signature=sign-hash", request.getUrl());
+    }
 }

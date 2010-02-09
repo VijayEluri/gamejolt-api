@@ -57,7 +57,47 @@ public class GameJoltTest {
     }
 
     @Test
-    public void test_storeData_GAME_String() {
+    public void test_storeUserData_UserNotVerified() {
+        try {
+            gameJolt.storeUserData("name", "data");
+            fail();
+        } catch (UnverifiedUserException err) {
+
+        }
+    }
+
+    @Test
+    public void test_storeUserData_Failed() {
+        hasAVerifiedUser("username", "userToken");
+
+        Properties properties = new Properties();
+        properties.put("success", "false");
+
+        when(requestFactory.buildStoreUserDataRequest("username", "userToken", "name", "data")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+
+        assertFalse(gameJolt.storeUserData("name", "data"));
+    }
+
+    @Test
+    public void test_storeUserData_String() {
+        hasAVerifiedUser("username", "userToken");
+
+        Properties properties = new Properties();
+        properties.put("success", "true");
+
+        when(requestFactory.buildStoreUserDataRequest("username", "userToken", "name", "data")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+
+        assertTrue(gameJolt.storeUserData("name", "data"));
+
+        verify(requestFactory).buildStoreUserDataRequest("username", "userToken", "name", "data");
+    }
+
+    @Test
+    public void test_storeGameData_String() {
         Properties properties = new Properties();
         properties.put("success", "true");
 
@@ -65,13 +105,13 @@ public class GameJoltTest {
         when(response.getContentAsString()).thenReturn("content");
         when(propertiesParser.parseProperties("content")).thenReturn(properties);
 
-        assertTrue(gameJolt.storeData(DatastoreType.GAME, "name", "data"));
+        assertTrue(gameJolt.storeGameData("name", "data"));
 
         verify(requestFactory).buildStoreGameDataRequest("name", "data");
     }
 
     @Test
-    public void test_storeData_GAME_Failed() {
+    public void test_storeGameData_Failed() {
         Properties properties = new Properties();
         properties.put("success", "false");
         properties.put("message", "Server error message");
@@ -80,8 +120,7 @@ public class GameJoltTest {
         when(response.getContentAsString()).thenReturn("content");
         when(propertiesParser.parseProperties("content")).thenReturn(properties);
 
-        assertFalse(gameJolt.storeData(DatastoreType.GAME, "name", "data"));
-
+        assertFalse(gameJolt.storeGameData("name", "data"));
     }
 
     @Test

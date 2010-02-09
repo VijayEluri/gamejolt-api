@@ -190,8 +190,15 @@ public class GameJolt {
         return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
     }
 
-    public boolean storeData(DatastoreType type, String name, String data) {
+    public boolean storeGameData(String name, String data) {
         HttpRequest request = requestFactory.buildStoreGameDataRequest(name, data);
+        Properties properties = propertiesParser.parseProperties(processRequest(request));
+        return properties.getBoolean("success");
+    }
+
+    public boolean storeUserData(String name, String data) throws UnverifiedUserException {
+        if (!verified) throw new UnverifiedUserException();
+        HttpRequest request = requestFactory.buildStoreUserDataRequest(username, userToken, name, data);
         Properties properties = propertiesParser.parseProperties(processRequest(request));
         return properties.getBoolean("success");
     }
