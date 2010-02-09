@@ -17,7 +17,11 @@ import com.gamejolt.GameJoltException;
 
 import java.io.*;
 
-
+/**
+ * This implementation of the ObjectSerializer is using the Java Object serialization mechanism.
+ * <p/>
+ * For anyone new to this you can learn more here: http://java.sun.com/developer/technicalArticles/Programming/serialization/
+ */
 public class StandardJavaObjectSerializer implements ObjectSerializer {
     public byte[] serialize(Object obj) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

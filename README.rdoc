@@ -2,6 +2,7 @@
 - access to available trophies (earned/unearned)
 - access to achieve a trophy
 - supports gzip & deflate compression
+- supports custom serialization of user/game data
 
 == Example Usage
 

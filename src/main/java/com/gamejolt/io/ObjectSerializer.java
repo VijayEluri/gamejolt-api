@@ -13,9 +13,23 @@
 
 package com.gamejolt.io;
 
-
+/**
+ * This class is used for serializing an object to and from bytes
+ */
 public interface ObjectSerializer {
+    /**
+     * Serializes the given object to a byte array
+     *
+     * @param obj - object to be serialized
+     * @return the bytes that make up the given object
+     */
     byte[] serialize(Object obj);
 
+    /**
+     * Deserializes the given byte array back to an Object
+     *
+     * @param data - the bytes to be deserialized
+     * @return the object that makes up the given bytes
+     */
     Object deserialize(byte[] data);
 }
