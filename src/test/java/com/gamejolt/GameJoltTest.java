@@ -64,7 +64,6 @@ public class GameJoltTest {
         when(response.isSuccessful()).thenReturn(true);
     }
 
-
     @Test
     public void test_getGameDataKeys_MultipleKeys() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
@@ -82,6 +81,23 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_getUserDataKeys_MultipleKeys() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+
+        when(response.getContentAsString()).thenReturn("content");
+        Properties properties = new Properties();
+        properties.put("success", "true");
+        properties.put("key", "key-value");
+
+        Properties properties2 = new Properties();
+        properties2.put("key", "key-value2");
+        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties, properties2));
+
+        assertEquals(Arrays.asList("key-value", "key-value2"), gameJolt.getUserDataKeys());
+    }
+
+    @Test
     public void test_getGameDataKeys_SingleKey() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
 
@@ -92,6 +108,20 @@ public class GameJoltTest {
         when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
 
         assertEquals(Arrays.asList("key-value"), gameJolt.getGameDataKeys());
+    }
+
+    @Test
+    public void test_getUserDataKeys_SingleKey() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+
+        when(response.getContentAsString()).thenReturn("content");
+        Properties properties = new Properties();
+        properties.put("success", "true");
+        properties.put("key", "key-value");
+        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+
+        assertEquals(Arrays.asList("key-value"), gameJolt.getUserDataKeys());
     }
 
     @Test
@@ -108,6 +138,20 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_getUserDataKeys_NoKeys() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+
+        when(response.getContentAsString()).thenReturn("content");
+        Properties properties = new Properties();
+        properties.put("success", "true");
+        properties.put("key", "");
+        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+
+        assertEquals(Arrays.asList(), gameJolt.getUserDataKeys());
+    }
+
+    @Test
     public void test_getGameDataKeys_Failed() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
 
@@ -117,6 +161,30 @@ public class GameJoltTest {
         when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
 
         assertEquals(Arrays.asList(), gameJolt.getGameDataKeys());
+    }
+
+    @Test
+    public void test_getUserDataKeys_Failed() {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+
+        when(response.getContentAsString()).thenReturn("content");
+        Properties properties = new Properties();
+        properties.put("success", "false");
+        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+
+        assertEquals(Arrays.asList(), gameJolt.getUserDataKeys());
+    }
+
+    @Test
+    public void test_getUserDataKeys_Unverified() {
+        try {
+            gameJolt.getUserDataKeys();
+            fail();
+        } catch (UnverifiedUserException err) {
+
+        }
     }
 
     @Test

@@ -253,18 +253,17 @@ public class GameJolt {
      * @return a list containing all the keys to game data
      */
     public List<String> getGameDataKeys() {
-        List<Properties> propertiesList = propertiesParser.parse(processRequest(requestFactory.buildGameDataKeysRequest()));
-        if (propertiesList.size() == 1) {
-            Properties properties = propertiesList.get(0);
-            if (!properties.getBoolean("success") || "".equals(properties.get("key")) || properties.get("key") == null) {
-                return new ArrayList<String>();
-            }
-        }
-        List<String> keys = new ArrayList<String>();
-        for (Properties properties : propertiesList) {
-            keys.add(properties.get("key"));
-        }
-        return keys;
+        return processKeys(requestFactory.buildGameDataKeysRequest());
+    }
+
+    /**
+     * Look up all the keys referencing user data
+     *
+     * @return a list containing all the keys to user data
+     */
+    public List<String> getUserDataKeys() throws UnverifiedUserException {
+        if (!verified) throw new UnverifiedUserException();
+        return processKeys(requestFactory.buildUserDataKeysRequest(username, userToken));
     }
 
     private boolean wasSuccessful(HttpRequest request) {
@@ -323,4 +322,18 @@ public class GameJolt {
         return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
     }
 
+    private List<String> processKeys(HttpRequest request) {
+        List<Properties> propertiesList = propertiesParser.parse(processRequest(request));
+        if (propertiesList.size() == 1) {
+            Properties properties = propertiesList.get(0);
+            if (!properties.getBoolean("success") || "".equals(properties.get("key")) || properties.get("key") == null) {
+                return new ArrayList<String>();
+            }
+        }
+        List<String> keys = new ArrayList<String>();
+        for (Properties properties : propertiesList) {
+            keys.add(properties.get("key"));
+        }
+        return keys;
+    }
 }
