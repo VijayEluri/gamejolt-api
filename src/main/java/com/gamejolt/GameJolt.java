@@ -229,6 +229,20 @@ public class GameJolt {
         return storeGameData(name, binarySanitizer.sanitize(bytes));
     }
 
+    /**
+     * Remove user data with the given name
+     *
+     * @param name - the name of the data to be removed
+     * @return <p>true - was successfully removed</p>
+     *         <p>false - was not removed or does not exist</p>
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
+    public boolean removeUserData(String name) throws UnverifiedUserException {
+        if (!verified) throw new UnverifiedUserException();
+        Properties properties = propertiesParser.parseProperties(processRequest(requestFactory.buildRemoveUserDataRequest(username, userToken, name)));
+        return properties.getBoolean("success");
+    }
+
     public void setObjectSerializer(com.gamejolt.io.ObjectSerializer objectSerializer) {
         this.objectSerializer = objectSerializer;
     }

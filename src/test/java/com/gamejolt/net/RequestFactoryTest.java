@@ -40,6 +40,21 @@ public class RequestFactoryTest {
     }
 
     @Test
+    public void test_buildRemoveUserDataRequest() {
+        Map<String, String> signatureParameters = new LinkedHashMap<String, String>();
+        signatureParameters.put("game_id", String.valueOf(GAME_ID));
+        signatureParameters.put("username", "username");
+        signatureParameters.put("user_token", "userToken" + PRIVATE_KEY);
+        signatureParameters.put("key", "name");
+
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/data-store/remove", signatureParameters)).thenReturn("sign-hash");
+
+        HttpRequest request = factory.buildRemoveUserDataRequest("username", "userToken", "name");
+
+        assertEquals("http://gamejolt.com/api/game/v1/data-store/remove?game_id=1111&username=username&key=name&user_token=userToken&signature=sign-hash", request.getUrl());
+    }
+
+    @Test
     public void test_buildVerifyUserRequest_DifferentVersion() {
         Map<String, String> signatureParameters = new LinkedHashMap<String, String>();
         signatureParameters.put("game_id", String.valueOf(GAME_ID));

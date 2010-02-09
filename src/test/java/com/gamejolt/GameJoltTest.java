@@ -65,6 +65,36 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_removeUserData_Failed() {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildRemoveUserDataRequest("username", "userToken", "name")).thenReturn(request);
+        receivesResponse(response, false);
+
+        assertFalse(gameJolt.removeUserData("name"));
+    }
+
+    @Test
+    public void test_removeUserData() {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildRemoveUserDataRequest("username", "userToken", "name")).thenReturn(request);
+        receivesResponse(response, true);
+
+        assertTrue(gameJolt.removeUserData("name"));
+    }
+
+    @Test
+    public void test_removeUserData_UserNotVerified() {
+        try {
+            gameJolt.removeUserData("name");
+            fail();
+        } catch (UnverifiedUserException e) {
+
+        }
+    }
+
+    @Test
     public void test_storeUserData_UserNotVerified() {
         try {
             gameJolt.storeUserData("name", "data");
@@ -78,15 +108,12 @@ public class GameJoltTest {
     public void test_storeUserData_Failed() {
         hasAVerifiedUser("username", "userToken");
 
-        Properties properties = new Properties();
-        properties.put("success", "false");
-
         when(requestFactory.buildStoreUserDataRequest("username", "userToken", "name", "data")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        receivesResponse(response, false);
 
         assertFalse(gameJolt.storeUserData("name", "data"));
     }
+
 
     @Test
     public void test_storeUserData_String() {
@@ -371,7 +398,7 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildAchievedTrophyRequest("username", "userToken", "1234")).thenReturn(request);
-        receivesSuccessfulResponse(response, true);
+        receivesResponse(response, true);
 
         assertTrue(gameJolt.achievedTrophy(1234));
     }
@@ -381,7 +408,7 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildAchievedTrophyRequest("username", "userToken", "1234")).thenReturn(request);
-        receivesSuccessfulResponse(response, false);
+        receivesResponse(response, false);
 
         assertFalse(gameJolt.achievedTrophy(1234));
     }
@@ -389,7 +416,7 @@ public class GameJoltTest {
     @Test
     public void test_verifyUser_NotVerified() {
         when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
-        receivesSuccessfulResponse(response, false);
+        receivesResponse(response, false);
 
         assertFalse(gameJolt.verifyUser("username", "userToken"));
     }
@@ -397,7 +424,7 @@ public class GameJoltTest {
     @Test
     public void test_verifyUser_Verified() {
         when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
-        receivesSuccessfulResponse(response, true);
+        receivesResponse(response, true);
 
         assertTrue(gameJolt.verifyUser("username", "userToken"));
     }
@@ -405,7 +432,7 @@ public class GameJoltTest {
     @Test
     public void test_verifyUser_AlreadyVerified() {
         when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
-        receivesSuccessfulResponse(response, true);
+        receivesResponse(response, true);
 
         assertTrue(gameJolt.verifyUser("username", "userToken"));
         assertTrue(gameJolt.verifyUser("username", "userToken"));
@@ -418,7 +445,7 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildVerifyUserRequest("different", "userToken")).thenReturn(request);
-        receivesSuccessfulResponse(response, false);
+        receivesResponse(response, false);
 
         assertFalse(gameJolt.verifyUser("different", "userToken"));
     }
@@ -428,7 +455,7 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildVerifyUserRequest("username", "differentUserToken")).thenReturn(request);
-        receivesSuccessfulResponse(response, false);
+        receivesResponse(response, false);
 
         assertFalse(gameJolt.verifyUser("username", "differentUserToken"));
     }
@@ -439,12 +466,12 @@ public class GameJoltTest {
         when(requestFactory.buildVerifyUserRequest(username, userToken)).thenReturn(httpRequest);
         when(httpRequest.doGet()).thenReturn(httpResponse);
         when(httpResponse.isSuccessful()).thenReturn(true);
-        receivesSuccessfulResponse(httpResponse, true);
+        receivesResponse(httpResponse, true);
 
         assertTrue(gameJolt.verifyUser(username, userToken));
     }
 
-    private void receivesSuccessfulResponse(HttpResponse httpResponse, boolean successful) {
+    private void receivesResponse(HttpResponse httpResponse, boolean successful) {
         when(httpResponse.getContentAsString()).thenReturn("content");
         Properties properties = new Properties();
         properties.put("success", String.valueOf(successful));

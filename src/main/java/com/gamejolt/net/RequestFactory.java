@@ -130,6 +130,19 @@ public class RequestFactory {
         return request;
     }
 
+    public HttpRequest buildRemoveUserDataRequest(String username, String userToken, String name) {
+        String baseUrl = createUrl("data-store/remove");
+        HttpRequest request = new HttpRequest(baseUrl);
+
+        Map<String, String> parameters = createInitialUserParameterMap(username);
+        parameters.put("key", name);
+        parameters.put("user_token", userToken);
+
+        request.addParameters(parameters);
+        request.addParameter("signature", signatureFactory.build(baseUrl, createUserSignatureParameterMap(userToken, parameters)));
+        return request;
+    }
+
     private Map<String, String> createUserSignatureParameterMap(String userToken, Map<String, String> existingParameters) {
         Map<String, String> signatureParameters = new LinkedHashMap<String, String>(existingParameters);
         signatureParameters.put("user_token", userToken + privateKey);
