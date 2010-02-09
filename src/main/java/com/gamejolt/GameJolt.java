@@ -77,8 +77,7 @@ public class GameJolt {
             return true;
         }
         HttpRequest request = requestFactory.buildVerifyUserRequest(username, userToken);
-        Properties properties = propertiesParser.parseProperties(processRequest(request));
-        verified = properties.getBoolean("success");
+        verified = wasSuccessful(request);
         if (verified) {
             this.username = username;
             this.userToken = userToken;
@@ -98,9 +97,7 @@ public class GameJolt {
         if (!verified) {
             throw new UnverifiedUserException();
         }
-        HttpRequest request = requestFactory.buildAchievedTrophyRequest(username, userToken, String.valueOf(trophyId));
-        Properties properties = propertiesParser.parseProperties(processRequest(request));
-        return properties.getBoolean("success");
+        return wasSuccessful(requestFactory.buildAchievedTrophyRequest(username, userToken, String.valueOf(trophyId)));
     }
 
     /**
@@ -170,9 +167,7 @@ public class GameJolt {
      */
     public boolean storeGameData(String name, String data) {
         if (data == null) throw new NullPointerException(format(STORE_NULL_OBJECT, "removeGameData"));
-        HttpRequest request = requestFactory.buildStoreGameDataRequest(name, data);
-        Properties properties = propertiesParser.parseProperties(processRequest(request));
-        return properties.getBoolean("success");
+        return wasSuccessful(requestFactory.buildStoreGameDataRequest(name, data));
     }
 
     /**
@@ -188,9 +183,7 @@ public class GameJolt {
         if (data == null) {
             throw new NullPointerException(format(STORE_NULL_OBJECT, "removeUserData"));
         }
-        HttpRequest request = requestFactory.buildStoreUserDataRequest(username, userToken, name, data);
-        Properties properties = propertiesParser.parseProperties(processRequest(request));
-        return properties.getBoolean("success");
+        return wasSuccessful(requestFactory.buildStoreUserDataRequest(username, userToken, name, data));
     }
 
     /**
@@ -239,7 +232,22 @@ public class GameJolt {
      */
     public boolean removeUserData(String name) throws UnverifiedUserException {
         if (!verified) throw new UnverifiedUserException();
-        Properties properties = propertiesParser.parseProperties(processRequest(requestFactory.buildRemoveUserDataRequest(username, userToken, name)));
+        return wasSuccessful(requestFactory.buildRemoveUserDataRequest(username, userToken, name));
+    }
+
+    /**
+     * Remove game data with the given name
+     *
+     * @param name - the name of the data to be removed
+     * @return <p>true - was successfully removed</p>
+     *         <p>false - was not removed or does not exist</p>
+     */
+    public boolean removeGameData(String name) {
+        return wasSuccessful(requestFactory.buildRemoveGameDataRequest(name));
+    }
+
+    private boolean wasSuccessful(HttpRequest request) {
+        Properties properties = propertiesParser.parseProperties(processRequest(request));
         return properties.getBoolean("success");
     }
 

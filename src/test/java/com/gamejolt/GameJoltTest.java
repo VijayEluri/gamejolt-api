@@ -65,6 +65,22 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_removeGameData() {
+        when(requestFactory.buildRemoveGameDataRequest("name")).thenReturn(request);
+        receivesResponse(response, true);
+
+        assertTrue(gameJolt.removeGameData("name"));
+    }
+
+    @Test
+    public void test_removeGameData_Failed() {
+        when(requestFactory.buildRemoveGameDataRequest("name")).thenReturn(request);
+        receivesResponse(response, false);
+
+        assertFalse(gameJolt.removeGameData("name"));
+    }
+
+    @Test
     public void test_removeUserData_Failed() {
         hasAVerifiedUser("username", "userToken");
 
