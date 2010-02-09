@@ -27,7 +27,7 @@ public class RequestFactory {
     private String version = DEFAULT_VERSION;
 
     public RequestFactory(int gameId, String privateKey) {
-        this(gameId, privateKey, new SignatureFactory(privateKey));
+        this(gameId, privateKey, new SignatureFactory());
     }
 
     protected RequestFactory(int gameId, String privateKey, SignatureFactory signatureFactory) {
@@ -40,12 +40,15 @@ public class RequestFactory {
         String baseUrl = createUrl("users/auth/");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
         parameters.put("username", username);
 
+        Map<String, String> signatureParameters = createParameterMap(parameters);
+        signatureParameters.put("user_token", userToken + privateKey);
+
         request.addParameters(parameters);
-        request.addParameter("signature", signatureFactory.build(baseUrl, parameters, userToken));
+        request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
         request.addParameter("user_token", userToken);
         return request;
     }
@@ -54,13 +57,16 @@ public class RequestFactory {
         String baseUrl = createUrl("trophies/add-achieved");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
         parameters.put("username", username);
         parameters.put("trophy_id", trophyId);
 
+        Map<String, String> signatureParameters = createParameterMap(parameters);
+        signatureParameters.put("user_token", userToken + privateKey);
+
         request.addParameters(parameters);
-        request.addParameter("signature", signatureFactory.build(baseUrl, parameters, userToken));
+        request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
         request.addParameter("user_token", userToken);
         return request;
     }
@@ -69,13 +75,16 @@ public class RequestFactory {
         String baseUrl = createUrl("trophies/");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
         parameters.put("username", username);
         parameters.put("trophy_id", trophyId);
 
+        Map<String, String> signatureParameters = createParameterMap(parameters);
+        signatureParameters.put("user_token", userToken + privateKey);
+
         request.addParameters(parameters);
-        request.addParameter("signature", signatureFactory.build(baseUrl, parameters, userToken));
+        request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
         request.addParameter("user_token", userToken);
         return request;
     }
@@ -84,13 +93,16 @@ public class RequestFactory {
         String baseUrl = createUrl("trophies/");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
         parameters.put("username", username);
         parameters.put("achieved", achieved);
 
+        Map<String, String> signatureParameters = createParameterMap(parameters);
+        signatureParameters.put("user_token", userToken + privateKey);
+
         request.addParameters(parameters);
-        request.addParameter("signature", signatureFactory.build(baseUrl, parameters, userToken));
+        request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
         request.addParameter("user_token", userToken);
         return request;
     }
@@ -99,18 +111,11 @@ public class RequestFactory {
         this.version = version;
     }
 
-    private String createUrl(String method) {
-        StringBuilder builder = new StringBuilder(BASE_URL);
-        builder.append("v").append(version).append("/");
-        builder.append(method);
-        return builder.toString();
-    }
-
     public HttpRequest buildStoreGameDataRequest(String name, String data) {
         String baseUrl = createUrl("data-store/set");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
         parameters.put("data", data);
         parameters.put("key", name);
@@ -127,7 +132,7 @@ public class RequestFactory {
         String baseUrl = createUrl("data-store/set");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = new LinkedHashMap<String, String>();
+        Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
         parameters.put("username", username);
         parameters.put("data", data);
@@ -140,5 +145,20 @@ public class RequestFactory {
         request.addParameters(parameters);
         request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
         return request;
+    }
+
+    private String createUrl(String method) {
+        StringBuilder builder = new StringBuilder(BASE_URL);
+        builder.append("v").append(version).append("/");
+        builder.append(method);
+        return builder.toString();
+    }
+
+    private Map<String, String> createParameterMap() {
+        return new LinkedHashMap<String, String>();
+    }
+
+    private Map<String, String> createParameterMap(Map<String, String> existing) {
+        return new LinkedHashMap<String, String>(existing);
     }
 }

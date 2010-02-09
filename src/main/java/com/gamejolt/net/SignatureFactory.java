@@ -20,18 +20,6 @@ import java.util.Map;
 
 public class SignatureFactory {
     private Checksum checksum = new Checksum();
-    private String privateKey;
-
-    public SignatureFactory(String privateKey) {
-        this.privateKey = privateKey;
-    }
-
-    public String build(String baseUrl, Map<String, String> parameters, String userToken) {
-        QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
-        queryStringBuilder.parameters(parameters);
-        queryStringBuilder.parameter("user_token", userToken + privateKey);
-        return checksum.md5(baseUrl + queryStringBuilder.toString());
-    }
 
     public String build(String baseUrl, Map<String, String> parameters) {
         QueryStringBuilder queryStringBuilder = new QueryStringBuilder();

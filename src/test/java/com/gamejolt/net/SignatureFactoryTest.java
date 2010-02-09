@@ -33,19 +33,19 @@ public class SignatureFactoryTest {
     public void setUp() throws Exception {
         checksum = mock(Checksum.class);
 
-        factory = new SignatureFactory("private-key");
+        factory = new SignatureFactory();
         factory.setChecksum(checksum);
     }
 
     @Test
     public void test() {
-        when(checksum.md5("http://gamejolt.com/api/game/v1/users/auth/?game_id=1111&username=player&user_token=player-tokenprivate-key")).thenReturn("signature-hash");
+        when(checksum.md5("http://gamejolt.com/api/game/v1/users/auth/?game_id=1111&username=player")).thenReturn("signature-hash");
 
         Map<String, String> parameters = new LinkedHashMap<String, String>();
         parameters.put("game_id", "1111");
         parameters.put("username", "player");
 
-        assertEquals("signature-hash", factory.build("http://gamejolt.com/api/game/v1/users/auth/", parameters, "player-token"));
+        assertEquals("signature-hash", factory.build("http://gamejolt.com/api/game/v1/users/auth/", parameters));
     }
 
 }
