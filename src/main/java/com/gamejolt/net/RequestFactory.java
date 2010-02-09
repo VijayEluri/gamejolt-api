@@ -40,12 +40,9 @@ public class RequestFactory {
         String baseUrl = createUrl("users/auth/");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = createParameterMap();
-        parameters.put("game_id", String.valueOf(gameId));
-        parameters.put("username", username);
+        Map<String, String> parameters = createInitialUserParameterMap(username);
 
-        Map<String, String> signatureParameters = createParameterMap(parameters);
-        signatureParameters.put("user_token", userToken + privateKey);
+        Map<String, String> signatureParameters = createUserSignatureParameterMap(userToken, parameters);
 
         request.addParameters(parameters);
         request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
@@ -57,13 +54,10 @@ public class RequestFactory {
         String baseUrl = createUrl("trophies/add-achieved");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = createParameterMap();
-        parameters.put("game_id", String.valueOf(gameId));
-        parameters.put("username", username);
+        Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("trophy_id", trophyId);
 
-        Map<String, String> signatureParameters = createParameterMap(parameters);
-        signatureParameters.put("user_token", userToken + privateKey);
+        Map<String, String> signatureParameters = createUserSignatureParameterMap(userToken, parameters);
 
         request.addParameters(parameters);
         request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
@@ -75,13 +69,10 @@ public class RequestFactory {
         String baseUrl = createUrl("trophies/");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = createParameterMap();
-        parameters.put("game_id", String.valueOf(gameId));
-        parameters.put("username", username);
+        Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("trophy_id", trophyId);
 
-        Map<String, String> signatureParameters = createParameterMap(parameters);
-        signatureParameters.put("user_token", userToken + privateKey);
+        Map<String, String> signatureParameters = createUserSignatureParameterMap(userToken, parameters);
 
         request.addParameters(parameters);
         request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
@@ -93,13 +84,10 @@ public class RequestFactory {
         String baseUrl = createUrl("trophies/");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = createParameterMap();
-        parameters.put("game_id", String.valueOf(gameId));
-        parameters.put("username", username);
+        Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("achieved", achieved);
 
-        Map<String, String> signatureParameters = createParameterMap(parameters);
-        signatureParameters.put("user_token", userToken + privateKey);
+        Map<String, String> signatureParameters = createUserSignatureParameterMap(userToken, parameters);
 
         request.addParameters(parameters);
         request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
@@ -132,19 +120,27 @@ public class RequestFactory {
         String baseUrl = createUrl("data-store/set");
         HttpRequest request = new HttpRequest(baseUrl);
 
-        Map<String, String> parameters = createParameterMap();
-        parameters.put("game_id", String.valueOf(gameId));
-        parameters.put("username", username);
+        Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("data", data);
         parameters.put("key", name);
         parameters.put("user_token", userToken);
 
-        Map<String, String> signatureParameters = new LinkedHashMap<String, String>(parameters);
-        signatureParameters.put("user_token", userToken + privateKey);
-
         request.addParameters(parameters);
-        request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
+        request.addParameter("signature", signatureFactory.build(baseUrl, createUserSignatureParameterMap(userToken, parameters)));
         return request;
+    }
+
+    private Map<String, String> createUserSignatureParameterMap(String userToken, Map<String, String> existingParameters) {
+        Map<String, String> signatureParameters = new LinkedHashMap<String, String>(existingParameters);
+        signatureParameters.put("user_token", userToken + privateKey);
+        return signatureParameters;
+    }
+
+    private Map<String, String> createInitialUserParameterMap(String username) {
+        Map<String, String> parameters = createParameterMap();
+        parameters.put("game_id", String.valueOf(gameId));
+        parameters.put("username", username);
+        return parameters;
     }
 
     private String createUrl(String method) {
@@ -158,7 +154,4 @@ public class RequestFactory {
         return new LinkedHashMap<String, String>();
     }
 
-    private Map<String, String> createParameterMap(Map<String, String> existing) {
-        return new LinkedHashMap<String, String>(existing);
-    }
 }
