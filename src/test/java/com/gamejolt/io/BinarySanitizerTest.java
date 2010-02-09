@@ -19,7 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 
 public class BinarySanitizerTest {
-    private static final String ENCODED = "c3RyaW5nLWRhdGE=";
+    private static final String ENCODED = "H4sIAAAAAAAAACsuKcrMS9dNSSxJBACvP4qZCwAAAA==";
     private static final String DECODED = "string-data";
 
     @Test

@@ -13,17 +13,57 @@
 
 package com.gamejolt.io;
 
+import com.gamejolt.GameJoltException;
 import org.apache.commons.codec.binary.Base64;
+
+import java.io.*;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 
 public class BinarySanitizer {
     private Base64 encoder = new Base64();
 
     public String sanitize(byte[] data) {
-        return new String(encoder.encode(data));
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        OutputStream output = null;
+        try {
+            output = new GZIPOutputStream(baos);
+            output.write(data);
+            output.flush();
+        } catch (IOException err) {
+            throw new GameJoltException(err);
+        } finally {
+            try {
+                if (output != null) output.close();
+            } catch (IOException e) {
+
+            }
+        }
+        return new String(encoder.encode(baos.toByteArray()));
     }
 
     public byte[] unsanitize(String data) {
-        return encoder.decode(data.getBytes());
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        ByteArrayInputStream bais = new ByteArrayInputStream(encoder.decode(data.getBytes()));
+
+        InputStream input = null;
+        try {
+            input = new GZIPInputStream(bais);
+            byte[] buffer = new byte[2048];
+            int len = -1;
+            while ((len = input.read(buffer)) != -1) {
+                baos.write(buffer, 0, len);
+            }
+        } catch (IOException err) {
+
+        } finally {
+            try {
+                if (input != null) input.close();
+            } catch (IOException e) {
+
+            }
+        }
+        return baos.toByteArray();
     }
 }
