@@ -160,6 +160,14 @@ public class GameJolt {
         this.verbose = verbose;
     }
 
+    /**
+     * Store data in the format of a java.lang.String specific to the game
+     *
+     * @param name - the name given to the data
+     * @param data - the data to be stored
+     * @return <p>true - successfully stored data</p>
+     *         <p>false - failed to store the data</p>
+     */
     public boolean storeGameData(String name, String data) {
         if (data == null) throw new NullPointerException(format(STORE_NULL_OBJECT, "removeGameData"));
         HttpRequest request = requestFactory.buildStoreGameDataRequest(name, data);
@@ -167,6 +175,14 @@ public class GameJolt {
         return properties.getBoolean("success");
     }
 
+    /**
+     * Store data in the format of a java.lang.String specific to the user
+     *
+     * @param name - the name given to the data
+     * @param data - the data to be stored
+     * @return <p>true - successfully stored data</p>
+     *         <p>false - failed to store the data</p>
+     */
     public boolean storeUserData(String name, String data) throws UnverifiedUserException {
         if (!verified) throw new UnverifiedUserException();
         if (data == null) {
@@ -177,6 +193,14 @@ public class GameJolt {
         return properties.getBoolean("success");
     }
 
+    /**
+     * Store data in the form of a custom object specific to the user
+     *
+     * @param name - the name given to the data
+     * @param data - the data to be stored
+     * @return <p>true - successfully stored data</p>
+     *         <p>false - failed to store the data</p>
+     */
     public boolean storeUserData(String name, Object data) throws UnverifiedUserException {
         if (data == null) {
             throw new NullPointerException(format(STORE_NULL_OBJECT, "removeUserData"));
@@ -188,6 +212,14 @@ public class GameJolt {
         return storeUserData(name, binarySanitizer.sanitize(bytes));
     }
 
+    /**
+     * Store data in the form of a custom object specific to the game
+     *
+     * @param name - the name given to the data
+     * @param data - the data to be stored
+     * @return <p>true - successfully stored data</p>
+     *         <p>false - failed to store the data</p>
+     */
     public boolean storeGameData(String name, Object data) {
         if (data == null) throw new NullPointerException(format(STORE_NULL_OBJECT, "removeGameData"));
         byte[] bytes = objectSerializer.serialize(data);
