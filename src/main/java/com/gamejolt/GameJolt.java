@@ -178,6 +178,7 @@ public class GameJolt {
      * @param data - the data to be stored
      * @return <p>true - successfully stored data</p>
      *         <p>false - failed to store the data</p>
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public boolean storeUserData(String name, String data) throws UnverifiedUserException {
         if (!verified) throw new UnverifiedUserException();
@@ -194,6 +195,7 @@ public class GameJolt {
      * @param data - the data to be stored
      * @return <p>true - successfully stored data</p>
      *         <p>false - failed to store the data</p>
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public boolean storeUserData(String name, Object data) throws UnverifiedUserException {
         if (data == null) {
@@ -260,6 +262,7 @@ public class GameJolt {
      * Look up all the keys referencing user data
      *
      * @return a list containing all the keys to user data
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public List<String> getUserDataKeys() throws UnverifiedUserException {
         if (!verified) throw new UnverifiedUserException();
