@@ -15,6 +15,7 @@ package com.gamejolt;
 
 import com.gamejolt.io.BinarySanitizer;
 import com.gamejolt.io.ObjectSerializer;
+import com.gamejolt.io.StandardJavaObjectSerializer;
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
@@ -39,7 +40,7 @@ public class GameJolt {
     private String username;
     private String userToken;
     private TrophyResponseParser trophyParser;
-    private PropertiesParser propertiesParser = new PropertiesParser();
+    private PropertiesParser propertiesParser;
     private ObjectSerializer objectSerializer;
     private BinarySanitizer binarySanitizer;
 
@@ -58,6 +59,9 @@ public class GameJolt {
         this.privateKey = privateKey;
         this.requestFactory = new RequestFactory(gameId, this.privateKey);
         this.trophyParser = new TrophyResponseParser();
+        this.propertiesParser = new PropertiesParser();
+        this.binarySanitizer = new BinarySanitizer();
+        this.objectSerializer = new StandardJavaObjectSerializer();
     }
 
     /**

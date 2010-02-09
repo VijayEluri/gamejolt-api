@@ -13,17 +13,21 @@
 
 package com.gamejolt.io;
 
-import org.apache.commons.codec.binary.Base64;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
 
 
-public class BinarySanitizer {
-    private Base64 encoder = new Base64();
+public class BinarySanitizerTest {
+    private static final String ENCODED = "c3RyaW5nLWRhdGE=";
+    private static final String DECODED = "string-data";
 
-    public String sanitize(byte[] data) {
-        return new String(encoder.encode(data));
+    @Test
+    public void test() {
+        BinarySanitizer sanitizer = new BinarySanitizer();
+
+        assertEquals(ENCODED, sanitizer.sanitize(DECODED.getBytes()));
+        assertEquals(DECODED, new String(sanitizer.unsanitize(ENCODED)));
     }
 
-    public byte[] unsanitize(String data) {
-        return encoder.decode(data.getBytes());
-    }
 }
