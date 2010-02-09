@@ -3,6 +3,7 @@
 - access to achieve a trophy
 - supports gzip & deflate compression
 - supports custom serialization of user/game data
+- access to save/read/remove data for users or your game
 
 == Example Usage
 
