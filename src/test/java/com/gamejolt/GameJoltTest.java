@@ -28,6 +28,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -44,6 +45,8 @@ public class GameJoltTest {
     private BinarySanitizer binarySanitizer;
     private Properties properties;
     private static final String RESPONSE_CONTENT = "content";
+    private static final byte[] DATA = new byte[0];
+    private static final Object OUR_OBJECT = new Object();
 
     @Before
     public void setUp() throws Exception {
@@ -69,6 +72,56 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_loadAllGameData_MultipleKeys() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+        when(requestFactory.buildGetGameDataRequest("key1")).thenReturn(request);
+        when(requestFactory.buildGetGameDataRequest("key2")).thenReturn(request);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key1", "key2"));
+        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT, "Success\r\ndata-stored", "Success\r\ndata-stored");
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
+        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+
+        Map<String, Object> data = gameJolt.loadAllGameData();
+
+        assertEquals(2, data.size());
+        assertSame(OUR_OBJECT, data.get("key1"));
+        assertSame(OUR_OBJECT, data.get("key2"));
+
+        verify(binarySanitizer, times(2)).unsanitize("data-stored");
+        verify(objectSerializer, times(2)).deserialize(DATA);
+    }
+
+    @Test
+    public void test_loadAllGameData_SingleKey() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+        when(requestFactory.buildGetGameDataRequest("key1")).thenReturn(request);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key1"));
+        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT, "Success\r\ndata-stored");
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
+        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+
+        Map<String, Object> data = gameJolt.loadAllGameData();
+
+        assertNotNull(data);
+        assertEquals(1, data.size());
+        assertSame(OUR_OBJECT, data.get("key1"));
+    }
+
+    @Test
+    public void test_loadAllGameData_NoKeys() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(new ArrayList());
+        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT);
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
+        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+
+        Map<String, Object> data = gameJolt.loadAllGameData();
+        assertNotNull(data);
+        assertEquals(0, data.size());
+        verifyZeroInteractions(binarySanitizer, objectSerializer);
+    }
+
+    @Test
     public void test_getGameData_NoMatchingObject() {
         when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
         when(response.getContentAsString()).thenReturn("FAILURE\nerror message");
@@ -80,31 +133,25 @@ public class GameJoltTest {
 
     @Test
     public void test_getGameData_MatchingObject_WindowsLineEndings() {
-        byte[] data = new byte[0];
-        Object ourObject = new Object();
-
         when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
         when(response.getContentAsString()).thenReturn("Success\r\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(data);
-        when(objectSerializer.deserialize(data)).thenReturn(ourObject);
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
+        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
 
-        assertSame(ourObject, gameJolt.getGameData("key-value"));
+        assertSame(OUR_OBJECT, gameJolt.getGameData("key-value"));
     }
 
     @Test
     public void test_getGameData_MatchingObject_UnixLineEndings() {
-        byte[] data = new byte[0];
-        Object ourObject = new Object();
-
         when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
         when(response.getContentAsString()).thenReturn("Success\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(data);
-        when(objectSerializer.deserialize(data)).thenReturn(ourObject);
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
+        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
 
         Object obj = gameJolt.getGameData("key-value");
 
         assertNotNull(obj);
-        assertSame(ourObject, obj);
+        assertSame(OUR_OBJECT, obj);
     }
 
     @Test

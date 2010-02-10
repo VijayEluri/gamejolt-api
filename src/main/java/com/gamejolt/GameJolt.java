@@ -23,7 +23,9 @@ import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
 import com.gamejolt.util.TrophyResponseParser;
 
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import static java.text.MessageFormat.format;
 
@@ -278,6 +280,20 @@ public class GameJolt {
             return objectSerializer.deserialize(binarySanitizer.unsanitize(data));
         }
         return null;
+    }
+
+    /**
+     * Loads all the game data stored
+     *
+     * @return a Map<String,Object> containing all persisted data
+     */
+    public Map<String, Object> loadAllGameData() {
+        Map<String, Object> data = new LinkedHashMap<String, Object>();
+        List<String> keys = getGameDataKeys();
+        for (String key : keys) {
+            data.put(key, getGameData(key));
+        }
+        return data;
     }
 
     private boolean wasSuccessful(HttpRequest request) {
