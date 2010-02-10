@@ -282,8 +282,10 @@ public class GameJolt {
 
     /**
      * Clear all user data stored
+     *
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
-    public void clearAllUserData() {
+    public void clearAllUserData() throws UnverifiedUserException {
         List<String> keys = getUserDataKeys();
         for (String key : keys) {
             removeUserData(key);
