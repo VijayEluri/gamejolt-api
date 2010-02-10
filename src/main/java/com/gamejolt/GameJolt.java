@@ -280,6 +280,16 @@ public class GameJolt {
         }
     }
 
+    /**
+     * Clear all user data stored
+     */
+    public void clearAllUserData() {
+        List<String> keys = getUserDataKeys();
+        for (String key : keys) {
+            removeUserData(key);
+        }
+    }
+
     private boolean wasSuccessful(HttpRequest request) {
         Properties properties = propertiesParser.parseProperties(processRequest(request));
         return properties.getBoolean("success");

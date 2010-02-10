@@ -119,6 +119,52 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_clearAllUserData_MultipleKeys() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+        when(requestFactory.buildRemoveUserDataRequest("username", "userToken", "key-value")).thenReturn(request);
+        when(requestFactory.buildRemoveUserDataRequest("username", "userToken", "key-value2")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value", "key-value2"));
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(properties.getBoolean("success")).thenReturn(true);
+
+        gameJolt.clearAllUserData();
+
+        verify(requestFactory).buildRemoveUserDataRequest("username", "userToken", "key-value");
+        verify(requestFactory).buildRemoveUserDataRequest("username", "userToken", "key-value2");
+    }
+
+    @Test
+    public void test_clearAllUserData_SingleKey() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+        when(requestFactory.buildRemoveUserDataRequest("username", "userToken", "key-value")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value"));
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(properties.getBoolean("success")).thenReturn(true);
+
+        gameJolt.clearAllUserData();
+
+        verify(requestFactory).buildRemoveUserDataRequest("username", "userToken", "key-value");
+    }
+
+    @Test
+    public void test_clearAllUserData_NoKeys() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseToList("content", "key")).thenReturn(new ArrayList());
+
+        gameJolt.clearAllUserData();
+
+        verify(requestFactory).buildVerifyUserRequest("username", "userToken");
+        verify(requestFactory).buildUserDataKeysRequest("username", "userToken");
+        verifyNoMoreInteractions(requestFactory);
+    }
+
+    @Test
     public void test_getUserDataKeys() {
         hasAVerifiedUser("username", "userToken");
         when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
