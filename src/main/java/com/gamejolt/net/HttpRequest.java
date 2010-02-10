@@ -64,6 +64,7 @@ public class HttpRequest {
             connection.connect();
             int responseCode = connection.getResponseCode();
             if (responseCode != HttpURLConnection.HTTP_OK) {
+                showResponseFailed(verbose, responseCode);
                 return new HttpResponse(responseCode, new byte[0]);
             }
 
@@ -85,10 +86,21 @@ public class HttpRequest {
         }
     }
 
+    private void showResponseFailed(boolean verbose, int code) {
+        if (verbose) {
+            System.out.println("-----------------------");
+            System.out.println("HTTP RESPONSE FAILED");
+            System.out.println("-----------------------");
+            System.out.println(String.valueOf(code));
+            System.out.println("-----------------------");
+            System.out.flush();
+        }
+    }
+
     private void showResponse(boolean verbose, byte[] responseContent) {
         if (verbose) {
             System.out.println("-----------------------");
-            System.out.println("RESPONSE");
+            System.out.println("HTTP RESPONSE SUCCESS");
             System.out.println("-----------------------");
             System.out.println(new String(responseContent));
             System.out.println("-----------------------");
@@ -99,7 +111,7 @@ public class HttpRequest {
     private void showRequest(boolean verbose) {
         if (verbose) {
             System.out.println("-----------------------");
-            System.out.println("REQUEST");
+            System.out.println("HTTP REQUEST");
             System.out.println("-----------------------");
             System.out.println(getUrl());
             System.out.println("-----------------------");

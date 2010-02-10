@@ -333,6 +333,9 @@ public class GameJolt {
 
     private String processRequest(HttpRequest request) {
         HttpResponse response = request.doGet(verbose);
+        if (!response.isSuccessful()) {
+            throw new GameJoltException("Bad Http Response received response code " + response.getCode());
+        }
         return response.getContentAsString();
     }
 

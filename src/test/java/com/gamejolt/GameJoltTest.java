@@ -704,6 +704,20 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_verifyUser_BadResponse() {
+        when(response.isSuccessful()).thenReturn(false);
+        when(response.getCode()).thenReturn(500);
+        when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
+
+        try {
+            gameJolt.verifyUser("username", "userToken");
+            fail();
+        } catch (GameJoltException err) {
+            assertEquals("Bad Http Response received response code 500", err.getMessage());
+        }
+    }
+
+    @Test
     public void test_verifyUser_AlreadyVerified() {
         when(requestFactory.buildVerifyUserRequest("username", "userToken")).thenReturn(request);
         receivesResponse(response, true);
