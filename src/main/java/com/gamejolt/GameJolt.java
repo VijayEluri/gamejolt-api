@@ -283,25 +283,8 @@ public class GameJolt {
     }
 
     private String processRequest(HttpRequest request) {
-        if (verbose) {
-            System.out.println("-----------------------");
-            System.out.println("REQUEST");
-            System.out.println("-----------------------");
-            System.out.println(request.getUrl());
-            System.out.println("-----------------------");
-            System.out.flush();
-        }
-        HttpResponse response = request.doGet();
-        String value = response.getContentAsString();
-        if (verbose) {
-            System.out.println("-----------------------");
-            System.out.println("RESPONSE");
-            System.out.println("-----------------------");
-            System.out.println(value);
-            System.out.println("-----------------------");
-            System.out.flush();
-        }
-        return value;
+        HttpResponse response = request.doGet(verbose);
+        return response.getContentAsString();
     }
 
     private boolean doesNotNeedToVerify(String username, String userToken) {

@@ -60,7 +60,7 @@ public class GameJoltTest {
         gameJolt.setObjectSerializer(objectSerializer);
         gameJolt.setBinarySanitizer(binarySanitizer);
 
-        when(request.doGet()).thenReturn(response);
+        when(request.doGet(false)).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
     }
 
@@ -603,7 +603,7 @@ public class GameJoltTest {
         HttpRequest httpRequest = mock(HttpRequest.class);
         HttpResponse httpResponse = mock(HttpResponse.class);
         when(requestFactory.buildVerifyUserRequest(username, userToken)).thenReturn(httpRequest);
-        when(httpRequest.doGet()).thenReturn(httpResponse);
+        when(httpRequest.doGet(false)).thenReturn(httpResponse);
         when(httpResponse.isSuccessful()).thenReturn(true);
         receivesResponse(httpResponse, true);
 

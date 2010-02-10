@@ -52,10 +52,11 @@ public class HttpRequest {
         }
     }
 
-    public HttpResponse doGet() throws GameJoltException {
+    public HttpResponse doGet(boolean verbose) throws GameJoltException {
         HttpURLConnection connection = null;
         InputStream input = null;
         try {
+            showRequest(verbose);
             URL request = urlFactory.build(buildUrlWithParameters());
             connection = (HttpURLConnection) request.openConnection();
             connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
@@ -73,12 +74,36 @@ public class HttpRequest {
             } else if (isResponseCompressed(contentType, "deflate")) {
                 input = new DeflaterInputStream(input);
             }
-            return new HttpResponse(responseCode, readAll(input));
+            byte[] responseContent = readAll(input);
+            showResponse(verbose, responseContent);
+            return new HttpResponse(responseCode, responseContent);
         } catch (IOException e) {
             throw new GameJoltException(e);
         } finally {
             close(connection);
             close(input);
+        }
+    }
+
+    private void showResponse(boolean verbose, byte[] responseContent) {
+        if (verbose) {
+            System.out.println("-----------------------");
+            System.out.println("RESPONSE");
+            System.out.println("-----------------------");
+            System.out.println(new String(responseContent));
+            System.out.println("-----------------------");
+            System.out.flush();
+        }
+    }
+
+    private void showRequest(boolean verbose) {
+        if (verbose) {
+            System.out.println("-----------------------");
+            System.out.println("REQUEST");
+            System.out.println("-----------------------");
+            System.out.println(getUrl());
+            System.out.println("-----------------------");
+            System.out.flush();
         }
     }
 
