@@ -92,6 +92,27 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_loadAllUserData_MultipleKeys() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+        when(requestFactory.buildGetUserDataRequest("username", "userToken", "key1")).thenReturn(request);
+        when(requestFactory.buildGetUserDataRequest("username", "userToken", "key2")).thenReturn(request);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key1", "key2"));
+        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT, "Success\r\ndata-stored", "Success\r\ndata-stored");
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
+        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+
+        Map<String, Object> data = gameJolt.loadAllUserData();
+
+        assertEquals(2, data.size());
+        assertSame(OUR_OBJECT, data.get("key1"));
+        assertSame(OUR_OBJECT, data.get("key2"));
+
+        verify(binarySanitizer, times(2)).unsanitize("data-stored");
+        verify(objectSerializer, times(2)).deserialize(DATA);
+    }
+
+    @Test
     public void test_loadAllGameData_SingleKey() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
         when(requestFactory.buildGetGameDataRequest("key1")).thenReturn(request);
@@ -108,17 +129,55 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_loadAllUserData_SingleKey() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+        when(requestFactory.buildGetUserDataRequest("username", "userToken", "key1")).thenReturn(request);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key1"));
+        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT, "Success\r\ndata-stored");
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
+        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+
+        Map<String, Object> data = gameJolt.loadAllUserData();
+
+        assertNotNull(data);
+        assertEquals(1, data.size());
+        assertSame(OUR_OBJECT, data.get("key1"));
+    }
+
+    @Test
     public void test_loadAllGameData_NoKeys() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
         when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(new ArrayList());
-        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT);
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
-        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
 
         Map<String, Object> data = gameJolt.loadAllGameData();
         assertNotNull(data);
         assertEquals(0, data.size());
         verifyZeroInteractions(binarySanitizer, objectSerializer);
+    }
+
+    @Test
+    public void test_loadAllUserData_NoKeys() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(new ArrayList());
+
+        Map<String, Object> data = gameJolt.loadAllUserData();
+        assertNotNull(data);
+        assertEquals(0, data.size());
+        verifyZeroInteractions(binarySanitizer, objectSerializer);
+    }
+
+    @Test
+    public void test_loadAllUserData_UnverifiedUser() {
+        try {
+            gameJolt.loadAllUserData();
+            fail();
+        } catch (UnverifiedUserException err) {
+
+        }
+
+        verifyZeroInteractions(requestFactory, binarySanitizer, objectSerializer);
     }
 
     @Test

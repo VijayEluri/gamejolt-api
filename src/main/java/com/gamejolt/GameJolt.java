@@ -303,6 +303,21 @@ public class GameJolt {
         return data;
     }
 
+    /**
+     * Loads all the user data stored
+     *
+     * @return a Map<String,Object> containing all persisted data
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
+    public Map<String, Object> loadAllUserData() throws UnverifiedUserException {
+        Map<String, Object> data = new LinkedHashMap<String, Object>();
+        List<String> keys = getUserDataKeys();
+        for (String key : keys) {
+            data.put(key, getUserData(key));
+        }
+        return data;
+    }
+
     private boolean wasSuccessful(HttpRequest request) {
         Properties properties = propertiesParser.parseProperties(processRequest(request));
         return properties.getBoolean("success");
@@ -352,4 +367,5 @@ public class GameJolt {
         }
         return null;
     }
+
 }
