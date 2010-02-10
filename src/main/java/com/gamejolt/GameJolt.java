@@ -270,6 +270,16 @@ public class GameJolt {
         return propertiesParser.parseToList(processRequest(request), "key");
     }
 
+    /**
+     * Clear all game data stored
+     */
+    public void clearAllGameData() {
+        List<String> keys = getGameDataKeys();
+        for (String key : keys) {
+            removeGameData(key);
+        }
+    }
+
     private boolean wasSuccessful(HttpRequest request) {
         Properties properties = propertiesParser.parseProperties(processRequest(request));
         return properties.getBoolean("success");

@@ -42,6 +42,7 @@ public class GameJoltTest {
     private PropertiesParser propertiesParser;
     private ObjectSerializer objectSerializer;
     private BinarySanitizer binarySanitizer;
+    private Properties properties;
 
     @Before
     public void setUp() throws Exception {
@@ -52,6 +53,7 @@ public class GameJoltTest {
         propertiesParser = mock(PropertiesParser.class);
         objectSerializer = mock(ObjectSerializer.class);
         binarySanitizer = mock(BinarySanitizer.class);
+        properties = mock(Properties.class);
 
         gameJolt = new GameJolt(1111, "private-key");
         gameJolt.setRequestFactory(requestFactory);
@@ -65,9 +67,51 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_clearAllGameData_MultipleKeys() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+        when(requestFactory.buildRemoveGameDataRequest("key-value")).thenReturn(request);
+        when(requestFactory.buildRemoveGameDataRequest("key-value2")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value", "key-value2"));
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(properties.getBoolean("success")).thenReturn(true);
+
+        gameJolt.clearAllGameData();
+
+        verify(requestFactory).buildRemoveGameDataRequest("key-value");
+        verify(requestFactory).buildRemoveGameDataRequest("key-value2");
+    }
+
+
+    @Test
+    public void test_clearAllGameData_SingleKey() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+        when(requestFactory.buildRemoveGameDataRequest("key-value")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value"));
+        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(properties.getBoolean("success")).thenReturn(true);
+
+        gameJolt.clearAllGameData();
+
+        verify(requestFactory).buildRemoveGameDataRequest("key-value");
+    }
+
+    @Test
+    public void test_clearAllGameData_NoKeys() {
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("content");
+        when(propertiesParser.parseToList("content", "key")).thenReturn(new ArrayList());
+
+        gameJolt.clearAllGameData();
+
+        verify(requestFactory).buildGameDataKeysRequest();
+        verifyNoMoreInteractions(requestFactory);
+    }
+
+    @Test
     public void test_getGameDataKeys() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-
         when(response.getContentAsString()).thenReturn("content");
         when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value"));
 
