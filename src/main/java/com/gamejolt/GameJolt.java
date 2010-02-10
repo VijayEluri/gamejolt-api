@@ -23,7 +23,6 @@ import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
 import com.gamejolt.util.TrophyResponseParser;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static java.text.MessageFormat.format;
@@ -255,7 +254,8 @@ public class GameJolt {
      * @return a list containing all the keys to game data
      */
     public List<String> getGameDataKeys() {
-        return processKeys(requestFactory.buildGameDataKeysRequest());
+        HttpRequest request = requestFactory.buildGameDataKeysRequest();
+        return propertiesParser.parseToList(processRequest(request), "key");
     }
 
     /**
@@ -266,7 +266,8 @@ public class GameJolt {
      */
     public List<String> getUserDataKeys() throws UnverifiedUserException {
         if (!verified) throw new UnverifiedUserException();
-        return processKeys(requestFactory.buildUserDataKeysRequest(username, userToken));
+        HttpRequest request = requestFactory.buildUserDataKeysRequest(username, userToken);
+        return propertiesParser.parseToList(processRequest(request), "key");
     }
 
     private boolean wasSuccessful(HttpRequest request) {
@@ -308,18 +309,4 @@ public class GameJolt {
         return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
     }
 
-    private List<String> processKeys(HttpRequest request) {
-        List<Properties> propertiesList = propertiesParser.parse(processRequest(request));
-        if (propertiesList.size() == 1) {
-            Properties properties = propertiesList.get(0);
-            if (!properties.getBoolean("success") || "".equals(properties.get("key")) || properties.get("key") == null) {
-                return new ArrayList<String>();
-            }
-        }
-        List<String> keys = new ArrayList<String>();
-        for (Properties properties : propertiesList) {
-            keys.add(properties.get("key"));
-        }
-        return keys;
-    }
 }

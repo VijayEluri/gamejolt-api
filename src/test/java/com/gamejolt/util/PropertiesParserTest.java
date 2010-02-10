@@ -31,6 +31,33 @@ public class PropertiesParserTest {
     }
 
     @Test
+    public void test_parseToList_noMatch() {
+        List<String> properties = parser.parseToList("success: \"true\"", "doesNotMatch");
+
+        assertNotNull(properties);
+        assertEquals(0, properties.size());
+    }
+
+    @Test
+    public void test_parseToList_singleProperty() {
+        List<String> properties = parser.parseToList("success: \"true\"", "success");
+
+        assertNotNull(properties);
+        assertEquals(1, properties.size());
+        assertEquals("true", properties.get(0));
+    }
+
+    @Test
+    public void test_parseToList_multipleProperties() {
+        List<String> properties = parser.parseToList("success: \"true\"\nsuccess: \"false\"", "success");
+
+        assertNotNull(properties);
+        assertEquals(2, properties.size());
+        assertEquals("true", properties.get(0));
+        assertEquals("false", properties.get(1));
+    }
+
+    @Test
     public void test_parse_singleProperty_MultipleTimes() {
         List<Properties> properties = parser.parse("success: \"true\"\nsuccess:\"false\"");
 

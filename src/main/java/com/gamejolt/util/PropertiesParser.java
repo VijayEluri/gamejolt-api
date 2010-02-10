@@ -58,4 +58,14 @@ public class PropertiesParser {
         }
         return list.get(0);
     }
+
+    public List<String> parseToList(String content, String key) {
+        List<String> values = new ArrayList<String>();
+        List<Properties> propertiesList = parse(content);
+        for (Properties properties : propertiesList) {
+            String value = properties.get(key);
+            if (value != null) values.add(value);
+        }
+        return values;
+    }
 }
