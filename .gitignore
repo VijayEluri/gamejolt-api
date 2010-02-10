@@ -2,3 +2,4 @@ target
 *.i*
 *.jar
 BlahTest*
+IntegrationTest*
