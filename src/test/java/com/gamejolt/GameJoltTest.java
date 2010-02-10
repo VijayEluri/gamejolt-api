@@ -43,6 +43,7 @@ public class GameJoltTest {
     private ObjectSerializer objectSerializer;
     private BinarySanitizer binarySanitizer;
     private Properties properties;
+    private static final String RESPONSE_CONTENT = "content";
 
     @Before
     public void setUp() throws Exception {
@@ -64,6 +65,46 @@ public class GameJoltTest {
 
         when(request.doGet(false)).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
+        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT);
+    }
+
+    @Test
+    public void test_getGameData_NoMatchingObject() {
+        when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("FAILURE\nerror message");
+
+        assertNull(gameJolt.getGameData("key-value"));
+
+        verifyZeroInteractions(binarySanitizer, objectSerializer);
+    }
+
+    @Test
+    public void test_getGameData_MatchingObject_WindowsLineEndings() {
+        byte[] data = new byte[0];
+        Object ourObject = new Object();
+
+        when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("Success\r\ndata-stored");
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(data);
+        when(objectSerializer.deserialize(data)).thenReturn(ourObject);
+
+        assertSame(ourObject, gameJolt.getGameData("key-value"));
+    }
+
+    @Test
+    public void test_getGameData_MatchingObject_UnixLineEndings() {
+        byte[] data = new byte[0];
+        Object ourObject = new Object();
+
+        when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("Success\ndata-stored");
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(data);
+        when(objectSerializer.deserialize(data)).thenReturn(ourObject);
+
+        Object obj = gameJolt.getGameData("key-value");
+
+        assertNotNull(obj);
+        assertSame(ourObject, obj);
     }
 
     @Test
@@ -71,9 +112,8 @@ public class GameJoltTest {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
         when(requestFactory.buildRemoveGameDataRequest("key-value")).thenReturn(request);
         when(requestFactory.buildRemoveGameDataRequest("key-value2")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value", "key-value2"));
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value", "key-value2"));
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(properties.getBoolean("success")).thenReturn(true);
 
         gameJolt.clearAllGameData();
@@ -87,9 +127,8 @@ public class GameJoltTest {
     public void test_clearAllGameData_SingleKey() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
         when(requestFactory.buildRemoveGameDataRequest("key-value")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value"));
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value"));
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(properties.getBoolean("success")).thenReturn(true);
 
         gameJolt.clearAllGameData();
@@ -100,8 +139,7 @@ public class GameJoltTest {
     @Test
     public void test_clearAllGameData_NoKeys() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseToList("content", "key")).thenReturn(new ArrayList());
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(new ArrayList());
 
         gameJolt.clearAllGameData();
 
@@ -112,8 +150,7 @@ public class GameJoltTest {
     @Test
     public void test_getGameDataKeys() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value"));
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value"));
 
         assertEquals(Arrays.asList("key-value"), gameJolt.getGameDataKeys());
     }
@@ -124,9 +161,8 @@ public class GameJoltTest {
         when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
         when(requestFactory.buildRemoveUserDataRequest("username", "userToken", "key-value")).thenReturn(request);
         when(requestFactory.buildRemoveUserDataRequest("username", "userToken", "key-value2")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value", "key-value2"));
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value", "key-value2"));
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(properties.getBoolean("success")).thenReturn(true);
 
         gameJolt.clearAllUserData();
@@ -140,9 +176,8 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
         when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
         when(requestFactory.buildRemoveUserDataRequest("username", "userToken", "key-value")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value"));
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value"));
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(properties.getBoolean("success")).thenReturn(true);
 
         gameJolt.clearAllUserData();
@@ -154,8 +189,7 @@ public class GameJoltTest {
     public void test_clearAllUserData_NoKeys() {
         hasAVerifiedUser("username", "userToken");
         when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseToList("content", "key")).thenReturn(new ArrayList());
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(new ArrayList());
 
         gameJolt.clearAllUserData();
 
@@ -168,9 +202,7 @@ public class GameJoltTest {
     public void test_getUserDataKeys() {
         hasAVerifiedUser("username", "userToken");
         when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
-
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseToList("content", "key")).thenReturn(Arrays.asList("key-value"));
+        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value"));
 
         assertEquals(Arrays.asList("key-value"), gameJolt.getUserDataKeys());
     }
@@ -178,12 +210,10 @@ public class GameJoltTest {
     @Test
     public void test_getGameDataKeys_NoKeys() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-
-        when(response.getContentAsString()).thenReturn("content");
         Properties properties = new Properties();
         properties.put("success", "true");
         properties.put("key", "");
-        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+        when(propertiesParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(properties));
 
         assertEquals(Arrays.asList(), gameJolt.getGameDataKeys());
     }
@@ -192,12 +222,10 @@ public class GameJoltTest {
     public void test_getUserDataKeys_NoKeys() {
         hasAVerifiedUser("username", "userToken");
         when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
-
-        when(response.getContentAsString()).thenReturn("content");
         Properties properties = new Properties();
         properties.put("success", "true");
         properties.put("key", "");
-        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+        when(propertiesParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(properties));
 
         assertEquals(Arrays.asList(), gameJolt.getUserDataKeys());
     }
@@ -205,11 +233,9 @@ public class GameJoltTest {
     @Test
     public void test_getGameDataKeys_Failed() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-
-        when(response.getContentAsString()).thenReturn("content");
         Properties properties = new Properties();
         properties.put("success", "false");
-        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+        when(propertiesParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(properties));
 
         assertEquals(Arrays.asList(), gameJolt.getGameDataKeys());
     }
@@ -219,11 +245,9 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildUserDataKeysRequest("username", "userToken")).thenReturn(request);
-
-        when(response.getContentAsString()).thenReturn("content");
         Properties properties = new Properties();
         properties.put("success", "false");
-        when(propertiesParser.parse("content")).thenReturn(Arrays.asList(properties));
+        when(propertiesParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(properties));
 
         assertEquals(Arrays.asList(), gameJolt.getUserDataKeys());
     }
@@ -284,42 +308,6 @@ public class GameJoltTest {
         }
     }
 
-    @Test
-    public void test_storeUserData_UserNotVerified() {
-        try {
-            gameJolt.storeUserData("name", "data");
-            fail();
-        } catch (UnverifiedUserException err) {
-
-        }
-    }
-
-    @Test
-    public void test_storeUserData_Failed() {
-        hasAVerifiedUser("username", "userToken");
-
-        when(requestFactory.buildStoreUserDataRequest("username", "userToken", "name", "data")).thenReturn(request);
-        receivesResponse(response, false);
-
-        assertFalse(gameJolt.storeUserData("name", "data"));
-    }
-
-
-    @Test
-    public void test_storeUserData_String() {
-        hasAVerifiedUser("username", "userToken");
-
-        Properties properties = new Properties();
-        properties.put("success", "true");
-
-        when(requestFactory.buildStoreUserDataRequest("username", "userToken", "name", "data")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
-
-        assertTrue(gameJolt.storeUserData("name", "data"));
-
-        verify(requestFactory).buildStoreUserDataRequest("username", "userToken", "name", "data");
-    }
 
     @Test
     public void test_storeGameData_NullObjectGiven() {
@@ -344,28 +332,6 @@ public class GameJoltTest {
     }
 
     @Test
-    public void test_storeUserData_NullStringGiven() {
-        hasAVerifiedUser("username", "userToken");
-
-        try {
-            gameJolt.storeUserData("name", (String) null);
-            fail();
-        } catch (NullPointerException err) {
-            assertEquals("You supplied a null object for storing. This is invalid, if you would like to remove data, please use the removeUserData method", err.getMessage());
-        }
-    }
-
-    @Test
-    public void test_storeGameData_NullStringGiven() {
-        try {
-            gameJolt.storeGameData("name", (String) null);
-            fail();
-        } catch (NullPointerException err) {
-            assertEquals("You supplied a null object for storing. This is invalid, if you would like to remove data, please use the removeGameData method", err.getMessage());
-        }
-    }
-
-    @Test
     public void test_storeUserData_ObjectSerializerReturnsANullByteArray() {
         DummyObject obj = new DummyObject();
 
@@ -375,8 +341,7 @@ public class GameJoltTest {
         properties.put("success", "true");
 
         when(requestFactory.buildStoreUserDataRequest("username", "userToken", "name", "sanitized-data")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(objectSerializer.serialize(obj)).thenReturn(null);
 
         try {
@@ -395,8 +360,7 @@ public class GameJoltTest {
         properties.put("success", "true");
 
         when(requestFactory.buildStoreGameDataRequest("name", "sanitized-data")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(objectSerializer.serialize(obj)).thenReturn(null);
 
         try {
@@ -418,8 +382,7 @@ public class GameJoltTest {
         properties.put("success", "true");
 
         when(requestFactory.buildStoreUserDataRequest("username", "userToken", "name", "sanitized-data")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(objectSerializer.serialize(obj)).thenReturn(data);
         when(binarySanitizer.sanitize(data)).thenReturn("sanitized-data");
 
@@ -435,39 +398,11 @@ public class GameJoltTest {
         properties.put("success", "true");
 
         when(requestFactory.buildStoreGameDataRequest("name", "sanitized-data")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(objectSerializer.serialize(obj)).thenReturn(data);
         when(binarySanitizer.sanitize(data)).thenReturn("sanitized-data");
 
         assertTrue(gameJolt.storeGameData("name", obj));
-    }
-
-    @Test
-    public void test_storeGameData_String() {
-        Properties properties = new Properties();
-        properties.put("success", "true");
-
-        when(requestFactory.buildStoreGameDataRequest("name", "data")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
-
-        assertTrue(gameJolt.storeGameData("name", "data"));
-
-        verify(requestFactory).buildStoreGameDataRequest("name", "data");
-    }
-
-    @Test
-    public void test_storeGameData_Failed() {
-        Properties properties = new Properties();
-        properties.put("success", "false");
-        properties.put("message", "Server error message");
-
-        when(requestFactory.buildStoreGameDataRequest("name", "data")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
-
-        assertFalse(gameJolt.storeGameData("name", "data"));
     }
 
     @Test
@@ -487,8 +422,7 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildTrophiesRequest("username", "userToken", "false")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(trophyResponseParser.parse("content")).thenReturn(trophies);
+        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
 
         assertSame(trophies, gameJolt.getUnachievedTrophies());
     }
@@ -510,8 +444,7 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildTrophiesRequest("username", "userToken", "true")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(trophyResponseParser.parse("content")).thenReturn(trophies);
+        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
 
         assertSame(trophies, gameJolt.getAchievedTrophies());
     }
@@ -523,8 +456,7 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildTrophiesRequest("username", "userToken", "empty")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(trophyResponseParser.parse("content")).thenReturn(trophies);
+        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
 
         assertSame(trophies, gameJolt.getAllTrophies());
     }
@@ -554,8 +486,7 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildTrophyRequest("username", "userToken", "12")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(trophyResponseParser.parse("content")).thenReturn(new ArrayList());
+        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(new ArrayList());
 
         assertNull(gameJolt.getTrophy(12));
     }
@@ -567,8 +498,7 @@ public class GameJoltTest {
         hasAVerifiedUser("username", "userToken");
 
         when(requestFactory.buildTrophyRequest("username", "userToken", "12")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("content");
-        when(trophyResponseParser.parse("content")).thenReturn(Arrays.asList(trophy));
+        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(trophy));
 
         assertSame(trophy, gameJolt.getTrophy(12));
     }
@@ -662,9 +592,9 @@ public class GameJoltTest {
     }
 
     private void receivesResponse(HttpResponse httpResponse, boolean successful) {
-        when(httpResponse.getContentAsString()).thenReturn("content");
+        when(httpResponse.getContentAsString()).thenReturn(RESPONSE_CONTENT);
         Properties properties = new Properties();
         properties.put("success", String.valueOf(successful));
-        when(propertiesParser.parseProperties("content")).thenReturn(properties);
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
     }
 }

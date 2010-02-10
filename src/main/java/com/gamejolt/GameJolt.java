@@ -158,36 +158,6 @@ public class GameJolt {
     }
 
     /**
-     * Store data in the format of a java.lang.String specific to the game
-     *
-     * @param name - the name given to the data
-     * @param data - the data to be stored
-     * @return <p>true - successfully stored data</p>
-     *         <p>false - failed to store the data</p>
-     */
-    public boolean storeGameData(String name, String data) {
-        if (data == null) throw new NullPointerException(format(STORE_NULL_OBJECT, "removeGameData"));
-        return wasSuccessful(requestFactory.buildStoreGameDataRequest(name, data));
-    }
-
-    /**
-     * Store data in the format of a java.lang.String specific to the user
-     *
-     * @param name - the name given to the data
-     * @param data - the data to be stored
-     * @return <p>true - successfully stored data</p>
-     *         <p>false - failed to store the data</p>
-     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
-     */
-    public boolean storeUserData(String name, String data) throws UnverifiedUserException {
-        if (!verified) throw new UnverifiedUserException();
-        if (data == null) {
-            throw new NullPointerException(format(STORE_NULL_OBJECT, "removeUserData"));
-        }
-        return wasSuccessful(requestFactory.buildStoreUserDataRequest(username, userToken, name, data));
-    }
-
-    /**
      * Store data in the form of a custom object specific to the user
      *
      * @param name - the name given to the data
@@ -197,6 +167,7 @@ public class GameJolt {
      * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public boolean storeUserData(String name, Object data) throws UnverifiedUserException {
+        if (!verified) throw new UnverifiedUserException();
         if (data == null) {
             throw new NullPointerException(format(STORE_NULL_OBJECT, "removeUserData"));
         }
@@ -204,7 +175,7 @@ public class GameJolt {
         if (bytes == null) {
             throw new NullPointerException(format(NULL_BYTES, data.getClass()));
         }
-        return storeUserData(name, binarySanitizer.sanitize(bytes));
+        return wasSuccessful(requestFactory.buildStoreUserDataRequest(username, userToken, name, binarySanitizer.sanitize(bytes)));
     }
 
     /**
@@ -221,7 +192,7 @@ public class GameJolt {
         if (bytes == null) {
             throw new NullPointerException(format(NULL_BYTES, data.getClass()));
         }
-        return storeGameData(name, binarySanitizer.sanitize(bytes));
+        return wasSuccessful(requestFactory.buildStoreGameDataRequest(name, binarySanitizer.sanitize(bytes)));
     }
 
     /**
@@ -290,6 +261,23 @@ public class GameJolt {
         for (String key : keys) {
             removeUserData(key);
         }
+    }
+
+    /**
+     * Get persisted data by the given name
+     *
+     * @param name - the name given to the data stored
+     * @return returns null if no data was found with that name, otherwise return the object stored
+     */
+    public Object getGameData(String name) {
+        String responseContent = processRequest(requestFactory.buildGetGameDataRequest(name));
+        String[] lines = responseContent.split("\r\n|\n");
+        String successOrFailure = lines[0];
+        if ("SUCCESS".equalsIgnoreCase(successOrFailure)) {
+            String data = lines[1];
+            return objectSerializer.deserialize(binarySanitizer.unsanitize(data));
+        }
+        return null;
     }
 
     private boolean wasSuccessful(HttpRequest request) {
