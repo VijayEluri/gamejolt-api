@@ -122,6 +122,18 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_getUserData_NoMatchingObject() {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildGetUserDataRequest("username", "userToken", "key-value")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("FAILURE\nerror message");
+
+        assertNull(gameJolt.getUserData("key-value"));
+
+        verifyZeroInteractions(binarySanitizer, objectSerializer);
+    }
+
+    @Test
     public void test_getGameData_NoMatchingObject() {
         when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
         when(response.getContentAsString()).thenReturn("FAILURE\nerror message");
@@ -142,6 +154,18 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_getUserData_MatchingObject_WindowsLineEndings() {
+        hasAVerifiedUser("username", "userToken");
+
+        when(requestFactory.buildGetUserDataRequest("username", "userToken", "key-value")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("Success\r\ndata-stored");
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
+        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+
+        assertSame(OUR_OBJECT, gameJolt.getUserData("key-value"));
+    }
+
+    @Test
     public void test_getGameData_MatchingObject_UnixLineEndings() {
         when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
         when(response.getContentAsString()).thenReturn("Success\ndata-stored");
@@ -152,6 +176,30 @@ public class GameJoltTest {
 
         assertNotNull(obj);
         assertSame(OUR_OBJECT, obj);
+    }
+
+    @Test
+    public void test_getUserData_MatchingObject_UnixLineEndings() {
+        hasAVerifiedUser("username", "userToken");
+        when(requestFactory.buildGetUserDataRequest("username", "userToken", "key-value")).thenReturn(request);
+        when(response.getContentAsString()).thenReturn("Success\ndata-stored");
+        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
+        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+
+        Object obj = gameJolt.getUserData("key-value");
+
+        assertNotNull(obj);
+        assertSame(OUR_OBJECT, obj);
+    }
+
+    @Test
+    public void test_getUserData_UnverifiedUser() {
+        try {
+            gameJolt.getUserData("key-value");
+            fail();
+        } catch (UnverifiedUserException err) {
+
+        }
     }
 
     @Test

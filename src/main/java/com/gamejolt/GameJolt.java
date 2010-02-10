@@ -272,14 +272,21 @@ public class GameJolt {
      * @return returns null if no data was found with that name, otherwise return the object stored
      */
     public Object getGameData(String name) {
-        String responseContent = processRequest(requestFactory.buildGetGameDataRequest(name));
-        String[] lines = responseContent.split("\r\n|\n");
-        String successOrFailure = lines[0];
-        if ("SUCCESS".equalsIgnoreCase(successOrFailure)) {
-            String data = lines[1];
-            return objectSerializer.deserialize(binarySanitizer.unsanitize(data));
-        }
-        return null;
+        HttpRequest request = requestFactory.buildGetGameDataRequest(name);
+        return deserializeData(request);
+    }
+
+    /**
+     * Get persisted data by the given name
+     *
+     * @param name - the name given to the data stored
+     * @return returns null if no data was found with that name, otherwise return the object stored
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
+    public Object getUserData(String name) throws UnverifiedUserException {
+        if (!verified) throw new UnverifiedUserException();
+        HttpRequest request = requestFactory.buildGetUserDataRequest(username, userToken, name);
+        return deserializeData(request);
     }
 
     /**
@@ -335,4 +342,14 @@ public class GameJolt {
         return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
     }
 
+    private Object deserializeData(HttpRequest request) {
+        String responseContent = processRequest(request);
+        String[] lines = responseContent.split("\r\n|\n");
+        String successOrFailure = lines[0];
+        if ("SUCCESS".equalsIgnoreCase(successOrFailure)) {
+            String data = lines[1];
+            return objectSerializer.deserialize(binarySanitizer.unsanitize(data));
+        }
+        return null;
+    }
 }
