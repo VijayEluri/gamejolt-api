@@ -36,6 +36,18 @@ public class HighscoreParserTest {
         propertiesParser = mock(PropertiesParser.class);
         parser = new HighscoreParser(propertiesParser);
         properties = mock(Properties.class);
+        when(properties.getBoolean("success")).thenReturn(true);
+    }
+
+    @Test
+    public void test_failed_request() {
+        when(propertiesParser.parse(CONTENT)).thenReturn(Arrays.asList(properties));
+
+        when(properties.getBoolean("success")).thenReturn(false);
+
+        List<Highscore> scores = parser.parse(CONTENT);
+
+        assertEquals(0, scores.size());
     }
 
     @Test

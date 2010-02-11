@@ -98,6 +98,48 @@ public class GameJoltTest {
     }
 
     @Test
+    public void test_getUserHighscores_WithLimit_NotVerified() {
+        try {
+            gameJolt.getUserHighscores(100);
+            fail();
+        } catch (UnverifiedUserException e) {
+
+        }
+    }
+
+    @Test
+    public void test_getUserHighscores_WithLimit() {
+        hasAVerifiedUser();
+        List<Highscore> parseScores = Arrays.asList(new Highscore());
+
+        when(requestFactory.buildUserHighscoresRequest(USERNAME, USER_TOKEN, 100)).thenReturn(request);
+        when(highscoreParser.parse(RESPONSE_CONTENT)).thenReturn(parseScores);
+
+        assertSame(parseScores, gameJolt.getUserHighscores(100));
+    }
+
+    @Test
+    public void test_getTop10UserHighscores() {
+        hasAVerifiedUser();
+        List<Highscore> parseScores = Arrays.asList(new Highscore());
+
+        when(requestFactory.buildUserHighscoresRequest(USERNAME, USER_TOKEN, 10)).thenReturn(request);
+        when(highscoreParser.parse(RESPONSE_CONTENT)).thenReturn(parseScores);
+
+        assertSame(parseScores, gameJolt.getTop10UserHighscores());
+    }
+
+    @Test
+    public void test_getTop10UserHighscores_NotVerified() {
+        try {
+            gameJolt.getTop10UserHighscores();
+            fail();
+        } catch (UnverifiedUserException err) {
+
+        }
+    }
+
+    @Test
     public void test_loadAllGameData_MultipleKeys() {
         when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
         when(requestFactory.buildGetGameDataRequest("key1")).thenReturn(request);

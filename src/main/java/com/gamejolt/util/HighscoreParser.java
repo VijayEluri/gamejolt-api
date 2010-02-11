@@ -35,6 +35,10 @@ public class HighscoreParser {
 
         List<Properties> propertiesList = propertiesParser.parse(content);
 
+        if (propertiesList.size() == 1 && !propertiesList.get(0).getBoolean("success")) {
+            return scores;
+        }
+
         for (Properties properties : propertiesList) {
             Highscore score = new Highscore();
             score.setDisplayedScore(properties.get("score"));

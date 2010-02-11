@@ -322,7 +322,7 @@ public class GameJolt {
     }
 
     /**
-     * Grab a limited number of highscores for your game
+     * Grab a limited number of highscores
      *
      * @param limit - the maximum number of scores
      * @return a List of highscores
@@ -338,6 +338,28 @@ public class GameJolt {
      */
     public List<Highscore> getTop10Highscores() {
         return getAllHighscores(10);
+    }
+
+    /**
+     * Grab a limited number of user highscores
+     *
+     * @param limit - the maximum number of scores
+     * @return a List of highscores
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
+    public List<Highscore> getUserHighscores(int limit) throws UnverifiedUserException {
+        if (!verified) throw new UnverifiedUserException();
+        return highscoreParser.parse(processRequest(requestFactory.buildUserHighscoresRequest(username, userToken, limit)));
+    }
+
+    /**
+     * Grab the user's top 10 highscores
+     *
+     * @return a List of highscores
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
+    public List<Highscore> getTop10UserHighscores() throws UnverifiedUserException {
+        return getUserHighscores(10);
     }
 
     private boolean wasSuccessful(HttpRequest request) {
