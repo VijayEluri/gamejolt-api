@@ -20,6 +20,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -179,6 +180,7 @@ public class RequestFactoryTest {
         HttpRequest request = factory.buildStoreGameDataRequest("name", "data");
 
         assertEquals("http://gamejolt.com/api/game/v1/data-store/set?game_id=1111&data=data&key=name&signature=sign-hash", request.getUrl());
+        assertTrue(request.isPost());
     }
 
     @Test
@@ -195,6 +197,7 @@ public class RequestFactoryTest {
         HttpRequest request = factory.buildStoreUserDataRequest("username", "userToken", "name", "data");
 
         assertEquals("http://gamejolt.com/api/game/v1/data-store/set?game_id=1111&username=username&data=data&key=name&user_token=userToken&signature=sign-hash", request.getUrl());
+        assertTrue(request.isPost());
     }
 
     @Test
@@ -213,7 +216,6 @@ public class RequestFactoryTest {
 
     @Test
     public void test_buildGetUserDataRequest() {
-        // /api/game/v1/data-store/?game_id=1566&username=born2snipe&format=dump&signature=f6e39b06746ddb1a835c16fd47704799&key=key1&user_token=b7286a
         Map<String, String> parameters = new LinkedHashMap<String, String>();
         parameters.put("game_id", String.valueOf(GAME_ID));
         parameters.put("username", "username");
