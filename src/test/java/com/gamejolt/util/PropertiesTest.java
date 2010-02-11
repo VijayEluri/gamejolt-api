@@ -99,6 +99,20 @@ public class PropertiesTest {
     }
 
     @Test
+    public void test_IntValue_NullValue() {
+        properties.put("value", null);
+
+        assertEquals(0, properties.getInt("value"));
+    }
+
+    @Test
+    public void test_IntValue_EmptyValue() {
+        properties.put("value", "");
+
+        assertEquals(0, properties.getInt("value"));
+    }
+
+    @Test
     public void test_BooleanValue_False() {
         properties.put("success", "false");
 
@@ -110,6 +124,15 @@ public class PropertiesTest {
         properties.put("success", "true");
 
         assertTrue(properties.getBoolean("success"));
+    }
+
+    @Test
+    public void test_isBlank() {
+        properties.put("success", "true");
+        properties.put("a-lot-of-space", "   ");
+        assertFalse(properties.isBlank("success"));
+        assertTrue(properties.isBlank("doesNotExist"));
+        assertTrue(properties.isBlank("a-lot-of-space"));
     }
 
 }

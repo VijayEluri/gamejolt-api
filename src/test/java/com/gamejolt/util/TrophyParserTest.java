@@ -28,8 +28,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 
-public class TrophyResponseParserTest {
-    private TrophyResponseParser parser;
+public class TrophyParserTest {
+    private TrophyParser parser;
     private PropertiesParser propertiesParser;
     private static final String CONTENT = "content";
 
@@ -37,7 +37,7 @@ public class TrophyResponseParserTest {
     public void setUp() throws Exception {
         propertiesParser = mock(PropertiesParser.class);
 
-        parser = new TrophyResponseParser(propertiesParser);
+        parser = new TrophyParser(propertiesParser);
     }
 
     @Test

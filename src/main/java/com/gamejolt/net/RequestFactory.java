@@ -217,6 +217,22 @@ public class RequestFactory {
         return request;
     }
 
+    public HttpRequest buildAllHighscoresRequest(int limit) {
+        String baseUrl = createUrl("scores");
+        HttpRequest request = new HttpRequest(baseUrl);
+
+        Map<String, String> parameters = createParameterMap();
+        parameters.put("game_id", String.valueOf(gameId));
+        parameters.put("limit", String.valueOf(limit));
+
+        Map<String, String> signatureParameters = new LinkedHashMap<String, String>(parameters);
+        signatureParameters.put("limit", limit + privateKey);
+
+        request.addParameters(parameters);
+        request.addParameter("signature", signatureFactory.build(baseUrl, signatureParameters));
+        return request;
+    }
+
     private Map<String, String> createUserSignatureParameterMap(String userToken, Map<String, String> existingParameters) {
         Map<String, String> signatureParameters = new LinkedHashMap<String, String>(existingParameters);
         signatureParameters.put("user_token", userToken + privateKey);

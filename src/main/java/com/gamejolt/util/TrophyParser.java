@@ -20,14 +20,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class TrophyResponseParser {
+public class TrophyParser {
     private PropertiesParser parser;
 
-    public TrophyResponseParser() {
+    public TrophyParser() {
         this(new PropertiesParser());
     }
 
-    protected TrophyResponseParser(PropertiesParser parser) {
+    protected TrophyParser(PropertiesParser parser) {
         this.parser = parser;
     }
 

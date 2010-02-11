@@ -19,9 +19,10 @@ import com.gamejolt.io.StandardJavaObjectSerializer;
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
+import com.gamejolt.util.HighscoreParser;
 import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
-import com.gamejolt.util.TrophyResponseParser;
+import com.gamejolt.util.TrophyParser;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -41,10 +42,11 @@ public class GameJolt {
     private boolean verified;
     private String username;
     private String userToken;
-    private TrophyResponseParser trophyParser;
+    private TrophyParser trophyParser;
     private PropertiesParser propertiesParser;
     private ObjectSerializer objectSerializer;
     private BinarySanitizer binarySanitizer;
+    private HighscoreParser highscoreParser;
 
     /**
      * Let the Game Jolt experience begin! :)
@@ -60,10 +62,11 @@ public class GameJolt {
         this.gameId = gameId;
         this.privateKey = privateKey;
         this.requestFactory = new RequestFactory(gameId, this.privateKey);
-        this.trophyParser = new TrophyResponseParser();
+        this.trophyParser = new TrophyParser();
         this.propertiesParser = new PropertiesParser();
         this.binarySanitizer = new BinarySanitizer();
         this.objectSerializer = new StandardJavaObjectSerializer();
+        this.highscoreParser = new HighscoreParser();
     }
 
     /**
@@ -318,6 +321,25 @@ public class GameJolt {
         return data;
     }
 
+    /**
+     * Grab a limited number of highscores for your game
+     *
+     * @param limit - the maximum number of scores
+     * @return a List of highscores
+     */
+    public List<Highscore> getAllHighscores(int limit) {
+        return highscoreParser.parse(processRequest(requestFactory.buildAllHighscoresRequest(limit)));
+    }
+
+    /**
+     * Grab the top 10 highscores
+     *
+     * @return a List of highscores
+     */
+    public List<Highscore> getTop10Highscores() {
+        return getAllHighscores(10);
+    }
+
     private boolean wasSuccessful(HttpRequest request) {
         Properties properties = propertiesParser.parseProperties(processRequest(request));
         return properties.getBoolean("success");
@@ -347,7 +369,7 @@ public class GameJolt {
         this.requestFactory = requestFactory;
     }
 
-    protected void setTrophyParser(TrophyResponseParser trophyParser) {
+    protected void setTrophyParser(TrophyParser trophyParser) {
         this.trophyParser = trophyParser;
     }
 
@@ -369,6 +391,10 @@ public class GameJolt {
             return objectSerializer.deserialize(binarySanitizer.unsanitize(data));
         }
         return null;
+    }
+
+    protected void setHighscoreParser(HighscoreParser highscoreParser) {
+        this.highscoreParser = highscoreParser;
     }
 
 }

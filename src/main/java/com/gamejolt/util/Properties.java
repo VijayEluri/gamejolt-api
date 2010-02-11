@@ -28,7 +28,9 @@ public class Properties {
     }
 
     public int getInt(String key) {
-        return Integer.parseInt(get(key));
+        String value = get(key);
+        if (isBlank(key)) return 0;
+        return Integer.parseInt(value);
     }
 
     public String get(String key) {
@@ -66,5 +68,10 @@ public class Properties {
             }
         }
         return parts;
+    }
+
+    public boolean isBlank(String key) {
+        String value = get(key);
+        return value == null || value.trim().length() == 0;
     }
 }

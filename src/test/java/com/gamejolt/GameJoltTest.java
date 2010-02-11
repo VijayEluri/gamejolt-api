@@ -18,9 +18,10 @@ import com.gamejolt.io.ObjectSerializer;
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
+import com.gamejolt.util.HighscoreParser;
 import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
-import com.gamejolt.util.TrophyResponseParser;
+import com.gamejolt.util.TrophyParser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -39,7 +40,7 @@ public class GameJoltTest {
     private HttpRequest request;
     private HttpResponse response;
     private GameJolt gameJolt;
-    private TrophyResponseParser trophyResponseParser;
+    private TrophyParser trophyParser;
     private PropertiesParser propertiesParser;
     private ObjectSerializer objectSerializer;
     private BinarySanitizer binarySanitizer;
@@ -49,28 +50,51 @@ public class GameJoltTest {
     private static final Object OUR_OBJECT = new Object();
     private static final String USERNAME = "username";
     private static final String USER_TOKEN = "userToken";
+    private HighscoreParser highscoreParser;
 
     @Before
     public void setUp() throws Exception {
         requestFactory = mock(RequestFactory.class);
         request = mock(HttpRequest.class);
         response = mock(HttpResponse.class);
-        trophyResponseParser = mock(TrophyResponseParser.class);
+        trophyParser = mock(TrophyParser.class);
         propertiesParser = mock(PropertiesParser.class);
         objectSerializer = mock(ObjectSerializer.class);
         binarySanitizer = mock(BinarySanitizer.class);
         properties = mock(Properties.class);
+        highscoreParser = mock(HighscoreParser.class);
 
         gameJolt = new GameJolt(1111, "private-key");
         gameJolt.setRequestFactory(requestFactory);
-        gameJolt.setTrophyParser(trophyResponseParser);
+        gameJolt.setTrophyParser(trophyParser);
         gameJolt.setPropertiesParser(propertiesParser);
         gameJolt.setObjectSerializer(objectSerializer);
         gameJolt.setBinarySanitizer(binarySanitizer);
+        gameJolt.setHighscoreParser(highscoreParser);
 
         when(request.doGet(false)).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
         when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT);
+    }
+
+    @Test
+    public void test_getTop10Highscores() {
+        List<Highscore> parseScores = Arrays.asList(new Highscore());
+
+        when(requestFactory.buildAllHighscoresRequest(10)).thenReturn(request);
+        when(highscoreParser.parse(RESPONSE_CONTENT)).thenReturn(parseScores);
+
+        assertSame(parseScores, gameJolt.getTop10Highscores());
+    }
+
+    @Test
+    public void test_getAllHighscores_WithLimit() {
+        List<Highscore> parseScores = Arrays.asList(new Highscore());
+
+        when(requestFactory.buildAllHighscoresRequest(100)).thenReturn(request);
+        when(highscoreParser.parse(RESPONSE_CONTENT)).thenReturn(parseScores);
+
+        assertSame(parseScores, gameJolt.getAllHighscores(100));
     }
 
     @Test
@@ -578,7 +602,7 @@ public class GameJoltTest {
         hasAVerifiedUser();
 
         when(requestFactory.buildTrophiesRequest(USERNAME, USER_TOKEN, "false")).thenReturn(request);
-        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
+        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
 
         assertSame(trophies, gameJolt.getUnachievedTrophies());
     }
@@ -600,7 +624,7 @@ public class GameJoltTest {
         hasAVerifiedUser();
 
         when(requestFactory.buildTrophiesRequest(USERNAME, USER_TOKEN, "true")).thenReturn(request);
-        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
+        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
 
         assertSame(trophies, gameJolt.getAchievedTrophies());
     }
@@ -612,7 +636,7 @@ public class GameJoltTest {
         hasAVerifiedUser();
 
         when(requestFactory.buildTrophiesRequest(USERNAME, USER_TOKEN, "empty")).thenReturn(request);
-        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
+        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
 
         assertSame(trophies, gameJolt.getAllTrophies());
     }
@@ -642,7 +666,7 @@ public class GameJoltTest {
         hasAVerifiedUser();
 
         when(requestFactory.buildTrophyRequest(USERNAME, USER_TOKEN, "12")).thenReturn(request);
-        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(new ArrayList());
+        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(new ArrayList());
 
         assertNull(gameJolt.getTrophy(12));
     }
@@ -654,7 +678,7 @@ public class GameJoltTest {
         hasAVerifiedUser();
 
         when(requestFactory.buildTrophyRequest(USERNAME, USER_TOKEN, "12")).thenReturn(request);
-        when(trophyResponseParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(trophy));
+        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(trophy));
 
         assertSame(trophy, gameJolt.getTrophy(12));
     }
