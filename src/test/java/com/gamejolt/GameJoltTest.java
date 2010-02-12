@@ -26,6 +26,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.net.MalformedURLException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -75,6 +76,58 @@ public class GameJoltTest {
         when(request.doGet(false)).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
         when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT);
+    }
+
+    @Test
+    public void test_userAchievedHighscore_Success_ChangeBuiltInFormatting() {
+        gameJolt.setHighscoreFormatter(new DecimalFormat("$ #,###.00"));
+
+        hasAVerifiedUser();
+
+        when(requestFactory.buildUserAchievedHighscoreRequest(USERNAME, USER_TOKEN, "$ 1,234.00", 1234, "")).thenReturn(request);
+        receivesResponse(response, true);
+
+        assertTrue(gameJolt.userAchievedHighscore(1234));
+    }
+
+    @Test
+    public void test_userAchievedHighscore_Success_UsingBuiltInFormatting() {
+        hasAVerifiedUser();
+
+        when(requestFactory.buildUserAchievedHighscoreRequest(USERNAME, USER_TOKEN, "10,000,000", 10000000, "")).thenReturn(request);
+        receivesResponse(response, true);
+
+        assertTrue(gameJolt.userAchievedHighscore(10000000));
+    }
+
+    @Test
+    public void test_userAchievedHighscore_Failed() {
+        hasAVerifiedUser();
+
+        when(requestFactory.buildUserAchievedHighscoreRequest(USERNAME, USER_TOKEN, "displayed", 10, "extra")).thenReturn(request);
+        receivesResponse(response, false);
+
+        assertFalse(gameJolt.userAchievedHighscore("displayed", 10, "extra"));
+    }
+
+    @Test
+    public void test_userAchievedHighscore_Success() {
+        hasAVerifiedUser();
+
+        when(requestFactory.buildUserAchievedHighscoreRequest(USERNAME, USER_TOKEN, "displayed", 10, "extra")).thenReturn(request);
+        receivesResponse(response, true);
+
+        assertTrue(gameJolt.userAchievedHighscore("displayed", 10, "extra"));
+    }
+
+    @Test
+    public void test_userAchievedHighscore_UnverifiedUser() {
+        try {
+            gameJolt.userAchievedHighscore("displayed", 100, "extra");
+            fail();
+        } catch (UnverifiedUserException e) {
+
+        }
     }
 
     @Test

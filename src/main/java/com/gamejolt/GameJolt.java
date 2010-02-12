@@ -24,6 +24,8 @@ import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
 import com.gamejolt.util.TrophyParser;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +49,7 @@ public class GameJolt {
     private ObjectSerializer objectSerializer;
     private BinarySanitizer binarySanitizer;
     private HighscoreParser highscoreParser;
+    private NumberFormat highscoreFormatter;
 
     /**
      * Let the Game Jolt experience begin! :)
@@ -67,6 +70,7 @@ public class GameJolt {
         this.binarySanitizer = new BinarySanitizer();
         this.objectSerializer = new StandardJavaObjectSerializer();
         this.highscoreParser = new HighscoreParser();
+        this.highscoreFormatter = new DecimalFormat("###,###,###,###,###");
     }
 
     /**
@@ -362,17 +366,50 @@ public class GameJolt {
         return getUserHighscores(10);
     }
 
-    private boolean wasSuccessful(HttpRequest request) {
-        Properties properties = propertiesParser.parseProperties(processRequest(request));
-        return properties.getBoolean("success");
+    /**
+     * User has achieved a new highscore
+     *
+     * @param displayedText - the text to be displayed on Game Jolt
+     * @param score         - the literal score which will be used to determine if this score is higher than the other scores
+     * @param extra         - extra data to be displayed
+     * @return <p>true - successfully added highscore</p><p>false - failed adding highscore</p>
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
+    public boolean userAchievedHighscore(String displayedText, int score, String extra) throws UnverifiedUserException {
+        if (!verified) throw new UnverifiedUserException();
+        return wasSuccessful(requestFactory.buildUserAchievedHighscoreRequest(username, userToken, displayedText, score, extra));
+    }
+
+    /**
+     * User has achieved a new highscore
+     * <p/>
+     * The score display formatting is using Java's NumberFormat class.
+     * <p/>
+     * By default the score's formatting is "###,###,###,###,###", if you do not like this formatting you can easily change the formatting by calling the setter for the HighscoreFormatter.
+     *
+     * @param score - the score achieved
+     * @return <p>true - successfully added highscore</p><p>false - failed adding highscore</p>
+     * @throws UnverifiedUserException is thrown if the given player has not be verified yet
+     */
+    public boolean userAchievedHighscore(int score) throws UnverifiedUserException {
+        return userAchievedHighscore(highscoreFormatter.format(score), score, "");
     }
 
     public void setObjectSerializer(com.gamejolt.io.ObjectSerializer objectSerializer) {
         this.objectSerializer = objectSerializer;
     }
 
+    public void setHighscoreFormatter(NumberFormat highscoreFormatter) {
+        this.highscoreFormatter = highscoreFormatter;
+    }
+
     protected void setBinarySanitizer(BinarySanitizer binarySanitizer) {
         this.binarySanitizer = binarySanitizer;
+    }
+
+    private boolean wasSuccessful(HttpRequest request) {
+        Properties properties = propertiesParser.parseProperties(processRequest(request));
+        return properties.getBoolean("success");
     }
 
     private String processRequest(HttpRequest request) {

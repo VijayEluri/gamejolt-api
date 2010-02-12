@@ -41,6 +41,23 @@ public class RequestFactoryTest {
     }
 
     @Test
+    public void test_buildUserAchievedHighscoreRequest() {
+        Map<String, String> signatureParameters = new LinkedHashMap<String, String>();
+        signatureParameters.put("game_id", String.valueOf(GAME_ID));
+        signatureParameters.put("username", "username");
+        signatureParameters.put("user_token", "userToken" + PRIVATE_KEY);
+        signatureParameters.put("score", "score");
+        signatureParameters.put("extra_data", "extra");
+        signatureParameters.put("sort", String.valueOf(10));
+
+        when(signatureFactory.build("http://gamejolt.com/api/game/v1/scores/add", signatureParameters)).thenReturn("sign-hash");
+
+        HttpRequest request = factory.buildUserAchievedHighscoreRequest("username", "userToken", "score", 10, "extra");
+
+        assertEquals("http://gamejolt.com/api/game/v1/scores/add?game_id=1111&username=username&sort=10&score=score&extra_data=extra&user_token=userToken&signature=sign-hash", request.getUrl());
+    }
+
+    @Test
     public void test_buildUserHighscoresRequest() {
         Map<String, String> signatureParameters = new LinkedHashMap<String, String>();
         signatureParameters.put("game_id", String.valueOf(GAME_ID));
