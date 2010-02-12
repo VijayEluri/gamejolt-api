@@ -1,6 +1,8 @@
 == Current Features
 - access to available trophies (earned/unearned)
 - access to achieve a trophy
+- access to highscores
+- access to achieve user highscores
 - supports gzip & deflate compression
 - supports custom serialization of user/game data
 - access to save/read/remove data for users or your game
@@ -16,3 +18,8 @@
     if (gj.verifyUser(playerUsername, playerHash))) {
         List<Trophy> trophies = gj.getAllTrophies();
     }
+
+== Coming soon...
+- quickplay support
+- guest player highscores
+- trophy achievement management    
