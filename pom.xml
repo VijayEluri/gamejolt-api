@@ -168,4 +168,8 @@
 
     </pluginRepositories>
 
+    <scm>
+        <developerConnection>scm:git:git://github.com/born2snipe/gamejolt-api.git</developerConnection>
+    </scm>
+
 </project>
