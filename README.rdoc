@@ -6,6 +6,7 @@
 - supports gzip & deflate compression
 - supports custom serialization of user/game data
 - access to save/read/remove data for users or your game
+- trophy achievement management
 
 == Example Usage
 
@@ -22,4 +23,3 @@
 == Coming soon...
 - quickplay support
 - guest player highscores
-- trophy achievement management    
