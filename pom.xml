@@ -94,11 +94,14 @@
                 <executions>
                     <execution>
                         <configuration>
-                            <descriptorRefs>
-                                <descriptorRef>jar-with-dependencies</descriptorRef>
-                            </descriptorRefs>
+                            <!--<descriptorRefs>-->
+                                <!--<descriptorRef>jar-with-dependencies</descriptorRef>-->
+                            <!--</descriptorRefs>-->
+                            <descriptors>
+                                <descriptor>jar.xml</descriptor>
+                            </descriptors>
                         </configuration>
-                        <id>build-jar-with-dependencies</id>
+                        <id>make-jar</id>
                         <phase>package</phase>
                         <goals>
                             <goal>single</goal>
