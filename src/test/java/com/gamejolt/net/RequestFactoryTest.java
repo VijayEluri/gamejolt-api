@@ -20,7 +20,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -225,7 +224,6 @@ public class RequestFactoryTest {
         HttpRequest request = factory.buildStoreGameDataRequest("name", "data");
 
         assertEquals("http://gamejolt.com/api/game/v1/data-store/set?game_id=1111&data=data&key=name&signature=sign-hash", request.getUrl());
-        assertTrue(request.isPost());
     }
 
     @Test
@@ -242,7 +240,6 @@ public class RequestFactoryTest {
         HttpRequest request = factory.buildStoreUserDataRequest("username", "userToken", "name", "data");
 
         assertEquals("http://gamejolt.com/api/game/v1/data-store/set?game_id=1111&username=username&data=data&key=name&user_token=userToken&signature=sign-hash", request.getUrl());
-        assertTrue(request.isPost());
     }
 
     @Test

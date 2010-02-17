@@ -14,16 +14,11 @@
 package com.gamejolt.net;
 
 import com.gamejolt.GameJoltException;
-import org.apache.commons.httpclient.Header;
-import org.apache.commons.httpclient.HttpClient;
-import org.apache.commons.httpclient.HttpMethod;
-import org.apache.commons.httpclient.methods.GetMethod;
-import org.apache.commons.httpclient.methods.PostMethod;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.DeflaterInputStream;
 import java.util.zip.GZIPInputStream;
@@ -31,21 +26,16 @@ import java.util.zip.GZIPInputStream;
 
 public class HttpRequest {
     private QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
-    private static final HttpClient http = new HttpClient();
-    private HttpMethod requestMethod;
     private String url;
+    private final boolean isPost;
 
     public HttpRequest(String url) {
         this(url, false);
     }
 
     public HttpRequest(String url, boolean isPost) {
-        if (isPost) {
-            requestMethod = new PostMethod(url);
-        } else {
-            requestMethod = new GetMethod(url);
-        }
         this.url = url;
+        this.isPost = isPost;
     }
 
 
@@ -65,23 +55,45 @@ public class HttpRequest {
     }
 
     public HttpResponse doGet(boolean verbose) throws GameJoltException {
+        HttpURLConnection connection = null;
         InputStream input = null;
         try {
-            requestMethod.setQueryString(queryStringBuilder.toString());
             showRequest(verbose);
-            requestMethod.setRequestHeader("Accept-Encoding", "gzip,deflate");
-            requestMethod.setRequestHeader("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7");
-            int responseCode = http.executeMethod(requestMethod);
+            URL request = new URL(buildUrlWithParameters());
+            if (isPost()) {
+                request = new URL(this.url);
+            }
+            connection = (HttpURLConnection) request.openConnection();
+            connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
+            connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7");
+
+            if (isPost()) {
+                connection.setRequestMethod("POST");
+                connection.setDoInput(true);
+                connection.setDoOutput(true);
+                connection.setUseCaches(false);
+
+                OutputStream output = connection.getOutputStream();
+                try {
+                    output.write(queryStringBuilder.toString().substring(1).getBytes());
+                    output.flush();
+                } finally {
+                    output.close();
+                }
+            }
+
+            connection.connect();
+            int responseCode = connection.getResponseCode();
             if (responseCode != HttpURLConnection.HTTP_OK) {
                 showResponseFailed(verbose, responseCode);
                 return new HttpResponse(responseCode, new byte[0]);
             }
 
-            input = requestMethod.getResponseBodyAsStream();
-            Header header = requestMethod.getResponseHeader("Content-Encoding");
-            if (isResponseCompressed(header, "gzip")) {
+            input = connection.getInputStream();
+            List<String> contentType = connection.getHeaderFields().get("Content-Encoding");
+            if (isResponseCompressed(contentType, "gzip")) {
                 input = new GZIPInputStream(input);
-            } else if (isResponseCompressed(header, "deflate")) {
+            } else if (isResponseCompressed(contentType, "deflate")) {
                 input = new DeflaterInputStream(input);
             }
             byte[] responseContent = readAll(input);
@@ -90,9 +102,28 @@ public class HttpRequest {
         } catch (IOException e) {
             throw new GameJoltException(e);
         } finally {
-            requestMethod.releaseConnection();
+            close(connection);
             close(input);
         }
+    }
+
+    private String buildUrlWithParameters() throws UnsupportedEncodingException {
+        StringBuilder builder = new StringBuilder(url);
+        String queryString = queryStringBuilder.toString();
+        if (queryString.length() > 0) {
+            builder.append(queryString);
+        }
+        return builder.toString();
+    }
+
+    private boolean isResponseCompressed(List<String> contentType, String algorithm) {
+        if (contentType == null) return false;
+        for (String type : contentType) {
+            if (type.toLowerCase().contains(algorithm)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private void showResponseFailed(boolean verbose, int code) {
@@ -128,11 +159,6 @@ public class HttpRequest {
         }
     }
 
-    private boolean isResponseCompressed(Header header, String algorithm) {
-        if (header == null) return false;
-        return algorithm.equalsIgnoreCase(header.getValue());
-    }
-
     private byte[] readAll(InputStream input) throws IOException {
         ByteArrayOutputStream output = new ByteArrayOutputStream();
         byte[] buffer = new byte[2048];
@@ -152,6 +178,11 @@ public class HttpRequest {
         }
     }
 
+    private void close(HttpURLConnection connection) {
+        if (connection == null) return;
+        connection.disconnect();
+    }
+
     public String getUrl() {
         return url + queryStringBuilder.toString();
     }
@@ -161,7 +192,7 @@ public class HttpRequest {
     }
 
     public boolean isPost() {
-        return requestMethod instanceof PostMethod;
+        return isPost;
     }
 
 }

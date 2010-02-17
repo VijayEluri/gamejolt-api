@@ -101,7 +101,7 @@ public class RequestFactory {
 
     public HttpRequest buildStoreGameDataRequest(String name, String data) {
         String baseUrl = createUrl("data-store/set");
-        HttpRequest request = new HttpRequest(baseUrl, true);
+        HttpRequest request = new HttpRequest(baseUrl);
 
         Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
@@ -118,7 +118,7 @@ public class RequestFactory {
 
     public HttpRequest buildStoreUserDataRequest(String username, String userToken, String name, String data) {
         String baseUrl = createUrl("data-store/set");
-        HttpRequest request = new HttpRequest(baseUrl, true);
+        HttpRequest request = new HttpRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("data", data);
