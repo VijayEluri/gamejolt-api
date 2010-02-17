@@ -20,7 +20,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.zip.DeflaterInputStream;
 import java.util.zip.GZIPInputStream;
 
 
@@ -64,7 +63,7 @@ public class HttpRequest {
                 request = new URL(this.url);
             }
             connection = (HttpURLConnection) request.openConnection();
-            connection.setRequestProperty("Accept-Encoding", "gzip,deflate");
+            connection.setRequestProperty("Accept-Encoding", "gzip");
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7");
 
             if (isPost()) {
@@ -93,8 +92,6 @@ public class HttpRequest {
             List<String> contentType = connection.getHeaderFields().get("Content-Encoding");
             if (isResponseCompressed(contentType, "gzip")) {
                 input = new GZIPInputStream(input);
-            } else if (isResponseCompressed(contentType, "deflate")) {
-                input = new DeflaterInputStream(input);
             }
             byte[] responseContent = readAll(input);
             showResponse(verbose, responseContent);
