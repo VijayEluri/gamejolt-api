@@ -61,7 +61,7 @@ public class HttpRequestTest {
 
     @Test
     public void test_BadUrl() {
-        HttpRequest request = new HttpRequest("http://www.google.com");
+        HttpRequest request = new HttpRequest("http://www.google.com/doesNotExist");
         request.addParameter("q", "java");
 
         HttpResponse response = request.doGet(false);
