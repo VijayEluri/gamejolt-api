@@ -13,6 +13,7 @@
 
 package com.gamejolt.net;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.LinkedHashMap;
@@ -22,6 +23,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 
+@Ignore
 public class HttpRequestTest {
 
     @Test

@@ -2,7 +2,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.gamejolt</groupId>
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>9</version>
+    </parent>
+
+    <groupId>com.github.born2snipe</groupId>
     <artifactId>gamejolt</artifactId>
     <packaging>jar</packaging>
     <version>0.3-SNAPSHOT</version>
@@ -54,9 +60,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-release-plugin</artifactId>
-                <version>2.0-beta-8</version>
                 <configuration>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                    <mavenExecutorId>forked-path</mavenExecutorId>
+                    <useReleaseProfile>false</useReleaseProfile>
+                    <arguments>-Psonatype-oss-release -D=gpg.keyname=${env.MAVEN_PGP_KEYNAME} -Dgpg.passphrase=${env.MAVEN_PGP_PASSPHRASE}</arguments>
                 </configuration>
             </plugin>
 
@@ -126,78 +133,28 @@
         </plugins>
     </build>
 
-    <pluginRepositories>
-
-        <pluginRepository>
-            <id>mc-release</id>
-            <name>Local Maven repository of releases</name>
-            <url>http://mc-repo.googlecode.com/svn/maven2/releases</url>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </pluginRepository>
-
-    </pluginRepositories>
-
     <scm>
         <developerConnection>scm:git:git://github.com/born2snipe/gamejolt-api.git</developerConnection>
+        <connection>scm:git:git@github.com:born2snipe/gamejolt-api.git</connection>
+        <url>git@github.com:born2snipe/gamejolt-api.git</url>
     </scm>
 
-    <profiles>
-        <profile>
-            <id>distribution</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-javadoc-plugin</artifactId>
-                        <version>2.5</version>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
+    <licenses>
+        <license>
+            <name>Apache License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
 
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-source-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <goals>
-                                    <goal>jar</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-assembly-plugin</artifactId>
-                        <configuration>
-                            <appendAssemblyId>false</appendAssemblyId>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <configuration>
-                                    <descriptorRefs>
-                                        <descriptorRef>bin</descriptorRef>
-                                    </descriptorRefs>
-                                </configuration>
-                                <id>build-distribution-zip</id>
-                                <phase>package</phase>
-                                <goals>
-                                    <goal>single</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+    <developers>
+        <developer>
+            <name>Dan Dudley</name>
+            <email>born2snipe@gmail.com</email>
+            <organization />
+            <organizationUrl>https://github.com/born2snipe</organizationUrl>
+        </developer>
+    </developers>
 
 </project>
