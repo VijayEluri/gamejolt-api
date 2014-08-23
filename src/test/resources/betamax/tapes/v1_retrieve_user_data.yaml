@@ -1,0 +1,80 @@
+!tape
+name: v1/retrieve user data
+interactions:
+- recorded: 2014-08-23T03:51:39.106Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/users/auth/?game_id=2338&username=born2snipe&signature=d466c1027f8a89be289cff42f589c478&user_token=b7286a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:51:38 GMT
+      Expires: Sat, 23 Aug 2014 03:51:37 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T03:51:39.248Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/?game_id=2338&username=born2snipe&format=dump&key=data-key&user_token=b7286a&signature=8ad4d8863e21235964d5bd648ff091da
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:51:39 GMT
+      Expires: Sat, 23 Aug 2014 03:51:38 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAwsOdXZ2DQ7m5fIwKfZ0hAG3sqqcfHfDDE/XIq8k1+zQpORi38RkA7dARxPf4hR/10CQIltbAHO9b589AAAA
+- recorded: 2014-08-23T04:50:46.753Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/set?game_id=2338&username=born2snipe&data=H4sIAAAAAAAAAFvzloG1hIErJbEkUbcsMac0FQA4MsdOEQAAAA%3D%3D&key=data-key&user_token=b7286a&signature=3712e97d06fc42cb50069aeeebb4faf8
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:50:46 GMT
+      Expires: Sat, 23 Aug 2014 04:50:45 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA

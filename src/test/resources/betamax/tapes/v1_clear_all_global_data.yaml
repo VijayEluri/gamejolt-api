@@ -1,0 +1,153 @@
+!tape
+name: v1/clear all global data
+interactions:
+- recorded: 2014-08-23T03:59:56.735Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/users/auth/?game_id=2338&username=born2snipe&signature=d466c1027f8a89be289cff42f589c478&user_token=b7286a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:59:56 GMT
+      Expires: Sat, 23 Aug 2014 03:59:55 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T03:59:56.922Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/set?game_id=2338&data=H4sIAAAAAAAAAFvzloG1hIHREAC9Y8%2BeCAAAAA%3D%3D&key=data-1&signature=47fe31955ae6654217c5698ee7d19e92
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:59:56 GMT
+      Expires: Sat, 23 Aug 2014 03:59:55 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T03:59:57.053Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/set?game_id=2338&data=H4sIAAAAAAAAAFvzloG1hIHRCAAHMsYHCAAAAA%3D%3D&key=data-2&signature=ebe25bbc058697027586455d5d4de97a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:59:56 GMT
+      Expires: Sat, 23 Aug 2014 03:59:55 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T03:59:57.752Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/get-keys?game_id=2338&signature=ba18439c16683b6e9d5831777e6b093b
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:59:57 GMT
+      Expires: Sat, 23 Aug 2014 03:59:56 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uXKTq20UkpJLEnUNUThGQF5APbwqUYsAAAA
+- recorded: 2014-08-23T03:59:57.895Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/remove?game_id=2338&key=data-1&signature=459ee3adc5469e8dad71f9c4c458fba1
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:59:57 GMT
+      Expires: Sat, 23 Aug 2014 03:59:56 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T03:59:58.022Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/remove?game_id=2338&key=data-2&signature=87f7cd759b194156d91bb57c5f491290
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:59:57 GMT
+      Expires: Sat, 23 Aug 2014 03:59:56 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA

@@ -1,0 +1,53 @@
+!tape
+name: v1/trophy by id
+interactions:
+- recorded: 2014-08-23T03:31:34.812Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/users/auth/?game_id=2338&username=born2snipe&signature=d466c1027f8a89be289cff42f589c478&user_token=b7286a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:31:34 GMT
+      Expires: Sat, 23 Aug 2014 03:31:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T03:31:34.884Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/trophies/?game_id=2338&username=born2snipe&trophy_id=10625&signature=b2ff2db7af6b86e3a99037fce0d40279&user_token=b7286a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 03:31:34 GMT
+      Expires: Sat, 23 Aug 2014 03:31:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAA02OQQrDIBBF94XeobiPNoV24Sm6yD6ITnSCGnHGQm5fUwrt7sPjPT41a4FIC64NxPmETovx+rjd+2bkCFo8o2HMLV2mupWwd+CAbMXCuGUtJiD+Q7gsaFvk/Sce2WQ8zK1GLQJz0UqR9Kt1WWZghckr/hSG8nWGUa7Fd9PYgPCCfmsxkY6Lb0SqP4yzAAAA

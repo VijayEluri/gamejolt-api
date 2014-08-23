@@ -1,0 +1,2680 @@
+!tape
+name: v1/user high scores
+interactions:
+- recorded: 2014-08-23T04:32:16.691Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/users/auth/?game_id=2338&username=born2snipe&signature=d466c1027f8a89be289cff42f589c478&user_token=b7286a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:32:16 GMT
+      Expires: Sat, 23 Aug 2014 04:32:15 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: !!org.codehaus.groovy.runtime.GStringImpl {}
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:32:16.798Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores?game_id=2338&limit=100&username=born2snipe&user_token=b7286a&signature=abab5e05c01720aaf5b39eb687467136
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:32:16 GMT
+      Expires: Sat, 23 Aug 2014 04:32:15 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: !!org.codehaus.groovy.runtime.GStringImpl {}
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAA73TQQrDIBBA0X2hdxBPoMZAcZ17BNEhBNoIzgjt7WtKa6DUnXbnDOLjL8TkHCAaTjEBP5/QhQiGSyH2IUT6nOFO0c7ekjU8jwkhGj7ZjU3JX+HxXs2rN1wLlcclAdLrLlJ+M++VYrd1SwTI7BIObCzU2AaS+l/Q5TekC6T7FrWHKkVDgYa+Re2hSpEqkOpb1B6qFMnjy/Ytag99Fz0BC91g7pcEAAA=
+- recorded: 2014-08-23T04:35:29.988Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=0&score=0&extra_data=&user_token=b7286a&signature=1d2954553fbf820164bc75c63ede08b8
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:29 GMT
+      Expires: Sat, 23 Aug 2014 04:35:28 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UkpLzClOVeLlygXyEtNTrZQi80sVckuLSxRS80pSixQSFYqT84tS9YBKABoHDbQ0AAAA
+- recorded: 2014-08-23T04:35:30.078Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=1&score=1&extra_data=&user_token=b7286a&signature=e355dd183854d9acaa46b1bba952e3ac
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.161Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=2&score=2&extra_data=&user_token=b7286a&signature=1063ddc9df674e26f7979626d219e7b0
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.241Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=3&score=3&extra_data=&user_token=b7286a&signature=b789a2871ab964502d4a792a8c9fb591
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.325Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=4&score=4&extra_data=&user_token=b7286a&signature=41de3d5fb7ab0e3651e4661e5a4e2be8
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.408Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=5&score=5&extra_data=&user_token=b7286a&signature=f55b6ec75b24fcf8c3939b0ca455a298
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.489Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=6&score=6&extra_data=&user_token=b7286a&signature=f0dbcd55f70978bc1e95e0070a931ea8
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.572Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=7&score=7&extra_data=&user_token=b7286a&signature=ef26a74043655759f9329c856bee141a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.654Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=8&score=8&extra_data=&user_token=b7286a&signature=7931646752cca01eb73acabf0f174068
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.735Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=9&score=9&extra_data=&user_token=b7286a&signature=b92b8da0fcf09b5d986af351cd02b352
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.817Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=10&score=10&extra_data=&user_token=b7286a&signature=78dadad7e36d21661e09d7cc134d0840
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.916Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=11&score=11&extra_data=&user_token=b7286a&signature=747da7604e200cf5afa0cabd3f784eb2
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:30.998Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=12&score=12&extra_data=&user_token=b7286a&signature=f4910dcd91e89bd4bd1db050a9044138
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:30 GMT
+      Expires: Sat, 23 Aug 2014 04:35:29 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.083Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=13&score=13&extra_data=&user_token=b7286a&signature=05bdff6cb4f55a5194570c9634d00e14
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.166Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=14&score=14&extra_data=&user_token=b7286a&signature=461c12d9b3b3c151998c9c25fbd3ce32
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.250Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=15&score=15&extra_data=&user_token=b7286a&signature=01b8b264f90b66efa9217795da0e1192
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.332Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=16&score=16&extra_data=&user_token=b7286a&signature=7f585579a541dddc8fb7dd86d4966d15
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.419Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=17&score=17&extra_data=&user_token=b7286a&signature=8e434fd540df49a796bed31f66c1b6fe
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.499Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=18&score=18&extra_data=&user_token=b7286a&signature=e630219d894fe6316518e89bf513d0f1
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.581Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=19&score=19&extra_data=&user_token=b7286a&signature=1557e1e8371713f95b06f085895bdea6
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.663Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=20&score=20&extra_data=&user_token=b7286a&signature=1067f3c7c19972a9c772c81fe2972e36
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.748Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=21&score=21&extra_data=&user_token=b7286a&signature=b400a4dc4799384c625fe2785acb12ea
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.830Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=22&score=22&extra_data=&user_token=b7286a&signature=b1cd2c483cd1390a865f14ce31b3aba7
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.916Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=23&score=23&extra_data=&user_token=b7286a&signature=b21fa3896828e93c1c4598b884146cdf
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:31.996Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=24&score=24&extra_data=&user_token=b7286a&signature=ea9682d713208de97442bdc9d9b9d227
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:31 GMT
+      Expires: Sat, 23 Aug 2014 04:35:30 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.078Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=25&score=25&extra_data=&user_token=b7286a&signature=c58af86ad4fdec0567ef85e339ae7838
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.161Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=26&score=26&extra_data=&user_token=b7286a&signature=a31d225d1a88f1228b8629f52207fc48
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.243Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=27&score=27&extra_data=&user_token=b7286a&signature=2300d90bf713bd0b7af08e9dcd7e9e06
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.322Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=28&score=28&extra_data=&user_token=b7286a&signature=80707e666bd398dc2418e88647211ebc
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.401Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=29&score=29&extra_data=&user_token=b7286a&signature=ab8bef8d7336bce237d3b3ff145c3bd6
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.484Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=30&score=30&extra_data=&user_token=b7286a&signature=b7ac7aaea1a0d83e8b25f4687f7f8864
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.566Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=31&score=31&extra_data=&user_token=b7286a&signature=902f5b5d52f6e79797eeb5e18d30b6eb
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.647Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=32&score=32&extra_data=&user_token=b7286a&signature=184b766a8907b14e73084402e82efceb
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.740Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=33&score=33&extra_data=&user_token=b7286a&signature=9fb3df546f327b55f353fefc131883f4
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.820Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=34&score=34&extra_data=&user_token=b7286a&signature=b5e405fb7b537eaaca80c918ebd78116
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.916Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=35&score=35&extra_data=&user_token=b7286a&signature=7a6d22da377a59e24ce1229f9ac495e6
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:32.997Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=36&score=36&extra_data=&user_token=b7286a&signature=3af746a7375e5c49200dc0f9121eff1d
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:32 GMT
+      Expires: Sat, 23 Aug 2014 04:35:31 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.078Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=37&score=37&extra_data=&user_token=b7286a&signature=cc38e211b3a9730fb6275246c8aee1ae
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.162Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=38&score=38&extra_data=&user_token=b7286a&signature=9028fe9fe6c099c2c5264d42cc71b456
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.241Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=39&score=39&extra_data=&user_token=b7286a&signature=c2e134464361ae5ec0756099cd8eeeeb
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.321Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=40&score=40&extra_data=&user_token=b7286a&signature=d6cb5e9da676c4d91876d8cf62b42a24
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.403Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=41&score=41&extra_data=&user_token=b7286a&signature=8f889bfd8826f768bd39daa514441cb0
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.483Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=42&score=42&extra_data=&user_token=b7286a&signature=2c4e4b9bd6546817eead4d717a64d10f
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.562Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=43&score=43&extra_data=&user_token=b7286a&signature=2dcb0760cddc257b32bcd72c6102b622
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.648Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=44&score=44&extra_data=&user_token=b7286a&signature=b34ab5f0fd05291892af53170c6d9500
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.738Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=45&score=45&extra_data=&user_token=b7286a&signature=92510461807b7527db7d466d9f164ff1
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.826Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=46&score=46&extra_data=&user_token=b7286a&signature=ce621f050a8f67551ace63d92e33ef6a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.915Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=47&score=47&extra_data=&user_token=b7286a&signature=74ffd324bf750bb06ddc90bf648ea428
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:33.994Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=48&score=48&extra_data=&user_token=b7286a&signature=ff7e4f90b55fafab74f29bd0cacbcd7f
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:33 GMT
+      Expires: Sat, 23 Aug 2014 04:35:32 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.082Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=49&score=49&extra_data=&user_token=b7286a&signature=d95faf10964ef8cf71c39333c9535401
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.161Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=50&score=50&extra_data=&user_token=b7286a&signature=2c1950c8f4b0ebcbc81629b4c66e7d2b
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.240Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=51&score=51&extra_data=&user_token=b7286a&signature=2afdd20266bb77172a766b73a8aaaf36
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.325Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=52&score=52&extra_data=&user_token=b7286a&signature=516b29fcdc1608bc19c9246ca45f392b
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.407Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=53&score=53&extra_data=&user_token=b7286a&signature=f366e1df121c6ec4ff1eea06e42d492a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.486Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=54&score=54&extra_data=&user_token=b7286a&signature=64a8446ed44541d128b08c82047e60ab
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.567Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=55&score=55&extra_data=&user_token=b7286a&signature=f23cf7cd9d27915aee5dcf1bcfe15ace
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.643Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=56&score=56&extra_data=&user_token=b7286a&signature=47661edc6185d22c4c2d86c266de15fe
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.720Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=57&score=57&extra_data=&user_token=b7286a&signature=e65eee639594ef4d49087a348b041ad3
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.796Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=58&score=58&extra_data=&user_token=b7286a&signature=b0784cc397d5aa1da9ab3bd4575efc2e
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.873Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=59&score=59&extra_data=&user_token=b7286a&signature=2b514472217840a478cf2af1553d17a5
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:34.950Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=60&score=60&extra_data=&user_token=b7286a&signature=c7efe4f7d363c365ae027784a0c88cc5
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:34 GMT
+      Expires: Sat, 23 Aug 2014 04:35:33 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.026Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=61&score=61&extra_data=&user_token=b7286a&signature=d66289673468d78bab7814216bd111b1
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.104Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=62&score=62&extra_data=&user_token=b7286a&signature=c4db040de9a85e7d88c239a6ac31c2c7
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.183Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=63&score=63&extra_data=&user_token=b7286a&signature=ccac8e74fe0dad0d97a21b4171d3dfd7
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.258Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=64&score=64&extra_data=&user_token=b7286a&signature=b9787d6b4ed939d411749c8fb43a29b7
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.335Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=65&score=65&extra_data=&user_token=b7286a&signature=dc3791aa2a2a037addda0b85b5c175ff
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.414Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=66&score=66&extra_data=&user_token=b7286a&signature=a23ab3d6584f822e01bf7c279c08b289
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.494Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=67&score=67&extra_data=&user_token=b7286a&signature=61ac2a3c6d552af0b335a12d2c91819d
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.574Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=68&score=68&extra_data=&user_token=b7286a&signature=fff44c106f17ee7cd88ca1358abbbcdc
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.653Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=69&score=69&extra_data=&user_token=b7286a&signature=dea5252fd9cbf230f288957cb00c26c7
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.731Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=70&score=70&extra_data=&user_token=b7286a&signature=478e1d1d5532321607ac9b5a614ac3df
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.808Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=71&score=71&extra_data=&user_token=b7286a&signature=97557b6c32ae18376b714d51b0e6aa63
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.885Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=72&score=72&extra_data=&user_token=b7286a&signature=ba076dc803294fc9d5b619830841fa57
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:35.964Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=73&score=73&extra_data=&user_token=b7286a&signature=c3737f6c5754c3c632d0b062d0ec8d53
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:35 GMT
+      Expires: Sat, 23 Aug 2014 04:35:34 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.046Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=74&score=74&extra_data=&user_token=b7286a&signature=0a7cf6f27855b40c7c918847d391aa29
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.124Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=75&score=75&extra_data=&user_token=b7286a&signature=8af46fb44dc1eddad3f140af20ffcf05
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.204Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=76&score=76&extra_data=&user_token=b7286a&signature=ff87b45106f1865dcbd29885520ff956
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.283Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=77&score=77&extra_data=&user_token=b7286a&signature=de7df44f3e85ff924a4f69d9359b4cb2
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.358Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=78&score=78&extra_data=&user_token=b7286a&signature=156b7d82c9057a7a997f1d5488d41542
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.436Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=79&score=79&extra_data=&user_token=b7286a&signature=385a8cdb96aaa3fbe5280322cfd72f61
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.513Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=80&score=80&extra_data=&user_token=b7286a&signature=780b2fd12e894e24968e01fc36e94ebc
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.589Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=81&score=81&extra_data=&user_token=b7286a&signature=02c337eb5d57e5222732e0c0eb9248c5
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.676Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=82&score=82&extra_data=&user_token=b7286a&signature=7a51f8c9c570ae0a9bac1f6a4cc9444a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.756Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=83&score=83&extra_data=&user_token=b7286a&signature=61d84df39c496512f4c3d153b62b0ce0
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.834Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=84&score=84&extra_data=&user_token=b7286a&signature=42e17ebab52114dd9580f65f428f7e03
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:36.915Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=85&score=85&extra_data=&user_token=b7286a&signature=dace99e20896959f1358920b26d5ab1f
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=86&score=86&extra_data=&user_token=b7286a&signature=b34328185fefcf5eb442234b6204ba99
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:36 GMT
+      Expires: Sat, 23 Aug 2014 04:35:35 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.077Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=87&score=87&extra_data=&user_token=b7286a&signature=aa11599f1fe132aa85f5fd73bdc4b374
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.154Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=88&score=88&extra_data=&user_token=b7286a&signature=39649a297966fd7d4b8409147977b9a0
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.232Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=89&score=89&extra_data=&user_token=b7286a&signature=710865e689d1bb05e79df290b7321501
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.309Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=90&score=90&extra_data=&user_token=b7286a&signature=ed4e6e691f3c0870529e7b4803e6bc70
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.386Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=91&score=91&extra_data=&user_token=b7286a&signature=787cba9304a665c1b7b5414388b1c306
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.466Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=92&score=92&extra_data=&user_token=b7286a&signature=4b25d60b5410fbc6e5fedf377a51c759
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.544Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=93&score=93&extra_data=&user_token=b7286a&signature=457138693e133d1d6c27d4d06480ad62
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.621Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=94&score=94&extra_data=&user_token=b7286a&signature=55800fab36eafce2571e24493e74465e
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.699Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=95&score=95&extra_data=&user_token=b7286a&signature=b146e3604cd6f1f7f8f239aedddfce04
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.776Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=96&score=96&extra_data=&user_token=b7286a&signature=6a48802558d423f389b5b1177c5c550a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.859Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=97&score=97&extra_data=&user_token=b7286a&signature=43ee8d5ce7eb74080c0f9d899d44020d
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:37.939Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=98&score=98&extra_data=&user_token=b7286a&signature=6b3a6f382c086b5d77db8ef5cb69b95c
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:37 GMT
+      Expires: Sat, 23 Aug 2014 04:35:36 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:35:38.018Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=99&score=99&extra_data=&user_token=b7286a&signature=cc1f17e02053a2ca9c63f075d89bd618
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:35:38 GMT
+      Expires: Sat, 23 Aug 2014 04:35:37 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Betamax: PLAY
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:37:15.642Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/scores/add?game_id=2338&username=born2snipe&sort=100&score=100&extra_data=&user_token=b7286a&signature=14c8e6fce7505a49f91f184bab018552
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:37:15 GMT
+      Expires: Sat, 23 Aug 2014 04:37:14 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA

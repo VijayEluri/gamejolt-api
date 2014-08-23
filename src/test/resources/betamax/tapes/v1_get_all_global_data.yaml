@@ -1,0 +1,153 @@
+!tape
+name: v1/get all global data
+interactions:
+- recorded: 2014-08-23T04:04:58.293Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/users/auth/?game_id=2338&username=born2snipe&signature=d466c1027f8a89be289cff42f589c478&user_token=b7286a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:04:58 GMT
+      Expires: Sat, 23 Aug 2014 04:04:57 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:04:58.410Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/set?game_id=2338&data=H4sIAAAAAAAAAFvzloG1uIhBMCuxLFEvJzEvXc8zryQ1PbVI6NGCJd8b2y2YGBg9GVjLEnNKUyuKGAQQ6vxKc5NSi9rWTJXlnvKgm4mBoaKAgYGBEQBDcC5IUQAAAA%3D%3D&key=data-1&signature=cc0a324055a5c915b8df1635fc2f0c17
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:04:58 GMT
+      Expires: Sat, 23 Aug 2014 04:04:57 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:04:58.520Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/set?game_id=2338&data=H4sIAAAAAAAAAFvzloG1uIhBMCuxLFEvJzEvXc8zryQ1PbVI6NGCJd8b2y2YGBg9GVjLEnNKUyuKGAQQ6vxKc5NSi9rWTJXlnvKgm4mBoaKAgYGBCQD5ISfRUQAAAA%3D%3D&key=data-2&signature=263d4c7aef441631c5d4a317774fb884
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:04:58 GMT
+      Expires: Sat, 23 Aug 2014 04:04:57 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2014-08-23T04:04:59.298Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/get-keys?game_id=2338&signature=ba18439c16683b6e9d5831777e6b093b
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:04:59 GMT
+      Expires: Sat, 23 Aug 2014 04:04:58 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uXKTq20UkpJLEnUNUThGQF5APbwqUYsAAAA
+- recorded: 2014-08-23T04:04:59.409Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/?game_id=2338&format=dump&key=data-1&signature=1683e0b796717e6e61fb548efe7e7354
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:04:59 GMT
+      Expires: Sat, 23 Aug 2014 04:04:58 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAwsOdXZ2DQ7m5fIwKfZ0hAG3sqqcfHfDUs8MJ1/n0gofN9cyryrXsohki6qiykDDgKQwTzM/d2evFIsko0qjSHendEv3sCwf1zw/79DKUm93x8BAs7IK72RTv+BMy6LwEK+InLwy7/Rck1yn/ERvx3SgDtdAJ5dkZ1PP0ECQhba2APKnBQCJAAAA
+- recorded: 2014-08-23T04:04:59.519Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/data-store/?game_id=2338&format=dump&key=data-2&signature=254b57a8cff01c2a9e7083b5e2a2396e
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Sat, 23 Aug 2014 04:04:59 GMT
+      Expires: Sat, 23 Aug 2014 04:04:58 GMT
+      Server: nginx/1.6.1
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.15
+    body: !!binary |-
+      H4sIAAAAAAAAAwsOdXZ2DQ7m5fIwKfZ0hAG3sqqcfHfDUs8MJ1/n0gofN9cyryrXsohki6qiykDDgKQwTzM/d2evFIsko0qjSHendEv3sCwf1zw/79DKUm93x8BAs7IK72RTv+BMy6LwEK+InLwy7/Rck1yn/ERvx3SgDudAF1PP4LSg0ECQhba2ABQ2cuyJAAAA
