@@ -37,6 +37,11 @@ import static org.mockito.Mockito.*;
 
 
 public class GameJoltTest {
+    private static final String RESPONSE_CONTENT = "content";
+    private static final byte[] DATA = new byte[0];
+    private static final Object OUR_OBJECT = new Object();
+    private static final String USERNAME = "username";
+    private static final String USER_TOKEN = "userToken";
     private RequestFactory requestFactory;
     private HttpRequest request;
     private HttpResponse response;
@@ -46,11 +51,6 @@ public class GameJoltTest {
     private ObjectSerializer objectSerializer;
     private BinarySanitizer binarySanitizer;
     private Properties properties;
-    private static final String RESPONSE_CONTENT = "content";
-    private static final byte[] DATA = new byte[0];
-    private static final Object OUR_OBJECT = new Object();
-    private static final String USERNAME = "username";
-    private static final String USER_TOKEN = "userToken";
     private HighscoreParser highscoreParser;
 
     @Before
@@ -73,7 +73,7 @@ public class GameJoltTest {
         gameJolt.setBinarySanitizer(binarySanitizer);
         gameJolt.setHighscoreParser(highscoreParser);
 
-        when(request.doGet(false)).thenReturn(response);
+        when(request.execute(false)).thenReturn(response);
         when(response.isSuccessful()).thenReturn(true);
         when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT);
     }
@@ -873,7 +873,7 @@ public class GameJoltTest {
         HttpRequest httpRequest = mock(HttpRequest.class);
         HttpResponse httpResponse = mock(HttpResponse.class);
         when(requestFactory.buildVerifyUserRequest(USERNAME, USER_TOKEN)).thenReturn(httpRequest);
-        when(httpRequest.doGet(false)).thenReturn(httpResponse);
+        when(httpRequest.execute(false)).thenReturn(httpResponse);
         when(httpResponse.isSuccessful()).thenReturn(true);
         receivesResponse(httpResponse, true);
 

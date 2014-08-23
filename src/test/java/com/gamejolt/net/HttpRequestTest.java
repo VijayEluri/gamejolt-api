@@ -32,7 +32,7 @@ public class HttpRequestTest {
 
         assertEquals("http://www.google.com", request.getUrl());
 
-        HttpResponse response = request.doGet(false);
+        HttpResponse response = request.execute(false);
 
         assertNotNull(response);
         assertNotNull(response.getContent());
@@ -44,7 +44,7 @@ public class HttpRequestTest {
         HttpRequest request = new HttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        HttpResponse response = request.doGet(false);
+        HttpResponse response = request.execute(false);
 
         assertNotNull(response.getContent());
         assertEquals(200, response.code);
@@ -55,7 +55,7 @@ public class HttpRequestTest {
         HttpRequest request = new HttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java rest api").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        HttpResponse response = request.doGet(false);
+        HttpResponse response = request.execute(false);
 
         assertNotNull(response.getContent());
         assertEquals(200, response.code);
@@ -66,7 +66,7 @@ public class HttpRequestTest {
         HttpRequest request = new HttpRequest("http://www.google.com/doesNotExist");
         request.addParameter("q", "java");
 
-        HttpResponse response = request.doGet(false);
+        HttpResponse response = request.execute(false);
 
         assertEquals(0, response.getContent().length);
         assertEquals(404, response.code);

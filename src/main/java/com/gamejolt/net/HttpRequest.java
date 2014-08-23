@@ -15,7 +15,11 @@ package com.gamejolt.net;
 
 import com.gamejolt.GameJoltException;
 
-import java.io.*;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
@@ -24,9 +28,9 @@ import java.util.zip.GZIPInputStream;
 
 
 public class HttpRequest {
+    private final boolean isPost;
     private QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
     private String url;
-    private final boolean isPost;
 
     public HttpRequest(String url) {
         this(url, false);
@@ -53,7 +57,7 @@ public class HttpRequest {
         }
     }
 
-    public HttpResponse doGet(boolean verbose) throws GameJoltException {
+    public HttpResponse execute(boolean verbose) throws GameJoltException {
         HttpURLConnection connection = null;
         InputStream input = null;
         try {
