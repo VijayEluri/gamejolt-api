@@ -10,18 +10,16 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  */
-
 package com.gamejolt.util;
 
-import com.google.common.hash.Hashing;
+import com.google.common.io.BaseEncoding;
 
-
-public class Checksum {
-    public String md5(String value) {
-        return md5(value.getBytes());
+public class Base64 {
+    public String encode(byte[] bytes) {
+        return BaseEncoding.base64().encode(bytes);
     }
 
-    public String md5(byte[] data) {
-        return Hashing.md5().hashBytes(data).toString();
+    public byte[] decode(String encodedString) {
+        return BaseEncoding.base64().decode(encodedString);
     }
 }

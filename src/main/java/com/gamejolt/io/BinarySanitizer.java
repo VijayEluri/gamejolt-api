@@ -14,7 +14,7 @@
 package com.gamejolt.io;
 
 import com.gamejolt.GameJoltException;
-import org.apache.commons.codec.binary.Base64;
+import com.gamejolt.util.Base64;
 
 import java.io.*;
 import java.util.zip.GZIPInputStream;
@@ -40,12 +40,12 @@ public class BinarySanitizer {
 
             }
         }
-        return new String(encoder.encode(baos.toByteArray()));
+        return encoder.encode(baos.toByteArray());
     }
 
     public byte[] unsanitize(String data) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ByteArrayInputStream bais = new ByteArrayInputStream(encoder.decode(data.getBytes()));
+        ByteArrayInputStream bais = new ByteArrayInputStream(encoder.decode(data));
 
         InputStream input = null;
         try {

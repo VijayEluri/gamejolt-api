@@ -13,15 +13,12 @@
 
 package com.gamejolt.net;
 
-import com.gamejolt.GameJoltException;
-import org.apache.commons.codec.EncoderException;
-import org.apache.commons.codec.net.URLCodec;
+import com.google.common.net.UrlEscapers;
 
 import java.util.Map;
 
 
 class QueryStringBuilder {
-    private static final URLCodec URL_CODEC = new URLCodec();
     private StringBuilder builder = new StringBuilder();
     private boolean firstParameter = true;
 
@@ -46,11 +43,7 @@ class QueryStringBuilder {
     }
 
     private String encode(String value) {
-        try {
-            return URL_CODEC.encode(value);
-        } catch (EncoderException e) {
-            throw new GameJoltException(e);
-        }
+        return UrlEscapers.urlFormParameterEscaper().escape(value);
     }
 
     public void parameters(Map<String, String> params) {
