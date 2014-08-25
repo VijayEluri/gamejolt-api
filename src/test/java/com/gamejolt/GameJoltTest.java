@@ -13,17 +13,22 @@
 
 package com.gamejolt;
 
+import com.gamejolt.highscore.Highscore;
+import com.gamejolt.highscore.HighscoreParser;
 import com.gamejolt.io.BinarySanitizer;
 import com.gamejolt.io.ObjectSerializer;
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
-import com.gamejolt.util.HighscoreParser;
 import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
 import com.gamejolt.util.TrophyParser;
+import com.google.common.base.Optional;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.MalformedURLException;
 import java.text.DecimalFormat;
@@ -35,10 +40,9 @@ import java.util.Map;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-
+@RunWith(MockitoJUnitRunner.class)
 public class GameJoltTest {
     private static final String RESPONSE_CONTENT = "content";
-    private static final byte[] DATA = new byte[0];
     private static final Object OUR_OBJECT = new Object();
     private static final String USERNAME = "username";
     private static final String USER_TOKEN = "userToken";
@@ -50,7 +54,6 @@ public class GameJoltTest {
     private PropertiesParser propertiesParser;
     private ObjectSerializer objectSerializer;
     private BinarySanitizer binarySanitizer;
-    private Properties properties;
     private HighscoreParser highscoreParser;
 
     @Before
@@ -62,7 +65,6 @@ public class GameJoltTest {
         propertiesParser = mock(PropertiesParser.class);
         objectSerializer = mock(ObjectSerializer.class);
         binarySanitizer = mock(BinarySanitizer.class);
-        properties = mock(Properties.class);
         highscoreParser = mock(HighscoreParser.class);
 
         gameJolt = new GameJolt(1111, "private-key");
@@ -83,29 +85,36 @@ public class GameJoltTest {
         gameJolt.setHighscoreFormatter(new DecimalFormat("$ #,###.00"));
 
         hasAVerifiedUser();
+        whenUserHasAchievedAHighScoreSuccessfully();
 
-        when(requestFactory.buildUserAchievedHighscoreRequest(USERNAME, USER_TOKEN, "$ 1,234.00", 1234, "")).thenReturn(request);
-        receivesResponse(response, true);
+        gameJolt.userAchievedHighscore(1234);
 
-        assertTrue(gameJolt.userAchievedHighscore(1234));
+        assertHighScoreWasPassedServer("$ 1,234.00", 1234, "");
     }
 
     @Test
     public void test_userAchievedHighscore_Success_UsingBuiltInFormatting() {
         hasAVerifiedUser();
+        whenUserHasAchievedAHighScoreSuccessfully();
 
-        when(requestFactory.buildUserAchievedHighscoreRequest(USERNAME, USER_TOKEN, "10,000,000", 10000000, "")).thenReturn(request);
-        receivesResponse(response, true);
+        gameJolt.userAchievedHighscore(10000000);
 
-        assertTrue(gameJolt.userAchievedHighscore(10000000));
+        assertHighScoreWasPassedServer("10,000,000", 10000000, "");
+    }
+
+    @Test
+    public void shouldReturnTrueWhenTheHighScoreWasStoredSuccessfully() {
+        hasAVerifiedUser();
+        whenUserHasAchievedAHighScoreSuccessfully();
+
+        assertTrue(gameJolt.userAchievedHighscore(100));
     }
 
     @Test
     public void test_userAchievedHighscore_Failed() {
         hasAVerifiedUser();
 
-        when(requestFactory.buildUserAchievedHighscoreRequest(USERNAME, USER_TOKEN, "displayed", 10, "extra")).thenReturn(request);
-        receivesResponse(response, false);
+        whenAttemptToStoreAHighScore(false);
 
         assertFalse(gameJolt.userAchievedHighscore("displayed", 10, "extra"));
     }
@@ -113,9 +122,17 @@ public class GameJoltTest {
     @Test
     public void test_userAchievedHighscore_Success() {
         hasAVerifiedUser();
+        whenUserHasAchievedAHighScoreSuccessfully();
 
-        when(requestFactory.buildUserAchievedHighscoreRequest(USERNAME, USER_TOKEN, "displayed", 10, "extra")).thenReturn(request);
-        receivesResponse(response, true);
+        gameJolt.userAchievedHighscore("displayed", 10, "extra");
+
+        assertHighScoreWasPassedServer("displayed", 10, "extra");
+    }
+
+    @Test
+    public void shouldReturnTrueWhenHighscoreDataWasStoredSuccessfully() {
+        hasAVerifiedUser();
+        whenUserHasAchievedAHighScoreSuccessfully();
 
         assertTrue(gameJolt.userAchievedHighscore("displayed", 10, "extra"));
     }
@@ -133,9 +150,7 @@ public class GameJoltTest {
     @Test
     public void test_getTop10Highscores() {
         List<Highscore> parseScores = Arrays.asList(new Highscore());
-
-        when(requestFactory.buildAllHighscoresRequest(10)).thenReturn(request);
-        when(highscoreParser.parse(RESPONSE_CONTENT)).thenReturn(parseScores);
+        whenWeQueryForALimitedNumberOfHighscores(10, parseScores);
 
         assertSame(parseScores, gameJolt.getTop10Highscores());
     }
@@ -143,9 +158,7 @@ public class GameJoltTest {
     @Test
     public void test_getAllHighscores_WithLimit() {
         List<Highscore> parseScores = Arrays.asList(new Highscore());
-
-        when(requestFactory.buildAllHighscoresRequest(100)).thenReturn(request);
-        when(highscoreParser.parse(RESPONSE_CONTENT)).thenReturn(parseScores);
+        whenWeQueryForALimitedNumberOfHighscores(100, parseScores);
 
         assertSame(parseScores, gameJolt.getAllHighscores(100));
     }
@@ -164,9 +177,7 @@ public class GameJoltTest {
     public void test_getUserHighscores_WithLimit() {
         hasAVerifiedUser();
         List<Highscore> parseScores = Arrays.asList(new Highscore());
-
-        when(requestFactory.buildUserHighscoresRequest(USERNAME, USER_TOKEN, 100)).thenReturn(request);
-        when(highscoreParser.parse(RESPONSE_CONTENT)).thenReturn(parseScores);
+        whenWeQueryForUserHighscores(100, parseScores);
 
         assertSame(parseScores, gameJolt.getUserHighscores(100));
     }
@@ -175,9 +186,7 @@ public class GameJoltTest {
     public void test_getTop10UserHighscores() {
         hasAVerifiedUser();
         List<Highscore> parseScores = Arrays.asList(new Highscore());
-
-        when(requestFactory.buildUserHighscoresRequest(USERNAME, USER_TOKEN, 10)).thenReturn(request);
-        when(highscoreParser.parse(RESPONSE_CONTENT)).thenReturn(parseScores);
+        whenWeQueryForUserHighscores(10, parseScores);
 
         assertSame(parseScores, gameJolt.getTop10UserHighscores());
     }
@@ -194,53 +203,35 @@ public class GameJoltTest {
 
     @Test
     public void test_loadAllGameData_MultipleKeys() {
-        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        when(requestFactory.buildGetGameDataRequest("key1")).thenReturn(request);
-        when(requestFactory.buildGetGameDataRequest("key2")).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key1", "key2"));
-        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT, "Success\r\ndata-stored", "Success\r\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
-        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+        whenWeQueryForGameDataKeys("key1", "key2");
+        whenWeQueryForGameData("key1", OUR_OBJECT);
+        whenWeQueryForGameData("key2", OUR_OBJECT);
 
         Map<String, Object> data = gameJolt.loadAllGameData();
 
         assertEquals(2, data.size());
         assertSame(OUR_OBJECT, data.get("key1"));
         assertSame(OUR_OBJECT, data.get("key2"));
-
-        verify(binarySanitizer, times(2)).unsanitize("data-stored");
-        verify(objectSerializer, times(2)).deserialize(DATA);
     }
 
     @Test
     public void test_loadAllUserData_MultipleKeys() {
         hasAVerifiedUser();
-        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        when(requestFactory.buildGetUserDataRequest(USERNAME, USER_TOKEN, "key1")).thenReturn(request);
-        when(requestFactory.buildGetUserDataRequest(USERNAME, USER_TOKEN, "key2")).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key1", "key2"));
-        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT, "Success\r\ndata-stored", "Success\r\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
-        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+        whenWeExpectToQueryForAllUserDataKeys("key1", "key2");
+        whenWeQueryForUserData("key1", OUR_OBJECT);
+        whenWeQueryForUserData("key2", OUR_OBJECT);
 
         Map<String, Object> data = gameJolt.loadAllUserData();
 
         assertEquals(2, data.size());
         assertSame(OUR_OBJECT, data.get("key1"));
         assertSame(OUR_OBJECT, data.get("key2"));
-
-        verify(binarySanitizer, times(2)).unsanitize("data-stored");
-        verify(objectSerializer, times(2)).deserialize(DATA);
     }
 
     @Test
     public void test_loadAllGameData_SingleKey() {
-        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        when(requestFactory.buildGetGameDataRequest("key1")).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key1"));
-        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT, "Success\r\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
-        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+        whenWeQueryForGameDataKeys("key1");
+        whenWeQueryForGameData("key1", OUR_OBJECT);
 
         Map<String, Object> data = gameJolt.loadAllGameData();
 
@@ -252,12 +243,8 @@ public class GameJoltTest {
     @Test
     public void test_loadAllUserData_SingleKey() {
         hasAVerifiedUser();
-        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        when(requestFactory.buildGetUserDataRequest(USERNAME, USER_TOKEN, "key1")).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key1"));
-        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT, "Success\r\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
-        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+        whenWeExpectToQueryForAllUserDataKeys("key1");
+        whenWeQueryForUserData("key1", OUR_OBJECT);
 
         Map<String, Object> data = gameJolt.loadAllUserData();
 
@@ -268,8 +255,7 @@ public class GameJoltTest {
 
     @Test
     public void test_loadAllGameData_NoKeys() {
-        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(new ArrayList());
+        whenWeQueryForGameDataKeys();
 
         Map<String, Object> data = gameJolt.loadAllGameData();
         assertNotNull(data);
@@ -280,8 +266,7 @@ public class GameJoltTest {
     @Test
     public void test_loadAllUserData_NoKeys() {
         hasAVerifiedUser();
-        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(new ArrayList());
+        whenWeExpectToQueryForAllUserDataKeysAndNoneAreFound();
 
         Map<String, Object> data = gameJolt.loadAllUserData();
         assertNotNull(data);
@@ -304,19 +289,14 @@ public class GameJoltTest {
     @Test
     public void test_getUserData_NoMatchingObject() {
         hasAVerifiedUser();
-
-        when(requestFactory.buildGetUserDataRequest(USERNAME, USER_TOKEN, "key-value")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("FAILURE\nerror message");
+        whenWeQueryForUserDataAndItFails();
 
         assertNull(gameJolt.getUserData("key-value"));
-
-        verifyZeroInteractions(binarySanitizer, objectSerializer);
     }
 
     @Test
     public void test_getGameData_NoMatchingObject() {
-        when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("FAILURE\nerror message");
+        whenWeQueryForGameDataAndItFails("key-value");
 
         assertNull(gameJolt.getGameData("key-value"));
 
@@ -325,10 +305,7 @@ public class GameJoltTest {
 
     @Test
     public void test_getGameData_MatchingObject_WindowsLineEndings() {
-        when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("Success\r\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
-        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+        whenWeQueryForGameData("key-value", OUR_OBJECT);
 
         assertSame(OUR_OBJECT, gameJolt.getGameData("key-value"));
     }
@@ -336,21 +313,14 @@ public class GameJoltTest {
     @Test
     public void test_getUserData_MatchingObject_WindowsLineEndings() {
         hasAVerifiedUser();
-
-        when(requestFactory.buildGetUserDataRequest(USERNAME, USER_TOKEN, "key-value")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("Success\r\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
-        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+        whenWeQueryForUserData("key-value", OUR_OBJECT);
 
         assertSame(OUR_OBJECT, gameJolt.getUserData("key-value"));
     }
 
     @Test
     public void test_getGameData_MatchingObject_UnixLineEndings() {
-        when(requestFactory.buildGetGameDataRequest("key-value")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("Success\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
-        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+        whenWeQueryForGameDataWithUnixLineEndings("key-value", OUR_OBJECT);
 
         Object obj = gameJolt.getGameData("key-value");
 
@@ -361,10 +331,7 @@ public class GameJoltTest {
     @Test
     public void test_getUserData_MatchingObject_UnixLineEndings() {
         hasAVerifiedUser();
-        when(requestFactory.buildGetUserDataRequest(USERNAME, USER_TOKEN, "key-value")).thenReturn(request);
-        when(response.getContentAsString()).thenReturn("Success\ndata-stored");
-        when(binarySanitizer.unsanitize("data-stored")).thenReturn(DATA);
-        when(objectSerializer.deserialize(DATA)).thenReturn(OUR_OBJECT);
+        whenWeQueryForUserData("key-value", OUR_OBJECT);
 
         Object obj = gameJolt.getUserData("key-value");
 
@@ -384,12 +351,9 @@ public class GameJoltTest {
 
     @Test
     public void test_clearAllGameData_MultipleKeys() {
-        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        when(requestFactory.buildRemoveGameDataRequest("key-value")).thenReturn(request);
-        when(requestFactory.buildRemoveGameDataRequest("key-value2")).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value", "key-value2"));
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
-        when(properties.getBoolean("success")).thenReturn(true);
+        whenWeQueryForGameDataKeys("key-value", "key-value2");
+        whenWeDeleteGameData("key-value");
+        whenWeDeleteGameData("key-value2");
 
         gameJolt.clearAllGameData();
 
@@ -400,11 +364,8 @@ public class GameJoltTest {
 
     @Test
     public void test_clearAllGameData_SingleKey() {
-        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        when(requestFactory.buildRemoveGameDataRequest("key-value")).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value"));
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
-        when(properties.getBoolean("success")).thenReturn(true);
+        whenWeQueryForGameDataKeys("key-value");
+        whenWeDeleteGameData("key-value");
 
         gameJolt.clearAllGameData();
 
@@ -413,8 +374,7 @@ public class GameJoltTest {
 
     @Test
     public void test_clearAllGameData_NoKeys() {
-        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(new ArrayList());
+        whenWeQueryForGameDataKeys();
 
         gameJolt.clearAllGameData();
 
@@ -424,8 +384,7 @@ public class GameJoltTest {
 
     @Test
     public void test_getGameDataKeys() {
-        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value"));
+        whenWeQueryForGameDataKeys("key-value");
 
         assertEquals(Arrays.asList("key-value"), gameJolt.getGameDataKeys());
     }
@@ -433,12 +392,9 @@ public class GameJoltTest {
     @Test
     public void test_clearAllUserData_MultipleKeys() {
         hasAVerifiedUser();
-        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        when(requestFactory.buildRemoveUserDataRequest(USERNAME, USER_TOKEN, "key-value")).thenReturn(request);
-        when(requestFactory.buildRemoveUserDataRequest(USERNAME, USER_TOKEN, "key-value2")).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value", "key-value2"));
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
-        when(properties.getBoolean("success")).thenReturn(true);
+        whenWeExpectToQueryForAllUserDataKeys("key-value", "key-value2");
+        whenWeRemoveUserData("key-value");
+        whenWeRemoveUserData("key-value2");
 
         gameJolt.clearAllUserData();
 
@@ -449,11 +405,8 @@ public class GameJoltTest {
     @Test
     public void test_clearAllUserData_SingleKey() {
         hasAVerifiedUser();
-        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        when(requestFactory.buildRemoveUserDataRequest(USERNAME, USER_TOKEN, "key-value")).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value"));
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
-        when(properties.getBoolean("success")).thenReturn(true);
+        whenWeExpectToQueryForAllUserDataKeys("key-value");
+        whenWeRemoveUserData("key-value");
 
         gameJolt.clearAllUserData();
 
@@ -463,8 +416,7 @@ public class GameJoltTest {
     @Test
     public void test_clearAllUserData_NoKeys() {
         hasAVerifiedUser();
-        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(new ArrayList());
+        whenWeExpectToQueryForAllUserDataKeysAndNoneAreFound();
 
         gameJolt.clearAllUserData();
 
@@ -476,19 +428,14 @@ public class GameJoltTest {
     @Test
     public void test_getUserDataKeys() {
         hasAVerifiedUser();
-        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        when(propertiesParser.parseToList(RESPONSE_CONTENT, "key")).thenReturn(Arrays.asList("key-value"));
+        whenWeExpectToQueryForAllUserDataKeys("key-value");
 
         assertEquals(Arrays.asList("key-value"), gameJolt.getUserDataKeys());
     }
 
     @Test
     public void test_getGameDataKeys_NoKeys() {
-        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        Properties properties = new Properties();
-        properties.put("success", "true");
-        properties.put("key", "");
-        when(propertiesParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(properties));
+        whenWeQueryForGameDataKeys();
 
         assertEquals(Arrays.asList(), gameJolt.getGameDataKeys());
     }
@@ -496,33 +443,16 @@ public class GameJoltTest {
     @Test
     public void test_getUserDataKeys_NoKeys() {
         hasAVerifiedUser();
-        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        Properties properties = new Properties();
-        properties.put("success", "true");
-        properties.put("key", "");
-        when(propertiesParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(properties));
+        whenWeExpectToQueryForAllUserDataKeysAndNoneAreFound();
 
         assertEquals(Arrays.asList(), gameJolt.getUserDataKeys());
-    }
-
-    @Test
-    public void test_getGameDataKeys_Failed() {
-        when(requestFactory.buildGameDataKeysRequest()).thenReturn(request);
-        Properties properties = new Properties();
-        properties.put("success", "false");
-        when(propertiesParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(properties));
-
-        assertEquals(Arrays.asList(), gameJolt.getGameDataKeys());
     }
 
     @Test
     public void test_getUserDataKeys_Failed() {
         hasAVerifiedUser();
 
-        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        Properties properties = new Properties();
-        properties.put("success", "false");
-        when(propertiesParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(properties));
+        whenWeExpectToQueryForAllUserDataKeys(properties(false));
 
         assertEquals(Arrays.asList(), gameJolt.getUserDataKeys());
     }
@@ -539,16 +469,14 @@ public class GameJoltTest {
 
     @Test
     public void test_removeGameData() {
-        when(requestFactory.buildRemoveGameDataRequest("name")).thenReturn(request);
-        receivesResponse(response, true);
+        whenWeDeleteGameData("name", true);
 
         assertTrue(gameJolt.removeGameData("name"));
     }
 
     @Test
     public void test_removeGameData_Failed() {
-        when(requestFactory.buildRemoveGameDataRequest("name")).thenReturn(request);
-        receivesResponse(response, false);
+        whenWeDeleteGameData("name", false);
 
         assertFalse(gameJolt.removeGameData("name"));
     }
@@ -557,8 +485,7 @@ public class GameJoltTest {
     public void test_removeUserData_Failed() {
         hasAVerifiedUser();
 
-        when(requestFactory.buildRemoveUserDataRequest(USERNAME, USER_TOKEN, "name")).thenReturn(request);
-        receivesResponse(response, false);
+        whenWeFailedToRemoveUserData("name");
 
         assertFalse(gameJolt.removeUserData("name"));
     }
@@ -567,8 +494,7 @@ public class GameJoltTest {
     public void test_removeUserData() {
         hasAVerifiedUser();
 
-        when(requestFactory.buildRemoveUserDataRequest(USERNAME, USER_TOKEN, "name")).thenReturn(request);
-        receivesResponse(response, true);
+        whenWeRemoveUserData("name");
 
         assertTrue(gameJolt.removeUserData("name"));
     }
@@ -582,7 +508,6 @@ public class GameJoltTest {
 
         }
     }
-
 
     @Test
     public void test_storeGameData_NullObjectGiven() {
@@ -606,17 +531,12 @@ public class GameJoltTest {
         }
     }
 
+
     @Test
     public void test_storeUserData_ObjectSerializerReturnsANullByteArray() {
         DummyObject obj = new DummyObject();
 
         hasAVerifiedUser();
-
-        Properties properties = new Properties();
-        properties.put("success", "true");
-
-        when(requestFactory.buildStoreUserDataRequest(USERNAME, USER_TOKEN, "name", "sanitized-data")).thenReturn(request);
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(objectSerializer.serialize(obj)).thenReturn(null);
 
         try {
@@ -630,12 +550,6 @@ public class GameJoltTest {
     @Test
     public void test_storeGameData_ObjectSerializerReturnsANullByteArray() {
         DummyObject obj = new DummyObject();
-
-        Properties properties = new Properties();
-        properties.put("success", "true");
-
-        when(requestFactory.buildStoreGameDataRequest("name", "sanitized-data")).thenReturn(request);
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
         when(objectSerializer.serialize(obj)).thenReturn(null);
 
         try {
@@ -649,17 +563,9 @@ public class GameJoltTest {
     @Test
     public void test_storeUserData_Object() {
         DummyObject obj = new DummyObject();
-        byte[] data = new byte[0];
-
         hasAVerifiedUser();
 
-        Properties properties = new Properties();
-        properties.put("success", "true");
-
-        when(requestFactory.buildStoreUserDataRequest(USERNAME, USER_TOKEN, "name", "sanitized-data")).thenReturn(request);
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
-        when(objectSerializer.serialize(obj)).thenReturn(data);
-        when(binarySanitizer.sanitize(data)).thenReturn("sanitized-data");
+        whenWeStoreUserData("name", obj);
 
         assertTrue(gameJolt.storeUserData("name", obj));
     }
@@ -667,15 +573,7 @@ public class GameJoltTest {
     @Test
     public void test_storeGameData_Object() {
         DummyObject obj = new DummyObject();
-        byte[] data = new byte[0];
-
-        Properties properties = new Properties();
-        properties.put("success", "true");
-
-        when(requestFactory.buildStoreGameDataRequest("name", "sanitized-data")).thenReturn(request);
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
-        when(objectSerializer.serialize(obj)).thenReturn(data);
-        when(binarySanitizer.sanitize(data)).thenReturn("sanitized-data");
+        whenStoreGameData("name", obj);
 
         assertTrue(gameJolt.storeGameData("name", obj));
     }
@@ -696,8 +594,7 @@ public class GameJoltTest {
 
         hasAVerifiedUser();
 
-        when(requestFactory.buildTrophiesRequest(USERNAME, USER_TOKEN, "false")).thenReturn(request);
-        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
+        whenWeRequestForUnachievedTrophies(trophies);
 
         assertSame(trophies, gameJolt.getUnachievedTrophies());
     }
@@ -718,8 +615,7 @@ public class GameJoltTest {
 
         hasAVerifiedUser();
 
-        when(requestFactory.buildTrophiesRequest(USERNAME, USER_TOKEN, "true")).thenReturn(request);
-        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
+        whenWeRequestForAchievedTrophies(trophies);
 
         assertSame(trophies, gameJolt.getAchievedTrophies());
     }
@@ -730,8 +626,7 @@ public class GameJoltTest {
 
         hasAVerifiedUser();
 
-        when(requestFactory.buildTrophiesRequest(USERNAME, USER_TOKEN, "empty")).thenReturn(request);
-        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(trophies);
+        whenWeRequestForAllTrophies(trophies);
 
         assertSame(trophies, gameJolt.getAllTrophies());
     }
@@ -759,9 +654,7 @@ public class GameJoltTest {
     @Test
     public void test_getTrophy_NoMatchingTrophy() {
         hasAVerifiedUser();
-
-        when(requestFactory.buildTrophyRequest(USERNAME, USER_TOKEN, "12")).thenReturn(request);
-        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(new ArrayList());
+        whenWeQueryForTrophyByIdWithNoResult(12);
 
         assertNull(gameJolt.getTrophy(12));
     }
@@ -771,9 +664,7 @@ public class GameJoltTest {
         Trophy trophy = new Trophy();
 
         hasAVerifiedUser();
-
-        when(requestFactory.buildTrophyRequest(USERNAME, USER_TOKEN, "12")).thenReturn(request);
-        when(trophyParser.parse(RESPONSE_CONTENT)).thenReturn(Arrays.asList(trophy));
+        whenWeQueryForTrophyById(12, trophy);
 
         assertSame(trophy, gameJolt.getTrophy(12));
     }
@@ -791,9 +682,7 @@ public class GameJoltTest {
     @Test
     public void test_achievedTrophy_VerifiedUser() {
         hasAVerifiedUser();
-
-        when(requestFactory.buildAchievedTrophyRequest(USERNAME, USER_TOKEN, "1234")).thenReturn(request);
-        receivesResponse(response, true);
+        whenUserAchievedATrophy(1234, true);
 
         assertTrue(gameJolt.achievedTrophy(1234));
     }
@@ -801,34 +690,28 @@ public class GameJoltTest {
     @Test
     public void test_achievedTrophy_AlreadyAchieved() {
         hasAVerifiedUser();
-
-        when(requestFactory.buildAchievedTrophyRequest(USERNAME, USER_TOKEN, "1234")).thenReturn(request);
-        receivesResponse(response, false);
+        whenUserAchievedATrophy(1234, false);
 
         assertFalse(gameJolt.achievedTrophy(1234));
     }
 
     @Test
     public void test_verifyUser_NotVerified() {
-        when(requestFactory.buildVerifyUserRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        receivesResponse(response, false);
+        whenUserFailsVerification(USERNAME, USER_TOKEN);
 
         assertFalse(gameJolt.verifyUser(USERNAME, USER_TOKEN));
     }
 
     @Test
     public void test_verifyUser_Verified() {
-        when(requestFactory.buildVerifyUserRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        receivesResponse(response, true);
+        whenUserPassesVerification(USERNAME, USER_TOKEN);
 
         assertTrue(gameJolt.verifyUser(USERNAME, USER_TOKEN));
     }
 
     @Test
     public void test_verifyUser_BadResponse() {
-        when(response.isSuccessful()).thenReturn(false);
-        when(response.getCode()).thenReturn(500);
-        when(requestFactory.buildVerifyUserRequest(USERNAME, USER_TOKEN)).thenReturn(request);
+        whenUserVerificationGetsBadResponseCode(USERNAME, USER_TOKEN);
 
         try {
             gameJolt.verifyUser(USERNAME, USER_TOKEN);
@@ -840,8 +723,7 @@ public class GameJoltTest {
 
     @Test
     public void test_verifyUser_AlreadyVerified() {
-        when(requestFactory.buildVerifyUserRequest(USERNAME, USER_TOKEN)).thenReturn(request);
-        receivesResponse(response, true);
+        whenUserPassesVerification(USERNAME, USER_TOKEN);
 
         assertTrue(gameJolt.verifyUser(USERNAME, USER_TOKEN));
         assertTrue(gameJolt.verifyUser(USERNAME, USER_TOKEN));
@@ -852,9 +734,7 @@ public class GameJoltTest {
     @Test
     public void test_verifyUser_DifferentUsernameAndFails() {
         hasAVerifiedUser();
-
-        when(requestFactory.buildVerifyUserRequest("different", USER_TOKEN)).thenReturn(request);
-        receivesResponse(response, false);
+        whenUserFailsVerification("different", USER_TOKEN);
 
         assertFalse(gameJolt.verifyUser("different", USER_TOKEN));
     }
@@ -862,28 +742,289 @@ public class GameJoltTest {
     @Test
     public void test_verifyUser_DifferentUserTokenAndFails() {
         hasAVerifiedUser();
-
-        when(requestFactory.buildVerifyUserRequest(USERNAME, "differentUserToken")).thenReturn(request);
-        receivesResponse(response, false);
+        whenUserFailsVerification(USERNAME, "differentUserToken");
 
         assertFalse(gameJolt.verifyUser(USERNAME, "differentUserToken"));
     }
 
     private void hasAVerifiedUser() {
-        HttpRequest httpRequest = mock(HttpRequest.class);
-        HttpResponse httpResponse = mock(HttpResponse.class);
-        when(requestFactory.buildVerifyUserRequest(USERNAME, USER_TOKEN)).thenReturn(httpRequest);
-        when(httpRequest.execute(false)).thenReturn(httpResponse);
-        when(httpResponse.isSuccessful()).thenReturn(true);
-        receivesResponse(httpResponse, true);
-
+        whenUserPassesVerification(USERNAME, USER_TOKEN);
         assertTrue(gameJolt.verifyUser(USERNAME, USER_TOKEN));
     }
 
     private void receivesResponse(HttpResponse httpResponse, boolean successful) {
         when(httpResponse.getContentAsString()).thenReturn(RESPONSE_CONTENT);
+        Properties properties = properties(successful);
+        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
+    }
+
+    private Properties properties(boolean successful) {
         Properties properties = new Properties();
         properties.put("success", String.valueOf(successful));
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
+        return properties;
+    }
+
+    private void whenWeExpectToQueryForAllUserDataKeysAndNoneAreFound() {
+        whenWeExpectToQueryForAllUserDataKeys();
+    }
+
+    private void whenWeExpectToQueryForAllUserDataKeys(String... keys) {
+        Properties properties = new Properties();
+        for (String key : keys) {
+            properties.put(key, key);
+        }
+        whenWeExpectToQueryForAllUserDataKeys(properties);
+    }
+
+    private void whenWeExpectToQueryForAllUserDataKeys(Properties properties) {
+        MockHttpTuple tuple = new MockHttpTuple("user-data-keys");
+        tuple.whenIsSuccessful();
+        HttpRequest request = tuple.request;
+
+        when(requestFactory.buildUserDataKeysRequest(USERNAME, USER_TOKEN)).thenReturn(request);
+        ArrayList<String> keys = new ArrayList<String>(properties.asMap().keySet());
+        when(propertiesParser.parseToList(tuple.responseContent, "key")).thenReturn(keys);
+    }
+
+    private void whenWeQueryForUserData(String key, Object expectedValue) {
+        String dataContent = whenWeDeserializeTheData(key, expectedValue);
+        MockHttpTuple tuple = new MockHttpTuple("user-data");
+        tuple.whenIsSuccessfulWithResponse("Success\n" + dataContent);
+
+        when(requestFactory.buildGetUserDataRequest(USERNAME, USER_TOKEN, key)).thenReturn(tuple.request);
+    }
+
+    private void whenWeQueryForGameData(String key, Object value) {
+        String storedData = whenWeDeserializeTheData(key, value);
+        MockHttpTuple tuple = new MockHttpTuple("game-data");
+        tuple.whenIsSuccessfulWithResponse("Success\r\n" + storedData);
+        when(requestFactory.buildGetGameDataRequest(key)).thenReturn(tuple.request);
+    }
+
+    private void whenWeQueryForGameDataWithUnixLineEndings(String key, Object value) {
+        String storedData = whenWeDeserializeTheData(key, value);
+        MockHttpTuple tuple = new MockHttpTuple("game-data");
+        tuple.whenIsSuccessfulWithResponse("Success\n" + storedData);
+        when(requestFactory.buildGetGameDataRequest(key)).thenReturn(tuple.request);
+
+    }
+
+    private void whenWeQueryForGameDataAndItFails(String key) {
+        MockHttpTuple tuple = new MockHttpTuple("game-data-failure");
+        tuple.whenIsSuccessfulWithResponse("FAILURE\nerror message");
+        when(requestFactory.buildGetGameDataRequest(key)).thenReturn(request);
+    }
+
+    private void whenWeQueryForUserDataAndItFails() {
+        MockHttpTuple tuple = new MockHttpTuple("user-data-fails");
+        tuple.whenIsSuccessfulWithResponse("FAILURE\nerror message");
+        when(requestFactory.buildGetUserDataRequest(USERNAME, USER_TOKEN, "key-value")).thenReturn(tuple.request);
+    }
+
+    private void whenWeQueryForGameDataKeys(String... keys) {
+        MockHttpTuple tuple = new MockHttpTuple("all-game-data-keys");
+        tuple.whenIsSuccessful();
+        when(requestFactory.buildGameDataKeysRequest()).thenReturn(tuple.request);
+        when(propertiesParser.parseToList(tuple.responseContent, "key")).thenReturn(Arrays.asList(keys));
+    }
+
+    private void whenWeDeleteGameData(String name) {
+        whenWeDeleteGameData(name, true);
+    }
+
+    private void whenWeDeleteGameData(String name, boolean successful) {
+        MockHttpTuple tuple = new MockHttpTuple("delete-game-data");
+        tuple.whenIsSuccessful();
+        when(requestFactory.buildRemoveGameDataRequest(name)).thenReturn(tuple.request);
+
+        Properties properties = properties(successful);
+        when(propertiesParser.parseProperties(tuple.responseContent)).thenReturn(properties);
+    }
+
+    private void whenUserFailsVerification(String username, String userToken) {
+        whenAttemptUserVerification(username, userToken, false);
+    }
+
+    private void whenUserPassesVerification(String username, String userToken) {
+        whenAttemptUserVerification(username, userToken, true);
+    }
+
+    private void whenAttemptUserVerification(String username, String userToken, boolean successfullyVerified) {
+        Properties properties = properties(successfullyVerified);
+
+        MockHttpTuple tuple = new MockHttpTuple("verification");
+        tuple.whenIsSuccessful();
+        when(requestFactory.buildVerifyUserRequest(username, userToken)).thenReturn(tuple.request);
+        when(propertiesParser.parseProperties(tuple.responseContent)).thenReturn(properties);
+    }
+
+    private void whenUserVerificationGetsBadResponseCode(String username, String userToken) {
+        MockHttpTuple tuple = new MockHttpTuple("verification");
+        tuple.whenIsFailure();
+        when(requestFactory.buildVerifyUserRequest(username, userToken)).thenReturn(tuple.request);
+    }
+
+    private void whenWeRemoveUserData(String key) {
+        whenAttemptToDeleteUserData(key, true);
+    }
+
+    private void whenWeFailedToRemoveUserData(String key) {
+        whenAttemptToDeleteUserData(key, false);
+    }
+
+    private void whenAttemptToDeleteUserData(String key, boolean successful) {
+        MockHttpTuple tuple = new MockHttpTuple("remove-user-data");
+        tuple.whenIsSuccessful();
+        Properties properties = properties(successful);
+
+        when(requestFactory.buildRemoveUserDataRequest(USERNAME, USER_TOKEN, key)).thenReturn(tuple.request);
+        when(propertiesParser.parseProperties(tuple.responseContent)).thenReturn(properties);
+    }
+
+    private void whenWeStoreUserData(String key, Object value) {
+        MockHttpTuple tuple = new MockHttpTuple("store-user-data");
+        tuple.whenIsSuccessful();
+
+        String sanitizedData = whenWeSerializeData(key, value);
+        when(requestFactory.buildStoreUserDataRequest(USERNAME, USER_TOKEN, key, sanitizedData)).thenReturn(tuple.request);
+        when(propertiesParser.parseProperties(tuple.responseContent)).thenReturn(successfulResponse());
+    }
+
+    private void whenStoreGameData(String key, Object obj) {
+        MockHttpTuple tuple = new MockHttpTuple("store-game-data");
+        tuple.whenIsSuccessful();
+
+        String sanitizedData = whenWeSerializeData(key, obj);
+        when(requestFactory.buildStoreGameDataRequest(key, sanitizedData)).thenReturn(tuple.request);
+        when(propertiesParser.parseProperties(tuple.responseContent)).thenReturn(successfulResponse());
+    }
+
+    private String whenWeSerializeData(String prefix, Object obj) {
+        String sanitizedData = prefix + "sanitized-data";
+        byte[] data = (prefix + "unsanitized-data").getBytes();
+        when(objectSerializer.serialize(obj)).thenReturn(data);
+        when(binarySanitizer.sanitize(data)).thenReturn(sanitizedData);
+        return sanitizedData;
+    }
+
+    private String whenWeDeserializeTheData(String key, Object value) {
+        String storedData = key + "-data-stored";
+        byte[] unsanitizedData = (key + "-unsanitized-data").getBytes();
+        when(binarySanitizer.unsanitize(storedData)).thenReturn(unsanitizedData);
+        when(objectSerializer.deserialize(unsanitizedData)).thenReturn(value);
+        return storedData;
+    }
+
+    private void whenWeQueryForALimitedNumberOfHighscores(int expectedLimited, List<Highscore> parseScores) {
+        MockHttpTuple tuple = new MockHttpTuple("limited-high-scores");
+        tuple.whenIsSuccessful();
+        when(requestFactory.buildAllHighscoresRequest(expectedLimited)).thenReturn(tuple.request);
+        when(highscoreParser.parse(tuple.responseContent)).thenReturn(parseScores);
+    }
+
+    private void whenWeQueryForUserHighscores(int expectedLimit, List<Highscore> parseScores) {
+        MockHttpTuple tuple = new MockHttpTuple("user-high-scores");
+        tuple.whenIsSuccessful();
+        when(requestFactory.buildUserHighscoresRequest(USERNAME, USER_TOKEN, expectedLimit)).thenReturn(tuple.request);
+        when(highscoreParser.parse(tuple.responseContent)).thenReturn(parseScores);
+    }
+
+    private void whenUserAchievedATrophy(int trophyId, boolean successful) {
+        MockHttpTuple tuple = new MockHttpTuple("achieved-trophy");
+        tuple.whenIsSuccessful();
+        when(requestFactory.buildAchievedTrophyRequest(USERNAME, USER_TOKEN, String.valueOf(trophyId))).thenReturn(tuple.request);
+        when(propertiesParser.parseProperties(tuple.responseContent)).thenReturn(properties(successful));
+    }
+
+    private void whenWeQueryForTrophyByIdWithNoResult(int trophyId) {
+        whenWeAttemptToQueryForATrophyById(trophyId, Optional.<Trophy>absent());
+    }
+
+    private void whenWeQueryForTrophyById(int trophyId, Trophy trophy) {
+        whenWeAttemptToQueryForATrophyById(trophyId, Optional.fromNullable(trophy));
+    }
+
+    private void whenWeAttemptToQueryForATrophyById(int trophyId, Optional<Trophy> optional) {
+        MockHttpTuple tuple = new MockHttpTuple("trophy-by-id");
+        tuple.whenIsSuccessful();
+
+        when(requestFactory.buildTrophyRequest(USERNAME, USER_TOKEN, String.valueOf(trophyId))).thenReturn(tuple.request);
+        ArrayList<Trophy> trophies = new ArrayList<Trophy>();
+        if (optional.isPresent()) {
+            trophies.add(optional.get());
+        }
+        when(trophyParser.parse(tuple.responseContent)).thenReturn(trophies);
+    }
+
+    private void whenUserHasAchievedAHighScoreSuccessfully() {
+        whenAttemptToStoreAHighScore(true);
+    }
+
+    private void whenAttemptToStoreAHighScore(boolean successful) {
+        MockHttpTuple tuple = new MockHttpTuple("achieved-high-score");
+        tuple.whenIsSuccessful();
+        when(requestFactory.buildUserAchievedHighscoreRequest(eq(USERNAME), eq(USER_TOKEN), anyString(), anyInt(), anyString()))
+                .thenReturn(tuple.request);
+        when(propertiesParser.parseProperties(tuple.responseContent)).thenReturn(properties(successful));
+    }
+
+    private void assertHighScoreWasPassedServer(String displayedText, int score, String extra) {
+        verify(requestFactory).buildUserAchievedHighscoreRequest(
+                USERNAME,USER_TOKEN, displayedText, score, extra
+        );
+    }
+
+    private void whenWeRequestForUnachievedTrophies(List trophies) {
+        whenWeRequestForTrophies("false", trophies);
+    }
+
+    private void whenWeRequestForAchievedTrophies(List trophies) {
+        whenWeRequestForTrophies("true", trophies);
+    }
+
+    private void whenWeRequestForAllTrophies(List trophies) {
+        whenWeRequestForTrophies("empty", trophies);
+    }
+
+    private void whenWeRequestForTrophies(String type, List trophies) {
+        MockHttpTuple tuple = new MockHttpTuple("all-trophies");
+        tuple.whenIsSuccessful();
+        when(requestFactory.buildTrophiesRequest(USERNAME, USER_TOKEN, type)).thenReturn(tuple.request);
+        when(trophyParser.parse(tuple.responseContent)).thenReturn(trophies);
+    }
+
+    private Properties successfulResponse() {
+        return properties(true);
+    }
+
+    private class MockHttpTuple {
+        final HttpRequest request;
+        final HttpResponse response;
+        String responseContent;
+        private String prefix;
+
+        MockHttpTuple(String prefix) {
+            this.prefix = prefix;
+            request = Mockito.mock(HttpRequest.class, prefix + "-request");
+            response = Mockito.mock(HttpResponse.class, prefix + "-response");
+        }
+
+        void whenIsSuccessful() {
+            whenIsSuccessfulWithResponse(prefix += "-response-content");
+        }
+
+        void whenIsSuccessfulWithResponse(String responseContent) {
+            this.responseContent = responseContent;
+            when(request.execute(false)).thenReturn(response);
+            when(response.isSuccessful()).thenReturn(true);
+            when(response.getCode()).thenReturn(200);
+            when(response.getContentAsString()).thenReturn(responseContent);
+        }
+
+        void whenIsFailure() {
+            when(request.execute(false)).thenReturn(response);
+            when(response.isSuccessful()).thenReturn(false);
+            when(response.getCode()).thenReturn(500);
+        }
     }
 }

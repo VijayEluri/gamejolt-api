@@ -11,9 +11,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.gamejolt.util;
+package com.gamejolt.highscore;
 
-import com.gamejolt.Highscore;
+import com.gamejolt.util.Properties;
+import com.gamejolt.util.PropertiesParser;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -26,9 +27,9 @@ import static org.mockito.Mockito.when;
 
 
 public class HighscoreParserTest {
+    private static final String CONTENT = "content";
     private PropertiesParser propertiesParser;
     private HighscoreParser parser;
-    private static final String CONTENT = "content";
     private Properties properties;
 
     @Before

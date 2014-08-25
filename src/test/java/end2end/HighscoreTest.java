@@ -13,11 +13,7 @@
 package end2end;
 
 import co.freeside.betamax.Betamax;
-import com.gamejolt.Highscore;
-import com.google.common.base.Function;
 import org.junit.Test;
-
-import javax.annotation.Nullable;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -64,10 +60,4 @@ public class HighscoreTest extends End2EndTest {
         }
     }
 
-    private class ToScore implements Function<Highscore, Integer> {
-        @Nullable
-        public Integer apply(@Nullable Highscore input) {
-            return input.getScore();
-        }
-    }
 }

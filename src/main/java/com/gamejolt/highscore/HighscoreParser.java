@@ -11,9 +11,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.gamejolt.util;
+package com.gamejolt.highscore;
 
-import com.gamejolt.Highscore;
+import com.gamejolt.util.Properties;
+import com.gamejolt.util.PropertiesParser;
 
 import java.util.ArrayList;
 import java.util.List;

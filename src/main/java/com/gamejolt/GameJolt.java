@@ -13,13 +13,14 @@
 
 package com.gamejolt;
 
+import com.gamejolt.highscore.Highscore;
+import com.gamejolt.highscore.HighscoreParser;
 import com.gamejolt.io.BinarySanitizer;
 import com.gamejolt.io.ObjectSerializer;
 import com.gamejolt.io.StandardJavaObjectSerializer;
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
-import com.gamejolt.util.HighscoreParser;
 import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
 import com.gamejolt.util.TrophyParser;
@@ -48,8 +49,8 @@ public class GameJolt {
     private PropertiesParser propertiesParser;
     private ObjectSerializer objectSerializer;
     private BinarySanitizer binarySanitizer;
-    private HighscoreParser highscoreParser;
     private NumberFormat highscoreFormatter;
+    private HighscoreParser highscoreParser;
 
     /**
      * Let the Game Jolt experience begin! :)
@@ -69,8 +70,8 @@ public class GameJolt {
         this.propertiesParser = new PropertiesParser();
         this.binarySanitizer = new BinarySanitizer();
         this.objectSerializer = new StandardJavaObjectSerializer();
-        this.highscoreParser = new HighscoreParser();
         this.highscoreFormatter = new DecimalFormat("###,###,###,###,###");
+        this.highscoreParser = new HighscoreParser();
     }
 
     /**
@@ -247,7 +248,9 @@ public class GameJolt {
     public List<String> getUserDataKeys() throws UnverifiedUserException {
         if (!verified) throw new UnverifiedUserException();
         HttpRequest request = requestFactory.buildUserDataKeysRequest(username, userToken);
-        return propertiesParser.parseToList(processRequest(request), "key");
+        List<String> keys = propertiesParser.parseToList(processRequest(request), "key");
+        keys.remove("success");
+        return keys;
     }
 
     /**
@@ -455,5 +458,4 @@ public class GameJolt {
     protected void setHighscoreParser(HighscoreParser highscoreParser) {
         this.highscoreParser = highscoreParser;
     }
-
 }
