@@ -18,7 +18,6 @@ import com.gamejolt.GameJoltException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -28,19 +27,12 @@ import java.util.zip.GZIPInputStream;
 
 
 public class HttpRequest {
-    private final boolean isPost;
     private QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
     private String url;
 
     public HttpRequest(String url) {
-        this(url, false);
-    }
-
-    public HttpRequest(String url, boolean isPost) {
         this.url = url;
-        this.isPost = isPost;
     }
-
 
     public HttpRequest addParameter(String name, String value) {
         queryStringBuilder.parameter(name, value);
@@ -63,29 +55,12 @@ public class HttpRequest {
         try {
             showRequest(verbose);
             URL request = new URL(buildUrlWithParameters());
-            if (isPost()) {
-                request = new URL(this.url);
-            }
+
             connection = (HttpURLConnection) request.openConnection();
             connection.setRequestProperty("Accept-Encoding", "gzip");
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7");
-
-            if (isPost()) {
-                connection.setRequestMethod("POST");
-                connection.setDoInput(true);
-                connection.setDoOutput(true);
-                connection.setUseCaches(false);
-
-                OutputStream output = connection.getOutputStream();
-                try {
-                    output.write(queryStringBuilder.toString().substring(1).getBytes());
-                    output.flush();
-                } finally {
-                    output.close();
-                }
-            }
-
             connection.connect();
+            
             int responseCode = connection.getResponseCode();
             if (responseCode != HttpURLConnection.HTTP_OK) {
                 showResponseFailed(verbose, responseCode);
@@ -190,10 +165,6 @@ public class HttpRequest {
 
     public String toString() {
         return getUrl();
-    }
-
-    public boolean isPost() {
-        return isPost;
     }
 
 }
