@@ -24,9 +24,10 @@ import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
 import com.gamejolt.util.TrophyParser;
 import com.google.common.base.Optional;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
@@ -46,39 +47,13 @@ public class GameJoltTest {
     private static final Object OUR_OBJECT = new Object();
     private static final String USERNAME = "username";
     private static final String USER_TOKEN = "userToken";
-    private RequestFactory requestFactory;
-    private HttpRequest request;
-    private HttpResponse response;
-    private GameJolt gameJolt;
-    private TrophyParser trophyParser;
-    private PropertiesParser propertiesParser;
-    private ObjectSerializer objectSerializer;
-    private BinarySanitizer binarySanitizer;
-    private HighscoreParser highscoreParser;
-
-    @Before
-    public void setUp() throws Exception {
-        requestFactory = mock(RequestFactory.class);
-        request = mock(HttpRequest.class);
-        response = mock(HttpResponse.class);
-        trophyParser = mock(TrophyParser.class);
-        propertiesParser = mock(PropertiesParser.class);
-        objectSerializer = mock(ObjectSerializer.class);
-        binarySanitizer = mock(BinarySanitizer.class);
-        highscoreParser = mock(HighscoreParser.class);
-
-        gameJolt = new GameJolt(1111, "private-key");
-        gameJolt.setRequestFactory(requestFactory);
-        gameJolt.setTrophyParser(trophyParser);
-        gameJolt.setPropertiesParser(propertiesParser);
-        gameJolt.setObjectSerializer(objectSerializer);
-        gameJolt.setBinarySanitizer(binarySanitizer);
-        gameJolt.setHighscoreParser(highscoreParser);
-
-        when(request.execute(false)).thenReturn(response);
-        when(response.isSuccessful()).thenReturn(true);
-        when(response.getContentAsString()).thenReturn(RESPONSE_CONTENT);
-    }
+    @Mock private RequestFactory requestFactory;
+    @InjectMocks private GameJolt gameJolt = new GameJolt(1111, "private-key");
+    @Mock private TrophyParser trophyParser;
+    @Mock private PropertiesParser propertiesParser;
+    @Mock private ObjectSerializer objectSerializer;
+    @Mock private BinarySanitizer binarySanitizer;
+    @Mock private HighscoreParser highscoreParser;
 
     @Test
     public void test_userAchievedHighscore_Success_ChangeBuiltInFormatting() {
@@ -812,7 +787,7 @@ public class GameJoltTest {
     private void whenWeQueryForGameDataAndItFails(String key) {
         MockHttpTuple tuple = new MockHttpTuple("game-data-failure");
         tuple.whenIsSuccessfulWithResponse("FAILURE\nerror message");
-        when(requestFactory.buildGetGameDataRequest(key)).thenReturn(request);
+        when(requestFactory.buildGetGameDataRequest(key)).thenReturn(tuple.request);
     }
 
     private void whenWeQueryForUserDataAndItFails() {
@@ -970,7 +945,7 @@ public class GameJoltTest {
 
     private void assertHighScoreWasPassedServer(String displayedText, int score, String extra) {
         verify(requestFactory).buildUserAchievedHighscoreRequest(
-                USERNAME,USER_TOKEN, displayedText, score, extra
+                USERNAME, USER_TOKEN, displayedText, score, extra
         );
     }
 
