@@ -18,7 +18,7 @@ import com.google.common.net.UrlEscapers;
 import java.util.Map;
 
 
-class QueryStringBuilder {
+public class QueryStringBuilder {
     private StringBuilder builder = new StringBuilder();
     private boolean firstParameter = true;
 

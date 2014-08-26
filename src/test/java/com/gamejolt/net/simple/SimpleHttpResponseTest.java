@@ -11,35 +11,18 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.gamejolt.net;
+package com.gamejolt.net.simple;
+
+import org.junit.Test;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 
-public class HttpResponse {
-    public final int code;
-    public final byte[] content;
-
-    HttpResponse(int code, byte[] content) {
-        this.code = code;
-        this.content = content;
-    }
-
-    public byte[] getContent() {
-        return content;
-    }
-
-    public String getContentAsString() {
-        return new String(content);
-    }
-
-    public int getCode() {
-        return code;
-    }
-
-    public boolean isSuccessful() {
-        return code == 200;
-    }
-
-    public String toString() {
-        return "code=" + code + "\n" + "content=\n" + getContentAsString();
+public class SimpleHttpResponseTest {
+    @Test
+    public void test() {
+        assertTrue(new SimpleHttpResponse(200, new byte[0]).isSuccessful());
+        assertFalse(new SimpleHttpResponse(404, new byte[0]).isSuccessful());
     }
 }

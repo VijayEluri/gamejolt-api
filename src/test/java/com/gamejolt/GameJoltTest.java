@@ -18,7 +18,6 @@ import com.gamejolt.highscore.HighscoreParser;
 import com.gamejolt.io.BinarySanitizer;
 import com.gamejolt.io.ObjectSerializer;
 import com.gamejolt.net.HttpRequest;
-import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
 import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
@@ -967,14 +966,12 @@ public class GameJoltTest {
 
     private class MockHttpTuple {
         final HttpRequest request;
-        final HttpResponse response;
         String responseContent;
         private String prefix;
 
         MockHttpTuple(String prefix) {
             this.prefix = prefix;
             request = Mockito.mock(HttpRequest.class, prefix + "-request");
-            response = Mockito.mock(HttpResponse.class, prefix + "-response");
         }
 
         void whenIsSuccessful() {

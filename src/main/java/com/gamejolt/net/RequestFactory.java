@@ -13,6 +13,8 @@
 
 package com.gamejolt.net;
 
+import com.gamejolt.net.simple.SimpleHttpRequestFactory;
+
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -20,11 +22,11 @@ import java.util.Map;
 public class RequestFactory {
     private static final String BASE_URL = "http://gamejolt.com/api/game/";
     private static final String DEFAULT_VERSION = "1";
-
+    private String version = DEFAULT_VERSION;
     private int gameId;
     private String privateKey;
     private SignatureFactory signatureFactory;
-    private String version = DEFAULT_VERSION;
+    private HttpRequestFactory httpRequestFactory = new SimpleHttpRequestFactory();
 
     public RequestFactory(int gameId, String privateKey) {
         this(gameId, privateKey, new SignatureFactory());
@@ -38,7 +40,7 @@ public class RequestFactory {
 
     public HttpRequest buildVerifyUserRequest(String username, String userToken) {
         String baseUrl = createUrl("users/auth/");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
 
@@ -52,7 +54,7 @@ public class RequestFactory {
 
     public HttpRequest buildAchievedTrophyRequest(String username, String userToken, String trophyId) {
         String baseUrl = createUrl("trophies/add-achieved");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("trophy_id", trophyId);
@@ -67,7 +69,7 @@ public class RequestFactory {
 
     public HttpRequest buildTrophyRequest(String username, String userToken, String trophyId) {
         String baseUrl = createUrl("trophies/");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("trophy_id", trophyId);
@@ -82,7 +84,7 @@ public class RequestFactory {
 
     public HttpRequest buildTrophiesRequest(String username, String userToken, String achieved) {
         String baseUrl = createUrl("trophies/");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("achieved", achieved);
@@ -101,7 +103,7 @@ public class RequestFactory {
 
     public HttpRequest buildStoreGameDataRequest(String name, String data) {
         String baseUrl = createUrl("data-store/set");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
@@ -118,7 +120,7 @@ public class RequestFactory {
 
     public HttpRequest buildStoreUserDataRequest(String username, String userToken, String name, String data) {
         String baseUrl = createUrl("data-store/set");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("data", data);
@@ -132,7 +134,7 @@ public class RequestFactory {
 
     public HttpRequest buildRemoveUserDataRequest(String username, String userToken, String name) {
         String baseUrl = createUrl("data-store/remove");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("key", name);
@@ -145,7 +147,7 @@ public class RequestFactory {
 
     public HttpRequest buildRemoveGameDataRequest(String name) {
         String baseUrl = createUrl("data-store/remove");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
@@ -161,7 +163,7 @@ public class RequestFactory {
 
     public HttpRequest buildGameDataKeysRequest() {
         String baseUrl = createUrl("data-store/get-keys");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
@@ -176,7 +178,7 @@ public class RequestFactory {
 
     public HttpRequest buildGetGameDataRequest(String name) {
         String baseUrl = createUrl("data-store/");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
@@ -193,7 +195,7 @@ public class RequestFactory {
 
     public HttpRequest buildUserDataKeysRequest(String username, String userToken) {
         String baseUrl = createUrl("data-store/get-keys");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("user_token", userToken);
@@ -205,7 +207,7 @@ public class RequestFactory {
 
     public HttpRequest buildGetUserDataRequest(String username, String userToken, String name) {
         String baseUrl = createUrl("data-store/");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("format", "dump");
@@ -219,7 +221,7 @@ public class RequestFactory {
 
     public HttpRequest buildAllHighscoresRequest(int limit) {
         String baseUrl = createUrl("scores");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
@@ -235,7 +237,7 @@ public class RequestFactory {
 
     public HttpRequest buildUserHighscoresRequest(String username, String userToken, int limit) {
         String baseUrl = createUrl("scores");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createParameterMap();
         parameters.put("game_id", String.valueOf(gameId));
@@ -250,7 +252,7 @@ public class RequestFactory {
 
     public HttpRequest buildUserAchievedHighscoreRequest(String username, String userToken, String displayedText, int score, String extra) {
         String baseUrl = createUrl("scores/add");
-        HttpRequest request = new HttpRequest(baseUrl);
+        HttpRequest request = newRequest(baseUrl);
 
         Map<String, String> parameters = createInitialUserParameterMap(username);
         parameters.put("sort", String.valueOf(score));
@@ -287,4 +289,7 @@ public class RequestFactory {
         return new LinkedHashMap<String, String>();
     }
 
+    private HttpRequest newRequest(String baseUrl) {
+        return httpRequestFactory.build(baseUrl);
+    }
 }

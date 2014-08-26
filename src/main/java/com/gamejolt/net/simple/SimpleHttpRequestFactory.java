@@ -10,19 +10,13 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  */
+package com.gamejolt.net.simple;
 
-package com.gamejolt.net;
+import com.gamejolt.net.HttpRequest;
+import com.gamejolt.net.HttpRequestFactory;
 
-import org.junit.Test;
-
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-
-public class HttpResponseTest {
-    @Test
-    public void test() {
-        assertTrue(new HttpResponse(200, new byte[0]).isSuccessful());
-        assertFalse(new HttpResponse(404, new byte[0]).isSuccessful());
+public class SimpleHttpRequestFactory implements HttpRequestFactory {
+    public HttpRequest build(String uri) {
+        return new SimpleHttpRequest(uri);
     }
 }

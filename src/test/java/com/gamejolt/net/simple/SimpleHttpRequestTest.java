@@ -11,8 +11,10 @@
  * See the License for the specific language governing permissions and limitations under the License.
  */
 
-package com.gamejolt.net;
+package com.gamejolt.net.simple;
 
+import com.gamejolt.net.HttpRequest;
+import com.gamejolt.net.HttpRequestException;
 import org.junit.Ignore;
 import org.junit.Test;
 
@@ -23,11 +25,11 @@ import static org.junit.Assert.*;
 
 
 @Ignore
-public class HttpRequestTest {
+public class SimpleHttpRequestTest {
 
     @Test
     public void test_NoParameter() {
-        HttpRequest request = new HttpRequest("http://www.google.com");
+        SimpleHttpRequest request = new SimpleHttpRequest("http://www.google.com");
 
         assertEquals("http://www.google.com", request.getUrl());
 
@@ -36,7 +38,7 @@ public class HttpRequestTest {
 
     @Test
     public void test_WithParameters() {
-        HttpRequest request = new HttpRequest("http://www.bing.com/search");
+        HttpRequest request = new SimpleHttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
         assertNotNull(request.execute(false));
@@ -44,7 +46,7 @@ public class HttpRequestTest {
 
     @Test
     public void test_WithParameters_EnsureParametersAreEncoded() {
-        HttpRequest request = new HttpRequest("http://www.bing.com/search");
+        HttpRequest request = new SimpleHttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java rest api").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
         assertNotNull(request.execute(false));
@@ -52,7 +54,7 @@ public class HttpRequestTest {
 
     @Test
     public void test_BadUrl() {
-        HttpRequest request = new HttpRequest("http://www.google.com/doesNotExist");
+        HttpRequest request = new SimpleHttpRequest("http://www.google.com/doesNotExist");
         request.addParameter("q", "java");
 
         try {
@@ -65,7 +67,7 @@ public class HttpRequestTest {
 
     @Test
     public void test_addParameters() {
-        HttpRequest request = new HttpRequest("http://www.google.com");
+        SimpleHttpRequest request = new SimpleHttpRequest("http://www.google.com");
 
         Map<String, String> parameters = new LinkedHashMap<String, String>();
         parameters.put("key1", "value1");

@@ -12,14 +12,6 @@
  */
 package com.gamejolt.net;
 
-import java.util.Map;
-
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
-
-    void addParameters(Map<String, String> parameters);
-
-    String execute(boolean verbose) throws HttpRequestException;
-
-    String getUrl();
+public interface HttpRequestFactory {
+    HttpRequest build(String uri);
 }
