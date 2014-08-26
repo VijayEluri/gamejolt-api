@@ -13,8 +13,6 @@
 
 package com.gamejolt.net;
 
-import com.gamejolt.GameJoltException;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,17 +37,21 @@ public class HttpRequest {
         return this;
     }
 
-    public HttpRequest addParameter(String name, int value) {
-        return addParameter(name, String.valueOf(value));
-    }
-
     public void addParameters(Map<String, String> parameters) {
         for (Map.Entry<String, String> entry : parameters.entrySet()) {
             addParameter(entry.getKey(), entry.getValue());
         }
     }
 
-    public HttpResponse execute(boolean verbose) throws GameJoltException {
+    public String execute(boolean verbose) throws HttpRequestException {
+        HttpResponse response = performRequest(verbose);
+        if (!response.isSuccessful()) {
+            throw new HttpRequestException("Bad Http Response received response code " + response.getCode());
+        }
+        return response.getContentAsString();
+    }
+
+    private HttpResponse performRequest(boolean verbose) {
         HttpURLConnection connection = null;
         InputStream input = null;
         try {
@@ -60,7 +62,7 @@ public class HttpRequest {
             connection.setRequestProperty("Accept-Encoding", "gzip");
             connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7");
             connection.connect();
-            
+
             int responseCode = connection.getResponseCode();
             if (responseCode != HttpURLConnection.HTTP_OK) {
                 showResponseFailed(verbose, responseCode);
@@ -76,7 +78,7 @@ public class HttpRequest {
             showResponse(verbose, responseContent);
             return new HttpResponse(responseCode, responseContent);
         } catch (IOException e) {
-            throw new GameJoltException(e);
+            throw new HttpRequestException(e);
         } finally {
             close(connection);
             close(input);

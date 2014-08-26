@@ -43,7 +43,6 @@ import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class GameJoltTest {
-    private static final String RESPONSE_CONTENT = "content";
     private static final Object OUR_OBJECT = new Object();
     private static final String USERNAME = "username";
     private static final String USER_TOKEN = "userToken";
@@ -692,7 +691,7 @@ public class GameJoltTest {
             gameJolt.verifyUser(USERNAME, USER_TOKEN);
             fail();
         } catch (GameJoltException err) {
-            assertEquals("Bad Http Response received response code 500", err.getMessage());
+
         }
     }
 
@@ -725,12 +724,6 @@ public class GameJoltTest {
     private void hasAVerifiedUser() {
         whenUserPassesVerification(USERNAME, USER_TOKEN);
         assertTrue(gameJolt.verifyUser(USERNAME, USER_TOKEN));
-    }
-
-    private void receivesResponse(HttpResponse httpResponse, boolean successful) {
-        when(httpResponse.getContentAsString()).thenReturn(RESPONSE_CONTENT);
-        Properties properties = properties(successful);
-        when(propertiesParser.parseProperties(RESPONSE_CONTENT)).thenReturn(properties);
     }
 
     private Properties properties(boolean successful) {
@@ -990,16 +983,11 @@ public class GameJoltTest {
 
         void whenIsSuccessfulWithResponse(String responseContent) {
             this.responseContent = responseContent;
-            when(request.execute(false)).thenReturn(response);
-            when(response.isSuccessful()).thenReturn(true);
-            when(response.getCode()).thenReturn(200);
-            when(response.getContentAsString()).thenReturn(responseContent);
+            when(request.execute(false)).thenReturn(responseContent);
         }
 
         void whenIsFailure() {
-            when(request.execute(false)).thenReturn(response);
-            when(response.isSuccessful()).thenReturn(false);
-            when(response.getCode()).thenReturn(500);
+            when(request.execute(false)).thenThrow(new GameJoltException("BOOM"));
         }
     }
 }

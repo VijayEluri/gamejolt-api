@@ -19,7 +19,6 @@ import com.gamejolt.io.BinarySanitizer;
 import com.gamejolt.io.ObjectSerializer;
 import com.gamejolt.io.StandardJavaObjectSerializer;
 import com.gamejolt.net.HttpRequest;
-import com.gamejolt.net.HttpResponse;
 import com.gamejolt.net.RequestFactory;
 import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
@@ -416,11 +415,7 @@ public class GameJolt {
     }
 
     private String processRequest(HttpRequest request) {
-        HttpResponse response = request.execute(verbose);
-        if (!response.isSuccessful()) {
-            throw new GameJoltException("Bad Http Response received response code " + response.getCode());
-        }
-        return response.getContentAsString();
+        return request.execute(verbose);
     }
 
     private boolean doesNotNeedToVerify(String username, String userToken) {

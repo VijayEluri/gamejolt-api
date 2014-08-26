@@ -19,8 +19,7 @@ import org.junit.Test;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 
 @Ignore
@@ -32,11 +31,7 @@ public class HttpRequestTest {
 
         assertEquals("http://www.google.com", request.getUrl());
 
-        HttpResponse response = request.execute(false);
-
-        assertNotNull(response);
-        assertNotNull(response.getContent());
-        assertEquals(200, response.code);
+        assertNotNull(request.execute(false));
     }
 
     @Test
@@ -44,10 +39,7 @@ public class HttpRequestTest {
         HttpRequest request = new HttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        HttpResponse response = request.execute(false);
-
-        assertNotNull(response.getContent());
-        assertEquals(200, response.code);
+        assertNotNull(request.execute(false));
     }
 
     @Test
@@ -55,10 +47,7 @@ public class HttpRequestTest {
         HttpRequest request = new HttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java rest api").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        HttpResponse response = request.execute(false);
-
-        assertNotNull(response.getContent());
-        assertEquals(200, response.code);
+        assertNotNull(request.execute(false));
     }
 
     @Test
@@ -66,10 +55,12 @@ public class HttpRequestTest {
         HttpRequest request = new HttpRequest("http://www.google.com/doesNotExist");
         request.addParameter("q", "java");
 
-        HttpResponse response = request.execute(false);
-
-        assertEquals(0, response.getContent().length);
-        assertEquals(404, response.code);
+        try {
+            request.execute(false);
+            fail();
+        } catch (HttpRequestException e) {
+            assertEquals("Bad Http Response received response code 404", e.getMessage());
+        }
     }
 
     @Test
