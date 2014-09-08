@@ -1,6 +1,6 @@
 # GameJolt API [![Build Status](https://travis-ci.org/born2snipe/gamejolt-api.svg)](https://travis-ci.org/born2snipe/gamejolt-api)
 
-== Current Features
+## Current Features
 - access to available trophies (earned/unearned)
 - access to achieve a trophy
 - access to highscores
@@ -10,7 +10,7 @@
 - access to save/read/remove data for users or your game
 - trophy achievement management
 
-== Example Usage
+## Example Usage
 
     int gameId = 1111;
     String privateKey = "your personal privatekey given to you by game jolt";
@@ -22,6 +22,6 @@
         List<Trophy> trophies = gj.getAllTrophies();
     }
 
-== Coming soon...
+## Coming soon...
 - quickplay support
 - guest player highscores
