@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/born2snipe/gamejolt-api.svg)](https://travis-ci.org/born2snipe/gamejolt-api)
+# GameJolt API [![Build Status](https://travis-ci.org/born2snipe/gamejolt-api.svg)](https://travis-ci.org/born2snipe/gamejolt-api)
 
 == Current Features
 - access to available trophies (earned/unearned)
