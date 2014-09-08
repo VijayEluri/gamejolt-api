@@ -1,6 +1,4 @@
 target
 *.i*
 *.jar
-BlahTest*
-IntegrationTest*
-SignatureCombinations*
+
