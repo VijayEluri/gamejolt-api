@@ -292,4 +292,8 @@ public class RequestFactory {
     private HttpRequest newRequest(String baseUrl) {
         return httpRequestFactory.build(baseUrl);
     }
+
+    public void setVerbose(boolean verbose) {
+        httpRequestFactory.setVerbose(verbose);
+    }
 }

@@ -19,7 +19,7 @@ public interface HttpRequest {
 
     void addParameters(Map<String, String> parameters);
 
-    String execute(boolean verbose) throws HttpRequestException;
+    String execute() throws HttpRequestException;
 
     String getUrl();
 }

@@ -16,7 +16,13 @@ import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpRequestFactory;
 
 public class SimpleHttpRequestFactory implements HttpRequestFactory {
+    private boolean verbose;
+
     public HttpRequest build(String uri) {
-        return new SimpleHttpRequest(uri);
+        return new SimpleHttpRequest(uri, verbose);
+    }
+
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
     }
 }

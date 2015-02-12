@@ -33,7 +33,7 @@ public class SimpleHttpRequestTest {
 
         assertEquals("http://www.google.com", request.getUrl());
 
-        assertNotNull(request.execute(false));
+        assertNotNull(request.execute());
     }
 
     @Test
@@ -41,7 +41,7 @@ public class SimpleHttpRequestTest {
         HttpRequest request = new SimpleHttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        assertNotNull(request.execute(false));
+        assertNotNull(request.execute());
     }
 
     @Test
@@ -49,7 +49,7 @@ public class SimpleHttpRequestTest {
         HttpRequest request = new SimpleHttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java rest api").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        assertNotNull(request.execute(false));
+        assertNotNull(request.execute());
     }
 
     @Test
@@ -58,7 +58,7 @@ public class SimpleHttpRequestTest {
         request.addParameter("q", "java");
 
         try {
-            request.execute(false);
+            request.execute();
             fail();
         } catch (HttpRequestException e) {
             assertEquals("Bad Http Response received response code 404", e.getMessage());

@@ -163,7 +163,7 @@ public class GameJolt {
      * @param verbose
      */
     public void setVerbose(boolean verbose) {
-        this.verbose = verbose;
+        requestFactory.setVerbose(verbose);
     }
 
     /**
@@ -415,7 +415,7 @@ public class GameJolt {
     }
 
     private String processRequest(HttpRequest request) {
-        return request.execute(verbose);
+        return request.execute();
     }
 
     private boolean doesNotNeedToVerify(String username, String userToken) {

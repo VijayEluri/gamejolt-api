@@ -14,4 +14,6 @@ package com.gamejolt.net;
 
 public interface HttpRequestFactory {
     HttpRequest build(String uri);
+
+    void setVerbose(boolean verbose);
 }

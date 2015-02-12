@@ -980,11 +980,11 @@ public class GameJoltTest {
 
         void whenIsSuccessfulWithResponse(String responseContent) {
             this.responseContent = responseContent;
-            when(request.execute(false)).thenReturn(responseContent);
+            when(request.execute()).thenReturn(responseContent);
         }
 
         void whenIsFailure() {
-            when(request.execute(false)).thenThrow(new GameJoltException("BOOM"));
+            when(request.execute()).thenThrow(new GameJoltException("BOOM"));
         }
     }
 }

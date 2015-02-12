@@ -31,9 +31,15 @@ import java.util.zip.GZIPInputStream;
 public class SimpleHttpRequest implements HttpRequest {
     private QueryStringBuilder queryStringBuilder = new QueryStringBuilder();
     private String url;
+    private boolean verbose = false;
 
     public SimpleHttpRequest(String url) {
+        this(url, false);
+    }
+
+    public SimpleHttpRequest(String url, boolean verbose) {
         this.url = url;
+        this.verbose = verbose;
     }
 
     public HttpRequest addParameter(String name, String value) {
@@ -47,15 +53,15 @@ public class SimpleHttpRequest implements HttpRequest {
         }
     }
 
-    public String execute(boolean verbose) throws HttpRequestException {
-        SimpleHttpResponse response = performRequest(verbose);
+    public String execute() throws HttpRequestException {
+        SimpleHttpResponse response = performRequest();
         if (!response.isSuccessful()) {
             throw new HttpRequestException("Bad Http Response received response code " + response.getCode());
         }
         return response.getContentAsString();
     }
 
-    private SimpleHttpResponse performRequest(boolean verbose) {
+    private SimpleHttpResponse performRequest() {
         HttpURLConnection connection = null;
         InputStream input = null;
         try {
