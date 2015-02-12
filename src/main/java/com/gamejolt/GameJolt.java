@@ -30,7 +30,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static java.text.MessageFormat.format;
+import static com.gamejolt.util.MessageFormat.format;
 
 
 public class GameJolt {

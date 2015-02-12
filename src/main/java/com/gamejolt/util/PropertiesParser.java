@@ -15,7 +15,6 @@ package com.gamejolt.util;
 
 import com.gamejolt.GameJoltException;
 
-import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
