@@ -15,9 +15,6 @@ package com.gamejolt.util;
 
 import com.gamejolt.GameJoltException;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.StringReader;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,12 +27,10 @@ public class PropertiesParser {
         List<Properties> properties = new ArrayList<Properties>();
         Properties current = new Properties();
 
-        BufferedReader reader = null;
-        String line = null;
-        try {
-            reader = new BufferedReader(new StringReader(content));
-            while ((line = reader.readLine()) != null) {
-                int indexOfColon = line.indexOf(':');
+        String[] lines = content.split("\r\n|\n");
+        for (String line : lines) {
+            int indexOfColon = line.indexOf(':');
+            if (indexOfColon > -1) {
                 String key = line.substring(0, indexOfColon);
                 String value = line.substring(indexOfColon + 1).replace("\"", "").trim();
                 if (current.contains(key)) {
@@ -44,9 +39,8 @@ public class PropertiesParser {
                 }
                 current.put(key, value);
             }
-        } catch (IOException err) {
-
         }
+
         properties.add(current);
         return properties;
     }
