@@ -23,6 +23,7 @@ import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
 import com.gamejolt.util.TrophyParser;
 import com.google.common.base.Optional;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -52,6 +53,12 @@ public class GameJoltTest {
     @Mock private ObjectSerializer objectSerializer;
     @Mock private BinarySanitizer binarySanitizer;
     @Mock private HighscoreParser highscoreParser;
+    private MockUserVerificationListener userVerificationListener;
+
+    @Before
+    public void setUp() throws Exception {
+        userVerificationListener = new MockUserVerificationListener();
+    }
 
     @Test
     public void test_userAchievedHighscore_Success_ChangeBuiltInFormatting() {
@@ -672,14 +679,18 @@ public class GameJoltTest {
     public void test_verifyUser_NotVerified() {
         whenUserFailsVerification(USERNAME, USER_TOKEN);
 
-        assertFalse(gameJolt.verifyUser(USERNAME, USER_TOKEN));
+        gameJolt.verifyUser(USERNAME, USER_TOKEN, userVerificationListener);
+
+        userVerificationListener.assertNotVerified();
     }
 
     @Test
     public void test_verifyUser_Verified() {
         whenUserPassesVerification(USERNAME, USER_TOKEN);
 
-        assertTrue(gameJolt.verifyUser(USERNAME, USER_TOKEN));
+        gameJolt.verifyUser(USERNAME, USER_TOKEN, userVerificationListener);
+
+        userVerificationListener.assertVerified();
     }
 
     @Test
@@ -687,7 +698,7 @@ public class GameJoltTest {
         whenUserVerificationGetsBadResponseCode(USERNAME, USER_TOKEN);
 
         try {
-            gameJolt.verifyUser(USERNAME, USER_TOKEN);
+            gameJolt.verifyUser(USERNAME, USER_TOKEN, userVerificationListener);
             fail();
         } catch (GameJoltException err) {
 
@@ -698,8 +709,8 @@ public class GameJoltTest {
     public void test_verifyUser_AlreadyVerified() {
         whenUserPassesVerification(USERNAME, USER_TOKEN);
 
-        assertTrue(gameJolt.verifyUser(USERNAME, USER_TOKEN));
-        assertTrue(gameJolt.verifyUser(USERNAME, USER_TOKEN));
+        gameJolt.verifyUser(USERNAME, USER_TOKEN, userVerificationListener);
+        gameJolt.verifyUser(USERNAME, USER_TOKEN, userVerificationListener);
 
         verify(requestFactory, times(1)).buildVerifyUserRequest(USERNAME, USER_TOKEN);
     }
@@ -709,7 +720,9 @@ public class GameJoltTest {
         hasAVerifiedUser();
         whenUserFailsVerification("different", USER_TOKEN);
 
-        assertFalse(gameJolt.verifyUser("different", USER_TOKEN));
+        gameJolt.verifyUser("different", USER_TOKEN, userVerificationListener);
+
+        userVerificationListener.assertNotVerified();
     }
 
     @Test
@@ -717,12 +730,14 @@ public class GameJoltTest {
         hasAVerifiedUser();
         whenUserFailsVerification(USERNAME, "differentUserToken");
 
-        assertFalse(gameJolt.verifyUser(USERNAME, "differentUserToken"));
+        gameJolt.verifyUser(USERNAME, "differentUserToken", userVerificationListener);
+
+        userVerificationListener.assertNotVerified();
     }
 
     private void hasAVerifiedUser() {
         whenUserPassesVerification(USERNAME, USER_TOKEN);
-        assertTrue(gameJolt.verifyUser(USERNAME, USER_TOKEN));
+        gameJolt.verifyUser(USERNAME, USER_TOKEN, userVerificationListener);
     }
 
     private Properties properties(boolean successful) {

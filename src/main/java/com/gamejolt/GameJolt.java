@@ -78,20 +78,21 @@ public class GameJolt {
      *
      * @param username  - player's username
      * @param userToken - player's usertoken
-     * @return <p>true - player is a valid user</p>
-     *         <p>false - player is not a valid user</p>
+     * @param listener  - the callback that is notified when a user is successfully or fails verification
      */
-    public boolean verifyUser(String username, String userToken) {
+    public void verifyUser(String username, String userToken, UserVerificationListener listener) {
         if (doesNotNeedToVerify(username, userToken)) {
-            return true;
+            return;
         }
         HttpRequest request = requestFactory.buildVerifyUserRequest(username, userToken);
         verified = wasSuccessful(request);
         if (verified) {
             this.username = username;
             this.userToken = userToken;
+            listener.verified(username);
+        } else {
+            listener.failedVerification(username);
         }
-        return verified;
     }
 
     /**
@@ -99,13 +100,11 @@ public class GameJolt {
      *
      * @param trophyId - the id of the trophy that has been achieved
      * @return <p>true - player's profile has been updated with the achievement<p>
-     *         <p>false - player has already achieved this trophy</p>
+     * <p>false - player has already achieved this trophy</p>
      * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public boolean achievedTrophy(int trophyId) throws UnverifiedUserException {
-        if (!verified) {
-            throw new UnverifiedUserException();
-        }
+        assertVerified();
         return wasSuccessful(requestFactory.buildAchievedTrophyRequest(username, userToken, String.valueOf(trophyId)));
     }
 
@@ -117,13 +116,13 @@ public class GameJolt {
      * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public Trophy getTrophy(int trophyId) throws UnverifiedUserException {
-        if (!verified) {
-            throw new UnverifiedUserException();
-        }
+        assertVerified();
         HttpRequest request = requestFactory.buildTrophyRequest(username, userToken, String.valueOf(trophyId));
 
         List<Trophy> trophies = trophyParser.parse(processRequest(request));
-        if (trophies.size() == 0) return null;
+        if (trophies.size() == 0) {
+            return null;
+        }
         return trophies.get(0);
     }
 
@@ -172,11 +171,11 @@ public class GameJolt {
      * @param name - the name given to the data
      * @param data - the data to be stored
      * @return <p>true - successfully stored data</p>
-     *         <p>false - failed to store the data</p>
+     * <p>false - failed to store the data</p>
      * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public boolean storeUserData(String name, Object data) throws UnverifiedUserException {
-        if (!verified) throw new UnverifiedUserException();
+        assertVerified();
         if (data == null) {
             throw new NullPointerException(format(STORE_NULL_OBJECT, "removeUserData"));
         }
@@ -193,10 +192,12 @@ public class GameJolt {
      * @param name - the name given to the data
      * @param data - the data to be stored
      * @return <p>true - successfully stored data</p>
-     *         <p>false - failed to store the data</p>
+     * <p>false - failed to store the data</p>
      */
     public boolean storeGameData(String name, Object data) {
-        if (data == null) throw new NullPointerException(format(STORE_NULL_OBJECT, "removeGameData"));
+        if (data == null) {
+            throw new NullPointerException(format(STORE_NULL_OBJECT, "removeGameData"));
+        }
         byte[] bytes = objectSerializer.serialize(data);
         if (bytes == null) {
             throw new NullPointerException(format(NULL_BYTES, data.getClass()));
@@ -209,11 +210,11 @@ public class GameJolt {
      *
      * @param name - the name of the data to be removed
      * @return <p>true - was successfully removed</p>
-     *         <p>false - was not removed or does not exist</p>
+     * <p>false - was not removed or does not exist</p>
      * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public boolean removeUserData(String name) throws UnverifiedUserException {
-        if (!verified) throw new UnverifiedUserException();
+        assertVerified();
         return wasSuccessful(requestFactory.buildRemoveUserDataRequest(username, userToken, name));
     }
 
@@ -222,7 +223,7 @@ public class GameJolt {
      *
      * @param name - the name of the data to be removed
      * @return <p>true - was successfully removed</p>
-     *         <p>false - was not removed or does not exist</p>
+     * <p>false - was not removed or does not exist</p>
      */
     public boolean removeGameData(String name) {
         return wasSuccessful(requestFactory.buildRemoveGameDataRequest(name));
@@ -245,7 +246,7 @@ public class GameJolt {
      * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public List<String> getUserDataKeys() throws UnverifiedUserException {
-        if (!verified) throw new UnverifiedUserException();
+        assertVerified();
         HttpRequest request = requestFactory.buildUserDataKeysRequest(username, userToken);
         List<String> keys = propertiesParser.parseToList(processRequest(request), "key");
         keys.remove("success");
@@ -293,7 +294,7 @@ public class GameJolt {
      * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public Object getUserData(String name) throws UnverifiedUserException {
-        if (!verified) throw new UnverifiedUserException();
+        assertVerified();
         HttpRequest request = requestFactory.buildGetUserDataRequest(username, userToken, name);
         return deserializeData(request);
     }
@@ -354,7 +355,7 @@ public class GameJolt {
      * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public List<Highscore> getUserHighscores(int limit) throws UnverifiedUserException {
-        if (!verified) throw new UnverifiedUserException();
+        assertVerified();
         return highscoreParser.parse(processRequest(requestFactory.buildUserHighscoresRequest(username, userToken, limit)));
     }
 
@@ -378,7 +379,7 @@ public class GameJolt {
      * @throws UnverifiedUserException is thrown if the given player has not be verified yet
      */
     public boolean userAchievedHighscore(String displayedText, int score, String extra) throws UnverifiedUserException {
-        if (!verified) throw new UnverifiedUserException();
+        assertVerified();
         return wasSuccessful(requestFactory.buildUserAchievedHighscoreRequest(username, userToken, displayedText, score, extra));
     }
 
@@ -435,7 +436,7 @@ public class GameJolt {
     }
 
     private List<Trophy> getTrophies(String achieved) {
-        if (!verified) throw new UnverifiedUserException();
+        assertVerified();
         return trophyParser.parse(processRequest(requestFactory.buildTrophiesRequest(username, userToken, achieved)));
     }
 
@@ -448,6 +449,12 @@ public class GameJolt {
             return objectSerializer.deserialize(binarySanitizer.unsanitize(data));
         }
         return null;
+    }
+
+    private void assertVerified() {
+        if (!verified) {
+            throw new UnverifiedUserException();
+        }
     }
 
     protected void setHighscoreParser(HighscoreParser highscoreParser) {

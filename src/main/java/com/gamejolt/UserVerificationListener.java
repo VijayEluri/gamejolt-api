@@ -10,21 +10,10 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  */
-package end2end;
+package com.gamejolt;
 
-import co.freeside.betamax.Recorder;
-import com.gamejolt.GameJolt;
-import com.gamejolt.MockUserVerificationListener;
-import org.junit.Before;
-import org.junit.Rule;
+public interface UserVerificationListener {
+    void verified(String username);
 
-public abstract class End2EndTest {
-    @Rule public Recorder recorder = new Recorder();
-    protected GameJolt gameJolt;
-
-    @Before
-    public void setUp() throws Exception {
-        gameJolt = new GameJolt(2338, "6492144b383664fa32aa744e1c8f532d");
-        gameJolt.verifyUser("born2snipe", "b7286a", new MockUserVerificationListener());
-    }
+    void failedVerification(String username);
 }
