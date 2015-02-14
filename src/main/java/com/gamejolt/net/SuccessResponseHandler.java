@@ -12,14 +12,26 @@
  */
 package com.gamejolt.net;
 
-import java.util.Map;
+import com.gamejolt.util.Properties;
+import com.gamejolt.util.PropertiesParser;
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
+public abstract class SuccessResponseHandler extends PropertiesHttpResponseHandler {
+    public SuccessResponseHandler(PropertiesParser propertiesParser) {
+        super(propertiesParser);
+    }
 
-    void addParameters(Map<String, String> parameters);
+    @Override
+    protected final void handle(Properties properties) {
+        if (properties.getBoolean("success")) {
+            handleSuccess();
+        } else {
+            handleFailure();
+        }
+    }
 
-    void execute(HttpResponseHandler handler);
+    protected abstract void handleSuccess();
 
-    String getUrl();
+    protected void handleFailure() {
+    }
+
 }

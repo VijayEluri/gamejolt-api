@@ -18,6 +18,7 @@ import com.gamejolt.highscore.HighscoreParser;
 import com.gamejolt.io.BinarySanitizer;
 import com.gamejolt.io.ObjectSerializer;
 import com.gamejolt.net.HttpRequest;
+import com.gamejolt.net.MockHttpRequest;
 import com.gamejolt.net.RequestFactory;
 import com.gamejolt.util.Properties;
 import com.gamejolt.util.PropertiesParser;
@@ -28,7 +29,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import java.net.MalformedURLException;
@@ -54,10 +54,20 @@ public class GameJoltTest {
     @Mock private BinarySanitizer binarySanitizer;
     @Mock private HighscoreParser highscoreParser;
     private MockUserVerificationListener userVerificationListener;
+    private MockTrophyAchievedListener trophyAchievedListener;
+    private MockTrophyLookupListener trophyLookupListener;
+    private MockTrophiesLookupListener trophiesLookupListener;
+    private MockListener listener;
+    private MockDataKeysListener dataKeyListener;
 
     @Before
     public void setUp() throws Exception {
         userVerificationListener = new MockUserVerificationListener();
+        trophyAchievedListener = new MockTrophyAchievedListener();
+        trophyLookupListener = new MockTrophyLookupListener();
+        trophiesLookupListener = new MockTrophiesLookupListener();
+        listener = new MockListener();
+        dataKeyListener = new MockDataKeysListener();
     }
 
     @Test
@@ -335,19 +345,19 @@ public class GameJoltTest {
         whenWeDeleteGameData("key-value");
         whenWeDeleteGameData("key-value2");
 
-        gameJolt.clearAllGameData();
+        gameJolt.clearAllGameData(listener);
 
         verify(requestFactory).buildRemoveGameDataRequest("key-value");
         verify(requestFactory).buildRemoveGameDataRequest("key-value2");
+        listener.assertSuccess();
     }
-
 
     @Test
     public void test_clearAllGameData_SingleKey() {
         whenWeQueryForGameDataKeys("key-value");
         whenWeDeleteGameData("key-value");
 
-        gameJolt.clearAllGameData();
+        gameJolt.clearAllGameData(listener);
 
         verify(requestFactory).buildRemoveGameDataRequest("key-value");
     }
@@ -356,7 +366,7 @@ public class GameJoltTest {
     public void test_clearAllGameData_NoKeys() {
         whenWeQueryForGameDataKeys();
 
-        gameJolt.clearAllGameData();
+        gameJolt.clearAllGameData(listener);
 
         verify(requestFactory).buildGameDataKeysRequest();
         verifyNoMoreInteractions(requestFactory);
@@ -366,7 +376,9 @@ public class GameJoltTest {
     public void test_getGameDataKeys() {
         whenWeQueryForGameDataKeys("key-value");
 
-        assertEquals(Arrays.asList("key-value"), gameJolt.getGameDataKeys());
+        gameJolt.getGameDataKeys(dataKeyListener);
+
+        dataKeyListener.assertKeys("key-value");
     }
 
     @Test
@@ -376,10 +388,11 @@ public class GameJoltTest {
         whenWeRemoveUserData("key-value");
         whenWeRemoveUserData("key-value2");
 
-        gameJolt.clearAllUserData();
+        gameJolt.clearAllUserData(listener);
 
         verify(requestFactory).buildRemoveUserDataRequest(USERNAME, USER_TOKEN, "key-value");
         verify(requestFactory).buildRemoveUserDataRequest(USERNAME, USER_TOKEN, "key-value2");
+        listener.assertSuccess();
     }
 
     @Test
@@ -388,7 +401,7 @@ public class GameJoltTest {
         whenWeExpectToQueryForAllUserDataKeys("key-value");
         whenWeRemoveUserData("key-value");
 
-        gameJolt.clearAllUserData();
+        gameJolt.clearAllUserData(listener);
 
         verify(requestFactory).buildRemoveUserDataRequest(USERNAME, USER_TOKEN, "key-value");
     }
@@ -398,7 +411,7 @@ public class GameJoltTest {
         hasAVerifiedUser();
         whenWeExpectToQueryForAllUserDataKeysAndNoneAreFound();
 
-        gameJolt.clearAllUserData();
+        gameJolt.clearAllUserData(listener);
 
         verify(requestFactory).buildVerifyUserRequest(USERNAME, USER_TOKEN);
         verify(requestFactory).buildUserDataKeysRequest(USERNAME, USER_TOKEN);
@@ -410,14 +423,18 @@ public class GameJoltTest {
         hasAVerifiedUser();
         whenWeExpectToQueryForAllUserDataKeys("key-value");
 
-        assertEquals(Arrays.asList("key-value"), gameJolt.getUserDataKeys());
+        gameJolt.getUserDataKeys(dataKeyListener);
+
+        dataKeyListener.assertKeys("key-value");
     }
 
     @Test
     public void test_getGameDataKeys_NoKeys() {
         whenWeQueryForGameDataKeys();
 
-        assertEquals(Arrays.asList(), gameJolt.getGameDataKeys());
+        gameJolt.getGameDataKeys(dataKeyListener);
+
+        dataKeyListener.assertNoKeys();
     }
 
     @Test
@@ -425,22 +442,25 @@ public class GameJoltTest {
         hasAVerifiedUser();
         whenWeExpectToQueryForAllUserDataKeysAndNoneAreFound();
 
-        assertEquals(Arrays.asList(), gameJolt.getUserDataKeys());
+        gameJolt.getUserDataKeys(dataKeyListener);
+
+        dataKeyListener.assertNoKeys();
     }
 
     @Test
     public void test_getUserDataKeys_Failed() {
         hasAVerifiedUser();
-
         whenWeExpectToQueryForAllUserDataKeys(properties(false));
 
-        assertEquals(Arrays.asList(), gameJolt.getUserDataKeys());
+        gameJolt.getUserDataKeys(dataKeyListener);
+
+        dataKeyListener.assertNoKeys();
     }
 
     @Test
     public void test_getUserDataKeys_Unverified() {
         try {
-            gameJolt.getUserDataKeys();
+            gameJolt.getUserDataKeys(dataKeyListener);
             fail();
         } catch (UnverifiedUserException err) {
 
@@ -451,14 +471,18 @@ public class GameJoltTest {
     public void test_removeGameData() {
         whenWeDeleteGameData("name", true);
 
-        assertTrue(gameJolt.removeGameData("name"));
+        gameJolt.removeGameData("name", listener);
+
+        listener.assertSuccess();
     }
 
     @Test
     public void test_removeGameData_Failed() {
         whenWeDeleteGameData("name", false);
 
-        assertFalse(gameJolt.removeGameData("name"));
+        gameJolt.removeGameData("name", listener);
+
+        listener.assertNotSuccessful();
     }
 
     @Test
@@ -467,22 +491,25 @@ public class GameJoltTest {
 
         whenWeFailedToRemoveUserData("name");
 
-        assertFalse(gameJolt.removeUserData("name"));
+        gameJolt.removeUserData("name", listener);
+
+        listener.assertNotSuccessful();
     }
 
     @Test
     public void test_removeUserData() {
         hasAVerifiedUser();
-
         whenWeRemoveUserData("name");
 
-        assertTrue(gameJolt.removeUserData("name"));
+        gameJolt.removeUserData("name", listener);
+
+        listener.assertSuccess();
     }
 
     @Test
     public void test_removeUserData_UserNotVerified() {
         try {
-            gameJolt.removeUserData("name");
+            gameJolt.removeUserData("name", listener);
             fail();
         } catch (UnverifiedUserException e) {
 
@@ -492,7 +519,7 @@ public class GameJoltTest {
     @Test
     public void test_storeGameData_NullObjectGiven() {
         try {
-            gameJolt.storeGameData("name", (Object) null);
+            gameJolt.storeGameData("name", (Object) null, listener);
             fail();
         } catch (NullPointerException err) {
             assertEquals("You supplied a null object for storing. This is invalid, if you would like to remove data, please use the removeGameData method", err.getMessage());
@@ -504,7 +531,7 @@ public class GameJoltTest {
         hasAVerifiedUser();
 
         try {
-            gameJolt.storeUserData("name", (Object) null);
+            gameJolt.storeUserData("name", (Object) null, listener);
             fail();
         } catch (NullPointerException err) {
             assertEquals("You supplied a null object for storing. This is invalid, if you would like to remove data, please use the removeUserData method", err.getMessage());
@@ -520,7 +547,7 @@ public class GameJoltTest {
         when(objectSerializer.serialize(obj)).thenReturn(null);
 
         try {
-            gameJolt.storeUserData("name", obj);
+            gameJolt.storeUserData("name", obj, listener);
             fail();
         } catch (NullPointerException err) {
             assertEquals("ObjectSerializer serialized " + DummyObject.class + " to a null byte array, please give at least an empty byte array", err.getMessage());
@@ -533,7 +560,7 @@ public class GameJoltTest {
         when(objectSerializer.serialize(obj)).thenReturn(null);
 
         try {
-            gameJolt.storeGameData("name", obj);
+            gameJolt.storeGameData("name", obj, listener);
             fail();
         } catch (NullPointerException err) {
             assertEquals("ObjectSerializer serialized " + DummyObject.class + " to a null byte array, please give at least an empty byte array", err.getMessage());
@@ -547,7 +574,9 @@ public class GameJoltTest {
 
         whenWeStoreUserData("name", obj);
 
-        assertTrue(gameJolt.storeUserData("name", obj));
+        gameJolt.storeUserData("name", obj, listener);
+
+        listener.assertSuccess();
     }
 
     @Test
@@ -555,13 +584,15 @@ public class GameJoltTest {
         DummyObject obj = new DummyObject();
         whenStoreGameData("name", obj);
 
-        assertTrue(gameJolt.storeGameData("name", obj));
+        gameJolt.storeGameData("name", obj, listener);
+
+        listener.assertSuccess();
     }
 
     @Test
     public void test_getUnachievedTrophies_UnverifiedUser() {
         try {
-            gameJolt.getUnachievedTrophies();
+            gameJolt.getUnachievedTrophies(trophiesLookupListener);
             fail();
         } catch (UnverifiedUserException e) {
 
@@ -576,13 +607,15 @@ public class GameJoltTest {
 
         whenWeRequestForUnachievedTrophies(trophies);
 
-        assertSame(trophies, gameJolt.getUnachievedTrophies());
+        gameJolt.getUnachievedTrophies(trophiesLookupListener);
+
+        trophiesLookupListener.assertLookedUp(trophies);
     }
 
     @Test
     public void test_getAchievedTrophies_UnverifiedUser() {
         try {
-            gameJolt.getAchievedTrophies();
+            gameJolt.getAchievedTrophies(trophiesLookupListener);
             fail();
         } catch (UnverifiedUserException e) {
 
@@ -594,10 +627,11 @@ public class GameJoltTest {
         List trophies = new ArrayList();
 
         hasAVerifiedUser();
-
         whenWeRequestForAchievedTrophies(trophies);
 
-        assertSame(trophies, gameJolt.getAchievedTrophies());
+        gameJolt.getAchievedTrophies(trophiesLookupListener);
+
+        trophiesLookupListener.assertLookedUp(trophies);
     }
 
     @Test
@@ -608,13 +642,15 @@ public class GameJoltTest {
 
         whenWeRequestForAllTrophies(trophies);
 
-        assertSame(trophies, gameJolt.getAllTrophies());
+        gameJolt.getAllTrophies(trophiesLookupListener);
+
+        trophiesLookupListener.assertLookedUp(trophies);
     }
 
     @Test
     public void test_getAllTrophies_UnverifiedUser() {
         try {
-            gameJolt.getAllTrophies();
+            gameJolt.getAllTrophies(trophiesLookupListener);
             fail();
         } catch (UnverifiedUserException e) {
 
@@ -624,7 +660,7 @@ public class GameJoltTest {
     @Test
     public void test_getTrophy_Unverified() {
         try {
-            gameJolt.getTrophy(12);
+            gameJolt.getTrophy(12, trophyLookupListener);
             fail();
         } catch (UnverifiedUserException er) {
 
@@ -636,7 +672,9 @@ public class GameJoltTest {
         hasAVerifiedUser();
         whenWeQueryForTrophyByIdWithNoResult(12);
 
-        assertNull(gameJolt.getTrophy(12));
+        gameJolt.getTrophy(12, trophyLookupListener);
+
+        trophyLookupListener.assertNotFound();
     }
 
     @Test
@@ -646,13 +684,15 @@ public class GameJoltTest {
         hasAVerifiedUser();
         whenWeQueryForTrophyById(12, trophy);
 
-        assertSame(trophy, gameJolt.getTrophy(12));
+        gameJolt.getTrophy(12, trophyLookupListener);
+
+        trophyLookupListener.assertFound(trophy);
     }
 
     @Test
     public void test_achievedTrophy_UnverifiedUser() {
         try {
-            gameJolt.achievedTrophy(1234);
+            gameJolt.achievedTrophy(1234, trophyAchievedListener);
             fail();
         } catch (UnverifiedUserException e) {
 
@@ -661,10 +701,14 @@ public class GameJoltTest {
 
     @Test
     public void test_achievedTrophy_VerifiedUser() {
+        Trophy trophy = new Trophy();
         hasAVerifiedUser();
         whenUserAchievedATrophy(1234, true);
+        whenWeQueryForTrophyById(1234, trophy);
 
-        assertTrue(gameJolt.achievedTrophy(1234));
+        gameJolt.achievedTrophy(1234, trophyAchievedListener);
+
+        trophyAchievedListener.assertAchieved(trophy);
     }
 
     @Test
@@ -672,7 +716,9 @@ public class GameJoltTest {
         hasAVerifiedUser();
         whenUserAchievedATrophy(1234, false);
 
-        assertFalse(gameJolt.achievedTrophy(1234));
+        gameJolt.achievedTrophy(1234, trophyAchievedListener);
+
+        trophyAchievedListener.assertNotAchieved();
     }
 
     @Test
@@ -980,13 +1026,12 @@ public class GameJoltTest {
     }
 
     private class MockHttpTuple {
-        final HttpRequest request;
+        HttpRequest request;
         String responseContent;
         private String prefix;
 
         MockHttpTuple(String prefix) {
             this.prefix = prefix;
-            request = Mockito.mock(HttpRequest.class, prefix + "-request");
         }
 
         void whenIsSuccessful() {
@@ -995,11 +1040,11 @@ public class GameJoltTest {
 
         void whenIsSuccessfulWithResponse(String responseContent) {
             this.responseContent = responseContent;
-            when(request.execute()).thenReturn(responseContent);
+            this.request = new MockHttpRequest(true, responseContent);
         }
 
         void whenIsFailure() {
-            when(request.execute()).thenThrow(new GameJoltException("BOOM"));
+            this.request = new MockHttpRequest(false, responseContent);
         }
     }
 }

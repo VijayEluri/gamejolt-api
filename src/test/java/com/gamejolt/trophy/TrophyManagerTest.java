@@ -14,7 +14,7 @@
 package com.gamejolt.trophy;
 
 
-import com.gamejolt.GameJolt;
+import com.gamejolt.MockGameJolt;
 import com.gamejolt.Trophy;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.*;
 
 
 public class TrophyManagerTest {
-    private GameJolt gameJolt;
+    private MockGameJolt gameJolt;
     private TrophyManager manager;
     private AcquiredTrophyRule rule;
     private TrophyContext context;
@@ -35,7 +35,7 @@ public class TrophyManagerTest {
 
     @Before
     public void setUp() throws Exception {
-        gameJolt = mock(GameJolt.class);
+        gameJolt = new MockGameJolt();
         rule = mock(AcquiredTrophyRule.class);
         listener = mock(TrophyManagerListener.class);
 
@@ -51,7 +51,7 @@ public class TrophyManagerTest {
         manager.addListener(listener2);
 
         Trophy trophy = new Trophy();
-        when(gameJolt.getTrophy(123)).thenReturn(trophy);
+        gameJolt.addTrophy(123, trophy);
         when(rule.acquired(context)).thenReturn(true);
 
         manager.registerRule(123, rule);
@@ -64,7 +64,7 @@ public class TrophyManagerTest {
     @Test
     public void test_manage_singleRule_TrophyNotAcquired() {
         Trophy trophy = new Trophy();
-        when(gameJolt.getTrophy(123)).thenReturn(trophy);
+        gameJolt.addTrophy(123, trophy);
         when(rule.acquired(context)).thenReturn(false);
 
         manager.registerRule(123, rule);
@@ -77,7 +77,7 @@ public class TrophyManagerTest {
     public void test_manage_singleRule_TrophyAlreadyAcquired() {
         Trophy trophy = new Trophy();
         trophy.setAchieved(true);
-        when(gameJolt.getTrophy(123)).thenReturn(trophy);
+        gameJolt.addTrophy(123, trophy);
 
         manager.registerRule(123, rule);
         manager.manage(context);
@@ -89,7 +89,8 @@ public class TrophyManagerTest {
     public void test_manage_singleRule_TrophyAcquired() {
         Trophy trophy = new Trophy();
         trophy.setId(123);
-        when(gameJolt.getTrophy(123)).thenReturn(trophy);
+        gameJolt.addTrophy(123, trophy);
+        gameJolt.whenTrophyIsAchieved(123);
         when(rule.acquired(context)).thenReturn(true);
 
         manager.registerRule(123, rule);
@@ -97,7 +98,6 @@ public class TrophyManagerTest {
 
         verify(rule).acquired(context);
         verify(listener).trophiesAcquired(asList(trophy), context);
-        verify(gameJolt).achievedTrophy(123);
     }
 
     @Test
@@ -106,8 +106,8 @@ public class TrophyManagerTest {
         Trophy trophy2 = new Trophy();
         AcquiredTrophyRule rule2 = mock(AcquiredTrophyRule.class);
 
-        when(gameJolt.getTrophy(123)).thenReturn(trophy);
-        when(gameJolt.getTrophy(456)).thenReturn(trophy2);
+        gameJolt.addTrophy(123, trophy);
+        gameJolt.addTrophy(456, trophy2);
 
         when(rule.acquired(context)).thenReturn(true);
         when(rule2.acquired(context)).thenReturn(true);
@@ -130,8 +130,8 @@ public class TrophyManagerTest {
         Trophy trophy2 = new Trophy();
         AcquiredTrophyRule rule2 = mock(AcquiredTrophyRule.class);
 
-        when(gameJolt.getTrophy(123)).thenReturn(trophy);
-        when(gameJolt.getTrophy(456)).thenReturn(trophy2);
+        gameJolt.addTrophy(123, trophy);
+        gameJolt.addTrophy(456, trophy2);
 
         when(rule.acquired(context)).thenReturn(true);
         when(rule2.acquired(context)).thenReturn(true);
@@ -159,8 +159,8 @@ public class TrophyManagerTest {
         Trophy trophy2 = new Trophy();
         AcquiredTrophyRule rule2 = mock(AcquiredTrophyRule.class);
 
-        when(gameJolt.getTrophy(123)).thenReturn(trophy);
-        when(gameJolt.getTrophy(456)).thenReturn(trophy2);
+        gameJolt.addTrophy(123, trophy);
+        gameJolt.addTrophy(456, trophy2);
 
         when(rule.acquired(context)).thenReturn(true);
         when(rule2.acquired(context)).thenReturn(true);
@@ -178,8 +178,6 @@ public class TrophyManagerTest {
 
     @Test
     public void test_registerRule_CouldNotFindTrophy() {
-        when(gameJolt.getTrophy(123)).thenReturn(null);
-
         try {
             manager.registerRule(123, rule);
             fail();
@@ -187,15 +185,5 @@ public class TrophyManagerTest {
             assertEquals("Could not locate trophy with id=123", err.getMessage());
         }
     }
-
-    @Test
-    public void test_registerRule_FoundTrophy() {
-        when(gameJolt.getTrophy(123)).thenReturn(new Trophy());
-
-        manager.registerRule(123, rule);
-
-        verify(gameJolt).getTrophy(123);
-    }
-
 
 }

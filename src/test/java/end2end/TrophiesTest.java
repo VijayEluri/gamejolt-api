@@ -13,12 +13,16 @@
 package end2end;
 
 import co.freeside.betamax.Betamax;
+import com.gamejolt.MockTrophyAchievedListener;
+import com.gamejolt.TrophiesLookupListener;
 import com.gamejolt.Trophy;
+import com.gamejolt.TrophyLookupListener;
 import org.junit.Test;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 public class TrophiesTest extends End2EndTest {
 
@@ -26,53 +30,80 @@ public class TrophiesTest extends End2EndTest {
     @Betamax(tape = "v1/unachieved trophies")
     @Test
     public void shouldAllowQueryingForUnachievedTrophies() {
-        List<Trophy> trophies = gameJolt.getUnachievedTrophies();
-
-        int i = 0;
-        assertBronzeTrophy(trophies.get(i++));
-        assertSilverTrophy(trophies.get(i++));
-        assertGoldTrophy(trophies.get(i++));
-        assertEquals(i, trophies.size());
+        gameJolt.getUnachievedTrophies(new TrophiesLookupListener() {
+            public void foundTrophies(List<Trophy> trophies) {
+                int i = 0;
+                assertBronzeTrophy(trophies.get(i++));
+                assertSilverTrophy(trophies.get(i++));
+                assertGoldTrophy(trophies.get(i++));
+                assertEquals(i, trophies.size());
+            }
+        });
     }
 
     @Betamax(tape = "v1/achieved trophies")
     @Test
     public void shouldAllowQueryingForAchievedTrophies() {
-        List<Trophy> trophies = gameJolt.getAchievedTrophies();
-
-        assertPlatinumTrophy(trophies.get(0));
-        assertEquals(1, trophies.size());
+        gameJolt.getAchievedTrophies(new TrophiesLookupListener() {
+            public void foundTrophies(List<Trophy> trophies) {
+                assertPlatinumTrophy(trophies.get(0));
+                assertEquals(1, trophies.size());
+            }
+        });
     }
 
     @Betamax(tape = "v1/trophy achieved")
     @Test
     public void shouldAllowAchievingATrophyById() {
-        assertTrue(gameJolt.achievedTrophy(10625));
+        MockTrophyAchievedListener listener = new MockTrophyAchievedListener();
+        gameJolt.achievedTrophy(10625, listener);
+        listener.assertAchieved();
     }
-    
+
     @Betamax(tape = "v1/trophy by id is not found")
     @Test
     public void shouldReturnNullWhenATrophyIsNotFound() {
-        assertNull(gameJolt.getTrophy(Integer.MAX_VALUE));
+        final int id = Integer.MAX_VALUE;
+        gameJolt.getTrophy(id, new TrophyLookupListener() {
+            @Override
+            public void found(Trophy trophy) {
+                fail("We should have NOT found the trophy");
+            }
+
+            @Override
+            public void notFound(int trophyId) {
+                assertEquals(id, trophyId);
+            }
+        });
     }
 
     @Betamax(tape = "v1/trophy by id")
     @Test
     public void shouldAllowQueryingATrophyById() {
-        assertPlatinumTrophy(gameJolt.getTrophy(10625));
+        gameJolt.getTrophy(10625, new TrophyLookupListener() {
+            public void found(Trophy trophy) {
+                assertPlatinumTrophy(trophy);
+            }
+
+            public void notFound(int trophyId) {
+                fail("We should have found the trophy");
+            }
+        });
     }
 
     @Betamax(tape = "v1/all available trophies")
     @Test
     public void shouldAllowSeeingAllAvailableTrophies() {
-        List<Trophy> trophies = gameJolt.getAllTrophies();
-
-        int i = 0;
-        assertBronzeTrophy(trophies.get(i++));
-        assertSilverTrophy(trophies.get(i++));
-        assertGoldTrophy(trophies.get(i++));
-        assertPlatinumTrophy(trophies.get(i++));
-        assertEquals(i, trophies.size());
+        gameJolt.getAllTrophies(new TrophiesLookupListener() {
+            public void foundTrophies(List<Trophy> trophies) {
+                int i = 0;
+                assertBronzeTrophy(trophies.get(i++));
+                assertSilverTrophy(trophies.get(i++));
+                assertGoldTrophy(trophies.get(i++));
+                assertPlatinumTrophy(trophies.get(i++));
+                assertEquals(i, trophies.size());
+            }
+        });
     }
 
     private void assertGoldTrophy(Trophy trophy) {

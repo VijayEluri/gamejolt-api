@@ -12,14 +12,23 @@
  */
 package com.gamejolt.net;
 
-import java.util.Map;
+import com.gamejolt.Trophy;
+import com.gamejolt.util.TrophyParser;
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
+import java.util.List;
 
-    void addParameters(Map<String, String> parameters);
+public abstract class TrophyHttpResponseHandler extends HttpResponseHandlerAdapter {
+    private final TrophyParser trophyParser;
 
-    void execute(HttpResponseHandler handler);
 
-    String getUrl();
+    public TrophyHttpResponseHandler(TrophyParser trophyParser) {
+        this.trophyParser = trophyParser;
+    }
+
+    @Override
+    public final void handle(HttpResponse response) {
+        handle(trophyParser.parse(response.getContentAsString()));
+    }
+
+    protected abstract void handle(List<Trophy> trophies);
 }

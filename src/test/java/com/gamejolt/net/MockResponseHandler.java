@@ -12,14 +12,17 @@
  */
 package com.gamejolt.net;
 
-import java.util.Map;
+import static org.junit.Assert.assertTrue;
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
+public class MockResponseHandler extends HttpResponseHandlerAdapter {
+    private boolean received;
 
-    void addParameters(Map<String, String> parameters);
+    @Override
+    public void handle(HttpResponse response) {
+        received = true;
+    }
 
-    void execute(HttpResponseHandler handler);
-
-    String getUrl();
+    public void assertResponseReceived() {
+        assertTrue("we expected a response to be received", received);
+    }
 }

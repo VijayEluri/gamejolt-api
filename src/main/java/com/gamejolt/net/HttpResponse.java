@@ -12,14 +12,19 @@
  */
 package com.gamejolt.net;
 
-import java.util.Map;
+public abstract class HttpResponse {
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
+    public abstract String getContentAsString();
 
-    void addParameters(Map<String, String> parameters);
+    public abstract int getCode();
 
-    void execute(HttpResponseHandler handler);
+    public boolean isSuccessful() {
+        return getCode() == 200;
+    }
 
-    String getUrl();
+    public String toString() {
+        return "code=" + getCode() + "\n" + "content=\n" + getContentAsString();
+    }
+
+
 }

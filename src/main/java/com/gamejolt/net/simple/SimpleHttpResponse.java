@@ -14,17 +14,15 @@
 package com.gamejolt.net.simple;
 
 
-public class SimpleHttpResponse {
+import com.gamejolt.net.HttpResponse;
+
+public class SimpleHttpResponse extends HttpResponse {
     public final int code;
     public final byte[] content;
 
     SimpleHttpResponse(int code, byte[] content) {
         this.code = code;
         this.content = content;
-    }
-
-    public byte[] getContent() {
-        return content;
     }
 
     public String getContentAsString() {
@@ -35,11 +33,4 @@ public class SimpleHttpResponse {
         return code;
     }
 
-    public boolean isSuccessful() {
-        return code == 200;
-    }
-
-    public String toString() {
-        return "code=" + code + "\n" + "content=\n" + getContentAsString();
-    }
 }

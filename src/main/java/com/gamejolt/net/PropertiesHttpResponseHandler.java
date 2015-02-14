@@ -12,14 +12,20 @@
  */
 package com.gamejolt.net;
 
-import java.util.Map;
+import com.gamejolt.util.Properties;
+import com.gamejolt.util.PropertiesParser;
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
+public abstract class PropertiesHttpResponseHandler extends HttpResponseHandlerAdapter {
+    private PropertiesParser propertiesParser;
 
-    void addParameters(Map<String, String> parameters);
+    public PropertiesHttpResponseHandler(PropertiesParser propertiesParser) {
+        this.propertiesParser = propertiesParser;
+    }
 
-    void execute(HttpResponseHandler handler);
+    @Override
+    public final void handle(HttpResponse response) {
+        handle(propertiesParser.parseProperties(response.getContentAsString()));
+    }
 
-    String getUrl();
+    protected abstract void handle(Properties properties);
 }

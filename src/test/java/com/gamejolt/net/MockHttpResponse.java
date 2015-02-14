@@ -12,14 +12,22 @@
  */
 package com.gamejolt.net;
 
-import java.util.Map;
+public class MockHttpResponse extends HttpResponse {
+    private final String content;
+    private final boolean success;
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
+    public MockHttpResponse(boolean success, String content) {
+        this.success = success;
+        this.content = content;
+    }
 
-    void addParameters(Map<String, String> parameters);
+    @Override
+    public String getContentAsString() {
+        return content;
+    }
 
-    void execute(HttpResponseHandler handler);
-
-    String getUrl();
+    @Override
+    public int getCode() {
+        return success ? 200 : 500;
+    }
 }

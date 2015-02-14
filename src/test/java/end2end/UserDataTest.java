@@ -13,37 +13,53 @@
 package end2end;
 
 import co.freeside.betamax.Betamax;
+import com.gamejolt.MockDataKeysListener;
+import com.gamejolt.MockListener;
+import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 public class UserDataTest extends End2EndTest {
+    private MockListener listener;
+    private MockDataKeysListener dataKeysListener;
+
+    @Before
+    public void setUp() throws Exception {
+        listener = new MockListener();
+        dataKeysListener = new MockDataKeysListener();
+    }
+
     @Betamax(tape = "v1/delete all user data")
     @Test
     public void shouldAllowDeletingAllTheData() {
-        gameJolt.storeUserData("data-1", 1);
-        gameJolt.storeUserData("data-2", 2);
+        storeUserData("data-1", 1);
+        storeUserData("data-2", 2);
 
-        gameJolt.clearAllUserData();
+        gameJolt.clearAllUserData(listener);
+
+        listener.assertSuccess();
     }
 
     @Betamax(tape = "v1/all user data keys")
     @Test
     public void shouldAllowQueryingForAllDataKeys() {
-        gameJolt.storeUserData("data-1", 1);
-        gameJolt.storeUserData("data-2", 2);
+        storeUserData("data-1", 1);
+        storeUserData("data-2", 2);
 
-        assertEquals(Arrays.asList("data-1", "data-2"),gameJolt.getUserDataKeys());
+        gameJolt.getUserDataKeys(dataKeysListener);
+
+        dataKeysListener.assertKeys("data-1", "data-2");
     }
 
     @Betamax(tape = "v1/all user data")
     @Test
     public void shouldAllowQueryingForAllTheUserData() {
-        gameJolt.storeUserData("data-1", 1);
-        gameJolt.storeUserData("data-2", 2);
+        storeUserData("data-1", 1);
+        storeUserData("data-2", 2);
 
         Map<String, Object> data = gameJolt.loadAllUserData();
 
@@ -54,8 +70,9 @@ public class UserDataTest extends End2EndTest {
     @Betamax(tape = "v1/delete user data")
     @Test
     public void shouldAllowDeletingDataForTheUser() {
-        gameJolt.storeUserData("data-key", "data-value");
-        assertTrue(gameJolt.removeUserData("data-key"));
+        storeUserData("data-key", "data-value");
+        gameJolt.removeUserData("data-key", listener);
+        listener.assertSuccess();
     }
 
     @Betamax(tape = "v1/retrieve user data that does not exist")
@@ -67,13 +84,18 @@ public class UserDataTest extends End2EndTest {
     @Betamax(tape = "v1/retrieve user data")
     @Test
     public void shouldAllowRetrievingDataForTheUser() {
-        gameJolt.storeUserData("data-key", "data-value");
+        storeUserData("data-key", "data-value");
         assertEquals("data-value", gameJolt.getUserData("data-key"));
     }
 
     @Betamax(tape = "v1/storing user data")
     @Test
     public void shouldAllowStoringDataForTheUser() {
-        assertTrue(gameJolt.storeUserData("data-key", "data-value"));
+        gameJolt.storeUserData("data-key", "data-value", listener);
+        listener.assertSuccess();
+    }
+
+    private void storeUserData(String name, Object data) {
+        gameJolt.storeUserData(name, data, new MockListener());
     }
 }

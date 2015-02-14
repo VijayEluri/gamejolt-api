@@ -10,16 +10,10 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  */
-package com.gamejolt.net;
+package com.gamejolt;
 
-import java.util.Map;
+public interface TrophyLookupListener {
+    void found(Trophy trophy);
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
-
-    void addParameters(Map<String, String> parameters);
-
-    void execute(HttpResponseHandler handler);
-
-    String getUrl();
+    void notFound(int trophyId);
 }

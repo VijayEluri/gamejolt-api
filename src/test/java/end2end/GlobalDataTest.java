@@ -13,19 +13,27 @@
 package end2end;
 
 import co.freeside.betamax.Betamax;
+import com.gamejolt.MockListener;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class GlobalDataTest extends End2EndTest {
+    private MockListener listener;
+
+    @Before
+    public void setUp() throws Exception {
+        listener = new MockListener();
+    }
+
     @Betamax(tape = "v1/get all global data")
     @Test
     public void shouldAllowRetrievingAllGlobalData() {
-        gameJolt.storeGameData("data-1", 1);
-        gameJolt.storeGameData("data-2", 2);
+        storeGameData("data-1", 1);
+        storeGameData("data-2", 2);
 
         Map<String, Object> data = gameJolt.loadAllGameData();
 
@@ -36,15 +44,17 @@ public class GlobalDataTest extends End2EndTest {
     @Betamax(tape = "v1/delete global data")
     @Test
     public void shouldAllowRemoveDataByKey() {
-        gameJolt.storeGameData("data-1", "1");
+        storeGameData("data-1", "1");
 
-        assertTrue(gameJolt.removeGameData("data-1"));
+        gameJolt.removeGameData("data-1", listener);
+
+        listener.assertSuccess();
     }
 
     @Betamax(tape = "v1/retrieve global data")
     @Test
     public void shouldAllowRetrievingGlobalData() {
-        gameJolt.storeGameData("data-1", "1");
+        storeGameData("data-1", "1");
 
         assertEquals("1", gameJolt.getGameData("data-1"));
     }
@@ -52,15 +62,22 @@ public class GlobalDataTest extends End2EndTest {
     @Betamax(tape = "v1/store global data")
     @Test
     public void shouldAllowStoringGlobalData() {
-        assertTrue(gameJolt.storeGameData("data-1", "1"));
+        gameJolt.storeGameData("data-1", "1", listener);
+        listener.assertSuccess();
     }
 
     @Betamax(tape = "v1/clear all global data")
     @Test
     public void shouldAllowClearingAllData() {
-        gameJolt.storeGameData("data-1", "1");
-        gameJolt.storeGameData("data-2", "2");
+        storeGameData("data-1", "1");
+        storeGameData("data-2", "2");
 
-        gameJolt.clearAllGameData();
+        gameJolt.clearAllGameData(listener);
+
+        listener.assertSuccess();
+    }
+
+    private void storeGameData(String name, Object data) {
+        gameJolt.storeGameData(name, data, new MockListener());
     }
 }

@@ -10,16 +10,27 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  */
-package com.gamejolt.net;
+package com.gamejolt;
 
-import java.util.Map;
+import java.util.Arrays;
+import java.util.List;
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-    void addParameters(Map<String, String> parameters);
+public class MockDataKeysListener implements DataKeysListener {
+    private List<String> keys;
 
-    void execute(HttpResponseHandler handler);
+    @Override
+    public void keys(List<String> keys) {
+        this.keys = keys;
+    }
 
-    String getUrl();
+    public void assertKeys(String... expectedKeys) {
+        assertEquals(Arrays.asList(expectedKeys), keys);
+    }
+
+    public void assertNoKeys() {
+        assertTrue("we expected no keys to be found", keys.isEmpty());
+    }
 }

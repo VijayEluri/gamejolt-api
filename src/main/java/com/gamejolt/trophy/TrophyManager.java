@@ -14,9 +14,15 @@
 package com.gamejolt.trophy;
 
 import com.gamejolt.GameJolt;
+import com.gamejolt.LoggingTrophyAchievedListener;
 import com.gamejolt.Trophy;
+import com.gamejolt.TrophyLookupListener;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * This class manages your trophy rules and your trophy achievement listeners
@@ -38,10 +44,16 @@ public class TrophyManager {
      * @param trophyRule - the trophy rule class
      * @throws TrophyNotFoundException is thrown when the given trophy id could not be found
      */
-    public void registerRule(int trophyId, AcquiredTrophyRule trophyRule) throws TrophyNotFoundException {
-        Trophy trophy = gameJolt.getTrophy(trophyId);
-        if (trophy == null) throw new TrophyNotFoundException(trophyId);
-        holders.put(trophyId, new TrophyAndRuleHolder(trophy, trophyRule));
+    public void registerRule(final int trophyId, final AcquiredTrophyRule trophyRule) throws TrophyNotFoundException {
+        gameJolt.getTrophy(trophyId, new TrophyLookupListener() {
+            public void found(Trophy trophy) {
+                holders.put(trophyId, new TrophyAndRuleHolder(trophy, trophyRule));
+            }
+
+            public void notFound(int trophyId) {
+                throw new TrophyNotFoundException(trophyId);
+            }
+        });
     }
 
     /**
@@ -53,7 +65,7 @@ public class TrophyManager {
         List<Trophy> trophiesAcquired = new ArrayList<Trophy>();
         for (TrophyAndRuleHolder holder : holders.values()) {
             if (!holder.trophy.isAchieved() && holder.rule.acquired(context)) {
-                gameJolt.achievedTrophy(holder.trophy.getId());
+                gameJolt.achievedTrophy(holder.trophy.getId(), new LoggingTrophyAchievedListener());
                 holder.trophy.setAchieved(true);
                 if (batchListenerNotification) {
                     trophiesAcquired.add(holder.trophy);

@@ -23,7 +23,7 @@ public abstract class End2EndTest {
     protected GameJolt gameJolt;
 
     @Before
-    public void setUp() throws Exception {
+    public void initializeGameJolt() throws Exception {
         gameJolt = new GameJolt(2338, "6492144b383664fa32aa744e1c8f532d");
         gameJolt.verifyUser("born2snipe", "b7286a", new MockUserVerificationListener());
     }

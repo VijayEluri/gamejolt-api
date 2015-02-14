@@ -10,16 +10,25 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  */
-package com.gamejolt.net;
+package com.gamejolt;
 
-import java.util.Map;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
+public class MockListener implements Listener {
+    private int count;
 
-    void addParameters(Map<String, String> parameters);
+    @Override
+    public void success() {
+        count++;
+    }
 
-    void execute(HttpResponseHandler handler);
+    public void assertSuccess() {
+        assertTrue("we expected a successful response", count > 0);
+        assertEquals("we expected only one call for success", 1, count);
+    }
 
-    String getUrl();
+    public void assertNotSuccessful() {
+        assertEquals("we expected a non-successful response", 0, count);
+    }
 }

@@ -23,6 +23,7 @@ interactions:
       Expires: Sat, 23 Aug 2014 03:38:10 GMT
       Server: nginx/1.6.1
       Vary: Accept-Encoding
+      X-Betamax: PLAY
       X-Powered-By: PHP/5.5.15
     body: !!binary |-
       H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
@@ -48,6 +49,32 @@ interactions:
       Expires: Sat, 23 Aug 2014 03:38:10 GMT
       Server: nginx/1.6.1
       Vary: Accept-Encoding
+      X-Betamax: PLAY
       X-Powered-By: PHP/5.5.15
     body: !!binary |-
       H4sIAAAAAAAAAysuTU5OLS62UiopKk1V4uUCAEw//asQAAAA
+- recorded: 2015-02-13T05:16:26.239Z
+  request:
+    method: GET
+    uri: http://gamejolt.com/api/game/v1/trophies/?game_id=2338&username=born2snipe&trophy_id=10625&signature=b2ff2db7af6b86e3a99037fce0d40279&user_token=b7286a
+    headers:
+      Accept: text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+      Accept-Encoding: gzip
+      Host: gamejolt.com
+      Proxy-Connection: keep-alive
+      User-Agent: Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.5; en-US; rv:1.9.1.7) Gecko/20091221 Firefox/3.5.7
+  response:
+    status: 200
+    headers:
+      Access-Control-Allow-Credentials: 'false'
+      Access-Control-Allow-Origin: '*'
+      Cache-Control: no-cache
+      Content-Encoding: gzip
+      Content-Type: text/html
+      Date: Fri, 13 Feb 2015 05:16:25 GMT
+      Expires: Fri, 13 Feb 2015 05:16:24 GMT
+      Server: nginx/1.6.2
+      Vary: Accept-Encoding
+      X-Powered-By: PHP/5.5.21
+    body: !!binary |-
+      H4sIAAAAAAAAA02OywrCMBBF94L/ULJvY4W6yFe46F5CMk2m5EVmIvTvjSLo7sLhHC41Y4BICa4NxPmEVon5crsufTNyACXuQTOmFoe15uKPDiyQqVgYc1JiBeI/hNuGpgU+fuI7G7WDR6tBCc9clJQ0ud3YNCVgidFJ/hTG8nXGedqL66Y2HuEJ/dYyxJzY06Bd7uAF0ei3nroAAAA=

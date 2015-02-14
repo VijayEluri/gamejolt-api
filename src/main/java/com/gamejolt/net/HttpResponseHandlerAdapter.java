@@ -12,14 +12,9 @@
  */
 package com.gamejolt.net;
 
-import java.util.Map;
+public abstract class HttpResponseHandlerAdapter implements HttpResponseHandler {
+    @Override
+    public void handle(HttpResponse response) {
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
-
-    void addParameters(Map<String, String> parameters);
-
-    void execute(HttpResponseHandler handler);
-
-    String getUrl();
+    }
 }

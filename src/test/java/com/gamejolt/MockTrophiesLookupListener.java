@@ -10,16 +10,21 @@
  * distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and limitations under the License.
  */
-package com.gamejolt.net;
+package com.gamejolt;
 
-import java.util.Map;
+import java.util.List;
 
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
+import static org.junit.Assert.assertSame;
 
-    void addParameters(Map<String, String> parameters);
+public class MockTrophiesLookupListener implements TrophiesLookupListener {
+    private List<Trophy> trophies;
 
-    void execute(HttpResponseHandler handler);
+    @Override
+    public void foundTrophies(List<Trophy> trophies) {
+        this.trophies = trophies;
+    }
 
-    String getUrl();
+    public void assertLookedUp(List expectedTrophies) {
+        assertSame(expectedTrophies, trophies);
+    }
 }

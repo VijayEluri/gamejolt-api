@@ -15,6 +15,7 @@ package com.gamejolt.net.simple;
 
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpRequestException;
+import com.gamejolt.net.HttpResponseHandler;
 import com.gamejolt.net.QueryStringBuilder;
 
 import java.io.ByteArrayOutputStream;
@@ -53,12 +54,13 @@ public class SimpleHttpRequest implements HttpRequest {
         }
     }
 
-    public String execute() throws HttpRequestException {
+    public void execute(HttpResponseHandler handler) {
         SimpleHttpResponse response = performRequest();
         if (!response.isSuccessful()) {
             throw new HttpRequestException("Bad Http Response received response code " + response.getCode());
         }
-        return response.getContentAsString();
+
+        handler.handle(response);
     }
 
     private SimpleHttpResponse performRequest() {

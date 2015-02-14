@@ -12,14 +12,6 @@
  */
 package com.gamejolt.net;
 
-import java.util.Map;
-
-public interface HttpRequest {
-    HttpRequest addParameter(String name, String value);
-
-    void addParameters(Map<String, String> parameters);
-
-    void execute(HttpResponseHandler handler);
-
-    String getUrl();
+public interface HttpResponseHandler {
+    void handle(HttpResponse response);
 }

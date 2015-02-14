@@ -15,17 +15,27 @@ package com.gamejolt.net.simple;
 
 import com.gamejolt.net.HttpRequest;
 import com.gamejolt.net.HttpRequestException;
+import com.gamejolt.net.MockResponseHandler;
+import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 
 @Ignore
 public class SimpleHttpRequestTest {
+
+    private MockResponseHandler handler;
+
+    @Before
+    public void setUp() throws Exception {
+        handler = new MockResponseHandler();
+    }
 
     @Test
     public void test_NoParameter() {
@@ -33,7 +43,9 @@ public class SimpleHttpRequestTest {
 
         assertEquals("http://www.google.com", request.getUrl());
 
-        assertNotNull(request.execute());
+        request.execute(handler);
+
+        handler.assertResponseReceived();
     }
 
     @Test
@@ -41,7 +53,7 @@ public class SimpleHttpRequestTest {
         HttpRequest request = new SimpleHttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        assertNotNull(request.execute());
+        request.execute(handler);
     }
 
     @Test
@@ -49,7 +61,7 @@ public class SimpleHttpRequestTest {
         HttpRequest request = new SimpleHttpRequest("http://www.bing.com/search");
         request.addParameter("q", "java rest api").addParameter("form", "QBLH").addParameter("go", "").addParameter("qs", "n");
 
-        assertNotNull(request.execute());
+        request.execute(handler);
     }
 
     @Test
@@ -58,7 +70,7 @@ public class SimpleHttpRequestTest {
         request.addParameter("q", "java");
 
         try {
-            request.execute();
+            request.execute(handler);
             fail();
         } catch (HttpRequestException e) {
             assertEquals("Bad Http Response received response code 404", e.getMessage());
